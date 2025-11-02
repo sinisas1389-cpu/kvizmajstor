@@ -16,7 +16,7 @@ export const mockQuizzes = [
     id: '1',
     title: 'Osnove Algebre',
     description: 'Testirajte svoje veštine algebre sa osnovnim jednačinama',
-    categoryId: '1',
+    categoryId: '4',
     difficulty: 'Lako',
     questionCount: 10,
     timeLimit: 15,
@@ -28,7 +28,7 @@ export const mockQuizzes = [
     id: '2',
     title: 'Osnove Hemije',
     description: 'Istražite periodnu tabelu i hemijske reakcije',
-    categoryId: '2',
+    categoryId: '8',
     difficulty: 'Srednje',
     questionCount: 15,
     timeLimit: 20,
@@ -38,9 +38,9 @@ export const mockQuizzes = [
   },
   {
     id: '3',
-    title: 'Kviz o Drugom Svetskom Ratu',
-    description: 'Testirajte svoje znanje o događajima i ličnostima iz Drugog svetskog rata',
-    categoryId: '3',
+    title: 'Istorija Srbije',
+    description: 'Testirajte svoje znanje o istoriji Srbije',
+    categoryId: '1',
     difficulty: 'Teško',
     questionCount: 20,
     timeLimit: 25,
@@ -52,7 +52,7 @@ export const mockQuizzes = [
     id: '4',
     title: 'Glavni Gradovi Sveta',
     description: 'Koliko dobro poznajete glavne gradove?',
-    categoryId: '4',
+    categoryId: '3',
     difficulty: 'Srednje',
     questionCount: 12,
     timeLimit: 18,
@@ -71,6 +71,42 @@ export const mockQuizzes = [
     plays: 3200,
     rating: 4.9,
     createdBy: 'CodeMaster'
+  },
+  {
+    id: '6',
+    title: 'Srpska Književnost',
+    description: 'Koliko poznajete klasike srpske književnosti?',
+    categoryId: '2',
+    difficulty: 'Srednje',
+    questionCount: 15,
+    timeLimit: 20,
+    plays: 1450,
+    rating: 4.6,
+    createdBy: 'Prof. Stanković'
+  },
+  {
+    id: '7',
+    title: 'Životinji Svet',
+    description: 'Testirajte svoje znanje o životinjama i ekosistemima',
+    categoryId: '5',
+    difficulty: 'Lako',
+    questionCount: 12,
+    timeLimit: 15,
+    plays: 1820,
+    rating: 4.7,
+    createdBy: 'Dr. Simić'
+  },
+  {
+    id: '8',
+    title: 'Njutnovi Zakoni',
+    description: 'Razumite osnovne principe fizike',
+    categoryId: '7',
+    difficulty: 'Teško',
+    questionCount: 18,
+    timeLimit: 25,
+    plays: 980,
+    rating: 4.8,
+    createdBy: 'Prof. Nikolić'
   }
 ];
 
