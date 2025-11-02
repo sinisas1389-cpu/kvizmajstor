@@ -67,7 +67,7 @@ const AuthModal = ({ mode, onClose, onSwitchMode }) => {
               </Label>
               <Input
                 type="email"
-                placeholder="your@email.com"
+                placeholder="vas@email.com"
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 required
@@ -79,11 +79,11 @@ const AuthModal = ({ mode, onClose, onSwitchMode }) => {
               <div>
                 <Label className="text-sm font-bold mb-2 block flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  Username
+                  Korisničko Ime
                 </Label>
                 <Input
                   type="text"
-                  placeholder="Choose a username"
+                  placeholder="Izaberi korisničko ime"
                   value={formData.username}
                   onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
                   required
@@ -95,7 +95,7 @@ const AuthModal = ({ mode, onClose, onSwitchMode }) => {
             <div>
               <Label className="text-sm font-bold mb-2 block flex items-center gap-2">
                 <Lock className="w-4 h-4" />
-                Password
+                Lozinka
               </Label>
               <Input
                 type="password"
@@ -112,18 +112,18 @@ const AuthModal = ({ mode, onClose, onSwitchMode }) => {
               disabled={isLoading}
               className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-6 text-lg font-bold rounded-xl"
             >
-              {isLoading ? 'Loading...' : mode === 'login' ? 'Login 🚀' : 'Sign Up ✨'}
+              {isLoading ? 'Učitavanje...' : mode === 'login' ? 'Prijavi se 🚀' : 'Registruj se ✨'}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600 font-medium">
-              {mode === 'login' ? "Don't have an account? " : 'Already have an account? '}
+              {mode === 'login' ? "Nemaš nalog? " : 'Već imaš nalog? '}
               <button
                 onClick={() => onSwitchMode(mode === 'login' ? 'signup' : 'login')}
                 className="text-purple-600 font-bold hover:underline"
               >
-                {mode === 'login' ? 'Sign Up' : 'Login'}
+                {mode === 'login' ? 'Registruj se' : 'Prijavi se'}
               </button>
             </p>
           </div>
@@ -131,7 +131,7 @@ const AuthModal = ({ mode, onClose, onSwitchMode }) => {
           {mode === 'login' && (
             <div className="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl">
               <p className="text-sm text-blue-800 font-bold text-center">
-                💡 Demo: Use any email & password to login
+                💡 Demo: Koristi bilo koji email i lozinku za prijavu
               </p>
             </div>
           )}
