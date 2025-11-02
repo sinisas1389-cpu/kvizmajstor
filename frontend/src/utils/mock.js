@@ -133,6 +133,37 @@ export const mockQuestions = {
       correctAnswer: 2
     }
   ],
+  '2': [
+    {
+      id: 'q1',
+      type: 'multiple',
+      question: 'Koji element ima hemijski simbol H?',
+      options: ['Helium', 'Vodonik', 'Halogeni', 'Hidrogen'],
+      correctAnswer: 1
+    },
+    {
+      id: 'q2',
+      type: 'true-false',
+      question: 'Voda se hemijski označava kao H2O.',
+      correctAnswer: true
+    }
+  ],
+  '3': [
+    {
+      id: 'q1',
+      type: 'multiple',
+      question: 'U kojoj godini je Srbija dobila nezavisnost od Turske?',
+      options: ['1804', '1830', '1878', '1912'],
+      correctAnswer: 2
+    },
+    {
+      id: 'q2',
+      type: 'multiple',
+      question: 'Ko je bio prvi srpski kralj?',
+      options: ['Karađorđe', 'Miloš Obrenović', 'Stefan Nemanja', 'Dušan Silni'],
+      correctAnswer: 2
+    }
+  ],
   '5': [
     {
       id: 'q1',
@@ -146,6 +177,51 @@ export const mockQuestions = {
       type: 'true-false',
       question: 'Python je kompajlirani jezik.',
       correctAnswer: false
+    }
+  ],
+  '6': [
+    {
+      id: 'q1',
+      type: 'multiple',
+      question: 'Ko je napisao "Na Drini ćuprija"?',
+      options: ['Ivo Andrić', 'Miloš Crnjanski', 'Borislav Pekić', 'Mesa Selimović'],
+      correctAnswer: 0
+    },
+    {
+      id: 'q2',
+      type: 'true-false',
+      question: 'Ćirilica je jedan od službenih pisama u Srbiji.',
+      correctAnswer: true
+    }
+  ],
+  '7': [
+    {
+      id: 'q1',
+      type: 'multiple',
+      question: 'Koja životinja je najveći kopneni sisavac?',
+      options: ['Žirafa', 'Slon', 'Nosorog', 'Hipopotam'],
+      correctAnswer: 1
+    },
+    {
+      id: 'q2',
+      type: 'true-false',
+      question: 'Fotosinteza je proces kojim biljke proizvode hranu.',
+      correctAnswer: true
+    }
+  ],
+  '8': [
+    {
+      id: 'q1',
+      type: 'multiple',
+      question: 'Koji je Njutnov prvi zakon?',
+      options: ['Zakon gravitacije', 'Zakon inercije', 'Zakon akcije i reakcije', 'Zakon energije'],
+      correctAnswer: 1
+    },
+    {
+      id: 'q2',
+      type: 'true-false',
+      question: 'Brzina svetlosti iznosi oko 300,000 km/s.',
+      correctAnswer: true
     }
   ]
 };
