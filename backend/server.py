@@ -32,46 +32,94 @@ api_router = APIRouter(prefix="/api")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+# ============================================
+# AUTH ENDPOINTS
+# ============================================
 
-# Define Models
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
+@api_router.post("/auth/signup")
+async def signup(user_data: UserCreate):
+    # Proveri da li korisnik već postoji
+    existing_user = await users_collection.find_one({"email": user_data.email})
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email već postoji")
     
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    existing_username = await users_collection.find_one({"username": user_data.username})
+    if existing_username:
+        raise HTTPException(status_code=400, detail="Korisničko ime već postoji")
+    
+    # Kreiraj novog korisnika
+    from models import User
+    user = User(
+        email=user_data.email,
+        username=user_data.username,
+        password=hash_password(user_data.password)
+    )
+    
+    await users_collection.insert_one(user.dict())
+    
+    # Generiši token
+    token = create_access_token({"user_id": user.id})
+    
+    return {
+        "user": UserResponse(
+            id=user.id,
+            email=user.email,
+            username=user.username,
+            avatar=user.avatar,
+            isAdmin=user.isAdmin,
+            totalScore=user.totalScore,
+            quizzesCompleted=user.quizzesCompleted
+        ),
+        "token": token
+    }
 
-class StatusCheckCreate(BaseModel):
-    client_name: str
+@api_router.post("/auth/login")
+async def login(user_data: UserLogin):
+    # Pronađi korisnika
+    user = await users_collection.find_one({"email": user_data.email})
+    if not user or not verify_password(user_data.password, user["password"]):
+        raise HTTPException(status_code=401, detail="Neispravni podaci za prijavu")
+    
+    # Generiši token
+    token = create_access_token({"user_id": user["id"]})
+    
+    return {
+        "user": UserResponse(
+            id=user["id"],
+            email=user["email"],
+            username=user["username"],
+            avatar=user.get("avatar", "👤"),
+            isAdmin=user.get("isAdmin", False),
+            totalScore=user.get("totalScore", 0),
+            quizzesCompleted=user.get("quizzesCompleted", 0)
+        ),
+        "token": token
+    }
 
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
+@api_router.get("/auth/me")
+async def get_me(user_id: str = Depends(get_current_user)):
+    user = await users_collection.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
+    
+    return UserResponse(
+        id=user["id"],
+        email=user["email"],
+        username=user["username"],
+        avatar=user.get("avatar", "👤"),
+        isAdmin=user.get("isAdmin", False),
+        totalScore=user.get("totalScore", 0),
+        quizzesCompleted=user.get("quizzesCompleted", 0)
+    )
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
-    
-    # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    
-    _ = await db.status_checks.insert_one(doc)
-    return status_obj
+# ============================================
+# CATEGORIES ENDPOINTS
+# ============================================
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
-    return status_checks
+@api_router.get("/categories", response_model=List[Category])
+async def get_categories():
+    categories = await categories_collection.find().to_list(100)
+    return [Category(**cat) for cat in categories]
 
 # Include the router in the main app
 app.include_router(api_router)
