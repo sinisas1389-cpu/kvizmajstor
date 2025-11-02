@@ -1,12 +1,14 @@
 // Mock data za kviz aplikaciju
 
 export const mockCategories = [
-  { id: '1', name: 'Matematika', icon: '🔢', color: '#FF6B6B', quizCount: 12 },
-  { id: '2', name: 'Nauka', icon: '🔬', color: '#4ECDC4', quizCount: 15 },
-  { id: '3', name: 'Istorija', icon: '📜', color: '#FFE66D', quizCount: 10 },
-  { id: '4', name: 'Geografija', icon: '🌍', color: '#95E1D3', quizCount: 8 },
-  { id: '5', name: 'Književnost', icon: '📚', color: '#C7CEEA', quizCount: 11 },
-  { id: '6', name: 'Programiranje', icon: '💻', color: '#FFDAB9', quizCount: 20 }
+  { id: '1', name: 'Istorija', icon: '📜', color: '#FFE66D', quizCount: 15 },
+  { id: '2', name: 'Srpski Jezik', icon: '📖', color: '#C7CEEA', quizCount: 18 },
+  { id: '3', name: 'Geografija', icon: '🌍', color: '#95E1D3', quizCount: 12 },
+  { id: '4', name: 'Matematika', icon: '🔢', color: '#FF6B6B', quizCount: 20 },
+  { id: '5', name: 'Biologija', icon: '🧬', color: '#A8E6CF', quizCount: 14 },
+  { id: '6', name: 'Informatika', icon: '💻', color: '#FFDAB9', quizCount: 22 },
+  { id: '7', name: 'Fizika', icon: '⚛️', color: '#B4A7D6', quizCount: 16 },
+  { id: '8', name: 'Hemija', icon: '🔬', color: '#4ECDC4', quizCount: 13 }
 ];
 
 export const mockQuizzes = [
