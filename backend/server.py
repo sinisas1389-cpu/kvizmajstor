@@ -1,29 +1,36 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from fastapi.security import HTTPAuthorizationCredentials
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
-import logging
 from pathlib import Path
-from pydantic import BaseModel, Field, ConfigDict
-from typing import List
-import uuid
-from datetime import datetime, timezone
+from typing import List, Optional
+import logging
+import os
 
+# Local imports
+from models import (
+    UserCreate, UserLogin, UserResponse, Category, QuizCreate, 
+    QuizResponse, Quiz, QuizSubmission, QuizResultResponse,
+    LeaderboardEntry, UserProgress, Badge, RecentActivity
+)
+from auth import hash_password, verify_password, create_access_token, get_current_user, security
+from database import (
+    db, users_collection, categories_collection, quizzes_collection, 
+    results_collection, init_categories, close_db_connection
+)
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Create the main app without a prefix
+# Create the main app
 app = FastAPI()
 
-# Create a router with the /api prefix
+# Create router with /api prefix
 api_router = APIRouter(prefix="/api")
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 # Define Models
