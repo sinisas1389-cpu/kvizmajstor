@@ -49,11 +49,11 @@ const AuthModal = ({ mode, onClose, onSwitchMode }) => {
           <CardTitle className="text-3xl font-black text-center">
             {mode === 'login' ? (
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-                Welcome Back! 👋
+                Dobrodošli Nazad! 👋
               </span>
             ) : (
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600">
-                Join QuizMaster! 🎓
+                Pridruži se KvizMajstoru! 🎓
               </span>
             )}
           </CardTitle>
