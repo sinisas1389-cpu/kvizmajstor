@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getMockCurrentUser, mockLogin, mockSignup, mockLogout } from '../utils/mock';
+import { authAPI } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -16,25 +16,37 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const currentUser = getMockCurrentUser();
-    setUser(currentUser);
-    setLoading(false);
+    const initAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userData = await authAPI.getMe();
+          setUser(userData);
+        } catch (error) {
+          console.error('Failed to get user:', error);
+          localStorage.removeItem('token');
+        }
+      }
+      setLoading(false);
+    };
+    
+    initAuth();
   }, []);
 
   const login = async (email, password) => {
-    const user = await mockLogin(email, password);
-    setUser(user);
-    return user;
+    const data = await authAPI.login(email, password);
+    setUser(data.user);
+    return data.user;
   };
 
   const signup = async (email, username, password) => {
-    const user = await mockSignup(email, username, password);
-    setUser(user);
-    return user;
+    const data = await authAPI.signup(email, username, password);
+    setUser(data.user);
+    return data.user;
   };
 
   const logout = () => {
-    mockLogout();
+    authAPI.logout();
     setUser(null);
   };
 
