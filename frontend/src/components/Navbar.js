@@ -33,25 +33,25 @@ const Navbar = () => {
                 <span className="text-2xl font-black text-white">🧠</span>
               </div>
               <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-                QuizMaster
+                KvizMajstor
               </span>
             </Link>
 
-            {/* Desktop Menu */}
+            {/* Desktop Meni */}
             <div className="hidden md:flex items-center gap-6">
               <Link
                 to="/quizzes"
                 className="flex items-center gap-2 font-bold text-gray-700 hover:text-purple-600 transition-colors"
               >
                 <BookOpen className="w-5 h-5" />
-                Quizzes
+                Kvizovi
               </Link>
               <Link
                 to="/leaderboard"
                 className="flex items-center gap-2 font-bold text-gray-700 hover:text-purple-600 transition-colors"
               >
                 <Trophy className="w-5 h-5" />
-                Leaderboard
+                Rang Lista
               </Link>
               {isAuthenticated && (
                 <Link
@@ -59,12 +59,12 @@ const Navbar = () => {
                   className="flex items-center gap-2 font-bold text-gray-700 hover:text-purple-600 transition-colors"
                 >
                   <Plus className="w-5 h-5" />
-                  Create
+                  Napravi
                 </Link>
               )}
             </div>
 
-            {/* Auth Buttons */}
+            {/* Auth Dugmad */}
             <div className="hidden md:flex items-center gap-4">
               {isAuthenticated ? (
                 <>
@@ -81,7 +81,7 @@ const Navbar = () => {
                     className="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold"
                   >
                     <LogOut className="mr-2 w-4 h-4" />
-                    Logout
+                    Odjavi se
                   </Button>
                 </>
               ) : (
@@ -91,19 +91,19 @@ const Navbar = () => {
                     variant="outline"
                     className="font-bold border-2 border-purple-500 text-purple-600 hover:bg-purple-50"
                   >
-                    Login
+                    Prijavi se
                   </Button>
                   <Button
                     onClick={() => handleAuthClick('signup')}
                     className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold"
                   >
-                    Sign Up
+                    Registruj se
                   </Button>
                 </>
               )}
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Meni Dugme */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-lg hover:bg-gray-100"
@@ -112,7 +112,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Meni */}
           {isMenuOpen && (
             <div className="md:hidden mt-4 pt-4 border-t-2 border-purple-200 space-y-3">
               <Link
@@ -120,14 +120,14 @@ const Navbar = () => {
                 className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
                 onClick={() => setIsMenuOpen(false)}
               >
-                📚 Quizzes
+                📚 Kvizovi
               </Link>
               <Link
                 to="/leaderboard"
                 className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
                 onClick={() => setIsMenuOpen(false)}
               >
-                🏆 Leaderboard
+                🏆 Rang Lista
               </Link>
               {isAuthenticated && (
                 <>
@@ -136,14 +136,14 @@ const Navbar = () => {
                     className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    ✨ Create Quiz
+                    ✨ Napravi Kviz
                   </Link>
                   <Link
                     to="/profile"
                     className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    👤 Profile
+                    👤 Profil
                   </Link>
                   <button
                     onClick={() => {
@@ -152,7 +152,7 @@ const Navbar = () => {
                     }}
                     className="block w-full text-left py-3 px-4 rounded-lg font-bold text-red-600 hover:bg-red-50"
                   >
-                    🚪 Logout
+                    🚪 Odjavi se
                   </button>
                 </>
               )}
@@ -165,7 +165,7 @@ const Navbar = () => {
                     }}
                     className="block w-full text-left py-3 px-4 rounded-lg font-bold text-purple-600 hover:bg-purple-50"
                   >
-                    🔑 Login
+                    🔑 Prijavi se
                   </button>
                   <button
                     onClick={() => {
@@ -174,7 +174,7 @@ const Navbar = () => {
                     }}
                     className="block w-full text-left py-3 px-4 rounded-lg font-bold text-purple-600 hover:bg-purple-50"
                   >
-                    ✨ Sign Up
+                    ✨ Registruj se
                   </button>
                 </>
               )}
