@@ -1,0 +1,148 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
+import { mockCategories, mockQuizzes } from '../utils/mock';
+import { Sparkles, Trophy, Users, Zap } from 'lucide-react';
+
+const HomePage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-50">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-20 pb-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center relative z-10">
+            <div className="inline-block mb-6">
+              <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full text-sm font-bold transform -rotate-2 inline-block shadow-lg">
+                🎓 LEARN • QUIZ • WIN! 🏆
+              </span>
+            </div>
+            <h1 className="text-7xl font-black mb-6 leading-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+                Level Up Your
+              </span>
+              <br />
+              <span className="text-orange-500">Brain Power!</span>
+            </h1>
+            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto font-medium">
+              Dive into exciting quizzes, challenge friends, and become a knowledge champion! 🚀
+            </p>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <Button
+                onClick={() => navigate('/quizzes')}
+                className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-6 text-lg font-bold rounded-2xl shadow-xl transform hover:scale-105 transition-all"
+              >
+                <Sparkles className="mr-2" />
+                Start Quizzing!
+              </Button>
+              <Button
+                onClick={() => navigate('/leaderboard')}
+                variant="outline"
+                className="border-4 border-purple-500 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg font-bold rounded-2xl shadow-lg transform hover:scale-105 transition-all"
+              >
+                <Trophy className="mr-2" />
+                View Leaderboard
+              </Button>
+            </div>
+          </div>
+
+          {/* Floating comic elements */}
+          <div className="absolute top-10 left-10 w-24 h-24 bg-yellow-400 rounded-full animate-bounce opacity-20"></div>
+          <div className="absolute bottom-20 right-20 w-32 h-32 bg-pink-400 rounded-full animate-pulse opacity-20"></div>
+          <div className="absolute top-1/2 right-10 w-20 h-20 bg-blue-400 rounded-full animate-bounce opacity-20" style={{ animationDelay: '0.5s' }}></div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-6 bg-white/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-black text-center mb-16">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+              Why QuizMaster? 🎯
+            </span>
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="border-4 border-orange-200 shadow-xl transform hover:scale-105 transition-all hover:rotate-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-pink-400 rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-6">
+                  <Zap className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-black mb-4 text-gray-800">Lightning Fast</h3>
+                <p className="text-gray-600 font-medium">Quick quizzes designed for maximum learning in minimum time!</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-4 border-blue-200 shadow-xl transform hover:scale-105 transition-all hover:-rotate-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-6">
+                  <Users className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-black mb-4 text-gray-800">Compete & Win</h3>
+                <p className="text-gray-600 font-medium">Challenge friends and climb the global leaderboard!</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-4 border-purple-200 shadow-xl transform hover:scale-105 transition-all hover:rotate-1">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-6">
+                  <Trophy className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-black mb-4 text-gray-800">Earn Badges</h3>
+                <p className="text-gray-600 font-medium">Unlock achievements and show off your knowledge!</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Preview */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-black text-center mb-16">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600">
+              Explore Categories 🎨
+            </span>
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {mockCategories.map((category, idx) => (
+              <Card
+                key={category.id}
+                onClick={() => navigate('/quizzes', { state: { categoryId: category.id } })}
+                className="cursor-pointer border-4 shadow-lg transform hover:scale-110 transition-all hover:-rotate-3 overflow-hidden"
+                style={{ borderColor: category.color }}
+              >
+                <CardContent className="p-6 text-center" style={{ backgroundColor: category.color + '20' }}>
+                  <div className="text-5xl mb-3">{category.icon}</div>
+                  <h3 className="font-black text-gray-800 text-sm mb-1">{category.name}</h3>
+                  <p className="text-xs text-gray-600 font-bold">{category.quizCount} quizzes</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-black text-white mb-6">
+            Ready to Become a Quiz Legend? 🌟
+          </h2>
+          <p className="text-xl text-white/90 mb-8 font-medium">
+            Join thousands of learners crushing it every day!
+          </p>
+          <Button
+            onClick={() => navigate('/quizzes')}
+            className="bg-white text-purple-600 hover:bg-gray-100 px-10 py-6 text-xl font-black rounded-2xl shadow-2xl transform hover:scale-105 transition-all"
+          >
+            Get Started Now! 🚀
+          </Button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default HomePage;

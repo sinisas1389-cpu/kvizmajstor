@@ -1,0 +1,186 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Progress } from '../components/ui/progress';
+import { mockQuizzes, mockQuestions, mockSubmitQuiz } from '../utils/mock';
+import { Clock, CheckCircle, XCircle } from 'lucide-react';
+
+const QuizTakePage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [quiz] = useState(mockQuizzes.find(q => q.id === id));
+  const [questions] = useState(mockQuestions[id] || []);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [timeLeft, setTimeLeft] = useState(quiz?.timeLimit * 60 || 900);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          handleSubmit();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleAnswer = (answer) => {
+    setAnswers(prev => ({
+      ...prev,
+      [currentQuestion]: answer
+    }));
+  };
+
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(prev => prev + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(prev => prev - 1);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const result = await mockSubmitQuiz(id, Object.values(answers));
+    navigate(`/quiz/${id}/result`, { state: { result, quiz } });
+  };
+
+  if (!quiz || questions.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
+        <Card className="border-4 border-red-300">
+          <CardContent className="p-12 text-center">
+            <p className="text-3xl font-black text-gray-800 mb-4">Quiz not found! 😢</p>
+            <Button onClick={() => navigate('/quizzes')} className="font-bold">
+              Back to Quizzes
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  const progress = ((currentQuestion + 1) / questions.length) * 100;
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const currentQ = questions[currentQuestion];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-12 px-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-3xl shadow-xl p-6 mb-8 border-4 border-purple-300">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-3xl font-black text-gray-800">{quiz.title}</h1>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-black text-lg ${timeLeft < 60 ? 'bg-red-500 text-white animate-pulse' : 'bg-blue-500 text-white'}`}>
+              <Clock className="w-5 h-5" />
+              {minutes}:{seconds.toString().padStart(2, '0')}
+            </div>
+          </div>
+          <Progress value={progress} className="h-3" />
+          <p className="text-sm font-bold text-gray-600 mt-2">
+            Question {currentQuestion + 1} of {questions.length}
+          </p>
+        </div>
+
+        {/* Question Card */}
+        <Card className="border-4 border-orange-300 shadow-2xl mb-8">
+          <CardHeader className="bg-gradient-to-r from-orange-100 to-pink-100">
+            <CardTitle className="text-2xl font-black text-gray-800">
+              {currentQ.question}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-8">
+            {currentQ.type === 'multiple' ? (
+              <div className="space-y-4">
+                {currentQ.options.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleAnswer(idx)}
+                    className={`w-full p-6 text-left rounded-2xl border-4 font-bold text-lg transition-all transform hover:scale-102 ${
+                      answers[currentQuestion] === idx
+                        ? 'bg-gradient-to-r from-green-400 to-blue-400 text-white border-green-500 shadow-lg'
+                        : 'bg-white border-gray-300 hover:border-purple-400 hover:shadow-md'
+                    }`}
+                  >
+                    <span className="inline-block w-8 h-8 rounded-full bg-purple-500 text-white text-center leading-8 mr-4 font-black">
+                      {String.fromCharCode(65 + idx)}
+                    </span>
+                    {option}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <button
+                  onClick={() => handleAnswer(true)}
+                  className={`w-full p-6 text-left rounded-2xl border-4 font-bold text-xl transition-all transform hover:scale-102 ${
+                    answers[currentQuestion] === true
+                      ? 'bg-gradient-to-r from-green-400 to-blue-400 text-white border-green-500 shadow-lg'
+                      : 'bg-white border-gray-300 hover:border-purple-400 hover:shadow-md'
+                  }`}
+                >
+                  <CheckCircle className="inline-block mr-4 w-8 h-8" />
+                  True
+                </button>
+                <button
+                  onClick={() => handleAnswer(false)}
+                  className={`w-full p-6 text-left rounded-2xl border-4 font-bold text-xl transition-all transform hover:scale-102 ${
+                    answers[currentQuestion] === false
+                      ? 'bg-gradient-to-r from-red-400 to-orange-400 text-white border-red-500 shadow-lg'
+                      : 'bg-white border-gray-300 hover:border-purple-400 hover:shadow-md'
+                  }`}
+                >
+                  <XCircle className="inline-block mr-4 w-8 h-8" />
+                  False
+                </button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Navigation */}
+        <div className="flex justify-between gap-4">
+          <Button
+            onClick={handlePrevious}
+            disabled={currentQuestion === 0}
+            className="px-8 py-6 text-lg font-bold rounded-xl"
+            variant="outline"
+          >
+            ← Previous
+          </Button>
+          
+          {currentQuestion === questions.length - 1 ? (
+            <Button
+              onClick={handleSubmit}
+              disabled={Object.keys(answers).length !== questions.length || isSubmitting}
+              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-12 py-6 text-lg font-bold rounded-xl"
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit Quiz! 🎉'}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleNext}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg font-bold rounded-xl"
+            >
+              Next →
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default QuizTakePage;
