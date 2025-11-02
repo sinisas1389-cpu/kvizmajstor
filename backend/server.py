@@ -121,6 +121,74 @@ async def get_categories():
     categories = await categories_collection.find().to_list(100)
     return [Category(**cat) for cat in categories]
 
+# ============================================
+# QUIZZES ENDPOINTS
+# ============================================
+
+@api_router.get("/quizzes", response_model=List[QuizResponse])
+async def get_quizzes(
+    categoryId: Optional[str] = None,
+    difficulty: Optional[str] = None,
+    search: Optional[str] = None
+):
+    query = {}
+    
+    if categoryId and categoryId != "all":
+        query["categoryId"] = categoryId
+    
+    if difficulty and difficulty != "all":
+        query["difficulty"] = difficulty
+    
+    if search:
+        query["$or"] = [
+            {"title": {"$regex": search, "$options": "i"}},
+            {"description": {"$regex": search, "$options": "i"}}
+        ]
+    
+    quizzes = await quizzes_collection.find(query).to_list(1000)
+    
+    result = []
+    for quiz in quizzes:
+        result.append(QuizResponse(
+            id=quiz["id"],
+            title=quiz["title"],
+            description=quiz["description"],
+            categoryId=quiz["categoryId"],
+            difficulty=quiz["difficulty"],
+            questionCount=quiz["questionCount"],
+            timeLimit=quiz["timeLimit"],
+            plays=quiz.get("plays", 0),
+            rating=quiz.get("rating", 0.0),
+            createdBy=quiz.get("createdBy", "Anonimno")
+        ))
+    
+    return result
+
+@api_router.get("/quizzes/{quiz_id}")
+async def get_quiz(quiz_id: str):
+    quiz = await quizzes_collection.find_one({"id": quiz_id})
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
+    
+    return quiz
+
+@api_router.get("/quizzes/{quiz_id}/questions")
+async def get_quiz_questions(quiz_id: str):
+    quiz = await quizzes_collection.find_one({"id": quiz_id})
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
+    
+    # Ne šalji tačne odgovore
+    questions = quiz.get("questions", [])
+    safe_questions = []
+    for q in questions:
+        safe_q = q.copy()
+        if "correctAnswer" in safe_q:
+            del safe_q["correctAnswer"]
+        safe_questions.append(safe_q)
+    
+    return safe_questions
+
 # Include the router in the main app
 app.include_router(api_router)
 
