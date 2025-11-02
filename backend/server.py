@@ -7,7 +7,6 @@ from typing import List, Optional
 import logging
 import os
 
-# Local imports
 from models import (
     UserCreate, UserLogin, UserResponse, Category, QuizCreate, 
     QuizResponse, Quiz, QuizSubmission, QuizResultResponse,
@@ -22,23 +21,14 @@ from database import (
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# Create the main app
 app = FastAPI()
-
-# Create router with /api prefix
 api_router = APIRouter(prefix="/api")
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# ============================================
-# AUTH ENDPOINTS
-# ============================================
-
 @api_router.post("/auth/signup")
 async def signup(user_data: UserCreate):
-    # Proveri da li korisnik već postoji
     existing_user = await users_collection.find_one({"email": user_data.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email već postoji")
@@ -47,7 +37,6 @@ async def signup(user_data: UserCreate):
     if existing_username:
         raise HTTPException(status_code=400, detail="Korisničko ime već postoji")
     
-    # Kreiraj novog korisnika
     from models import User
     user = User(
         email=user_data.email,
@@ -56,8 +45,6 @@ async def signup(user_data: UserCreate):
     )
     
     await users_collection.insert_one(user.dict())
-    
-    # Generiši token
     token = create_access_token({"user_id": user.id})
     
     return {
@@ -75,12 +62,10 @@ async def signup(user_data: UserCreate):
 
 @api_router.post("/auth/login")
 async def login(user_data: UserLogin):
-    # Pronađi korisnika
     user = await users_collection.find_one({"email": user_data.email})
     if not user or not verify_password(user_data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Neispravni podaci za prijavu")
     
-    # Generiši token
     token = create_access_token({"user_id": user["id"]})
     
     return {
@@ -112,18 +97,10 @@ async def get_me(user_id: str = Depends(get_current_user)):
         quizzesCompleted=user.get("quizzesCompleted", 0)
     )
 
-# ============================================
-# CATEGORIES ENDPOINTS
-# ============================================
-
 @api_router.get("/categories", response_model=List[Category])
 async def get_categories():
     categories = await categories_collection.find().to_list(100)
     return [Category(**cat) for cat in categories]
-
-# ============================================
-# QUIZZES ENDPOINTS
-# ============================================
 
 @api_router.get("/quizzes", response_model=List[QuizResponse])
 async def get_quizzes(
@@ -169,7 +146,6 @@ async def get_quiz(quiz_id: str):
     quiz = await quizzes_collection.find_one({"id": quiz_id})
     if not quiz:
         raise HTTPException(status_code=404, detail="Kviz nije pronađen")
-    
     return quiz
 
 @api_router.get("/quizzes/{quiz_id}/questions")
@@ -178,7 +154,6 @@ async def get_quiz_questions(quiz_id: str):
     if not quiz:
         raise HTTPException(status_code=404, detail="Kviz nije pronađen")
     
-    # Ne šalji tačne odgovore
     questions = quiz.get("questions", [])
     safe_questions = []
     for q in questions:
@@ -190,10 +165,7 @@ async def get_quiz_questions(quiz_id: str):
     return safe_questions
 
 @api_router.post("/quizzes")
-async def create_quiz(
-    quiz_data: QuizCreate,
-    user_id: str = Depends(get_current_user)
-):
+async def create_quiz(quiz_data: QuizCreate, user_id: str = Depends(get_current_user)):
     user = await users_collection.find_one({"id": user_id})
     if not user:
         raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
@@ -210,31 +182,17 @@ async def create_quiz(
     )
     
     await quizzes_collection.insert_one(quiz.dict())
-    
-    await categories_collection.update_one(
-        {"id": quiz_data.categoryId},
-        {"$inc": {"quizCount": 1}}
-    )
+    await categories_collection.update_one({"id": quiz_data.categoryId}, {"$inc": {"quizCount": 1}})
     
     return QuizResponse(
-        id=quiz.id,
-        title=quiz.title,
-        description=quiz.description,
-        categoryId=quiz.categoryId,
-        difficulty=quiz.difficulty,
-        questionCount=quiz.questionCount,
-        timeLimit=quiz.timeLimit,
-        plays=quiz.plays,
-        rating=quiz.rating,
-        createdBy=quiz.createdBy
+        id=quiz.id, title=quiz.title, description=quiz.description,
+        categoryId=quiz.categoryId, difficulty=quiz.difficulty,
+        questionCount=quiz.questionCount, timeLimit=quiz.timeLimit,
+        plays=quiz.plays, rating=quiz.rating, createdBy=quiz.createdBy
     )
 
 @api_router.post("/quizzes/{quiz_id}/submit")
-async def submit_quiz(
-    quiz_id: str,
-    submission: QuizSubmission,
-    user_id: str = Depends(get_current_user)
-):
+async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = Depends(get_current_user)):
     quiz = await quizzes_collection.find_one({"id": quiz_id})
     if not quiz:
         raise HTTPException(status_code=404, detail="Kviz nije pronađen")
@@ -246,73 +204,32 @@ async def submit_quiz(
     for answer in submission.answers:
         question = next((q for q in questions if q["id"] == answer.questionId), None)
         if question:
-            if question["type"] == "multiple":
-                if answer.answer == question["correctAnswer"]:
-                    correct_count += 1
-            elif question["type"] == "true-false":
-                if answer.answer == question["correctAnswer"]:
-                    correct_count += 1
+            if answer.answer == question["correctAnswer"]:
+                correct_count += 1
     
     score = int((correct_count / total_questions) * 100) if total_questions > 0 else 0
     passed = score >= 70
     
     from models import QuizResult
     result = QuizResult(
-        userId=user_id,
-        quizId=quiz_id,
-        score=score,
-        correctCount=correct_count,
-        totalQuestions=total_questions,
-        passed=passed
+        userId=user_id, quizId=quiz_id, score=score,
+        correctCount=correct_count, totalQuestions=total_questions, passed=passed
     )
     
     await results_collection.insert_one(result.dict())
+    await users_collection.update_one({"id": user_id}, {"$inc": {"totalScore": score, "quizzesCompleted": 1}})
+    await quizzes_collection.update_one({"id": quiz_id}, {"$inc": {"plays": 1}})
     
-    await users_collection.update_one(
-        {"id": user_id},
-        {
-            "$inc": {
-                "totalScore": score,
-                "quizzesCompleted": 1
-            }
-        }
-    )
-    
-    await quizzes_collection.update_one(
-        {"id": quiz_id},
-        {"$inc": {"plays": 1}}
-    )
-    
-    return QuizResultResponse(
-        score=score,
-        correctCount=correct_count,
-        totalQuestions=total_questions,
-        passed=passed
-    )
-
-# ============================================
-# LEADERBOARD ENDPOINTS
-# ============================================
+    return QuizResultResponse(score=score, correctCount=correct_count, totalQuestions=total_questions, passed=passed)
 
 @api_router.get("/leaderboard", response_model=List[LeaderboardEntry])
 async def get_leaderboard():
     users = await users_collection.find().sort("totalScore", -1).limit(50).to_list(50)
-    
-    leaderboard = []
-    for user in users:
-        leaderboard.append(LeaderboardEntry(
-            id=user["id"],
-            username=user["username"],
-            score=user.get("totalScore", 0),
-            quizzesCompleted=user.get("quizzesCompleted", 0),
-            avatar=user.get("avatar", "👤")
-        ))
-    
-    return leaderboard
-
-# ============================================
-# USER PROGRESS ENDPOINTS
-# ============================================
+    return [LeaderboardEntry(
+        id=u["id"], username=u["username"],
+        score=u.get("totalScore", 0), quizzesCompleted=u.get("quizzesCompleted", 0),
+        avatar=u.get("avatar", "👤")
+    ) for u in users]
 
 @api_router.get("/users/progress")
 async def get_user_progress(user_id: str = Depends(get_current_user)):
@@ -321,8 +238,8 @@ async def get_user_progress(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
     
     results = await results_collection.find({"userId": user_id}).sort("completedAt", -1).limit(10).to_list(10)
-    
     recent_activity = []
+    
     for result in results:
         quiz = await quizzes_collection.find_one({"id": result["quizId"]})
         if quiz:
@@ -336,9 +253,7 @@ async def get_user_progress(user_id: str = Depends(get_current_user)):
                 date_str = f"pre {time_diff.seconds // 60} minuta"
             
             recent_activity.append(RecentActivity(
-                quizTitle=quiz["title"],
-                score=result["score"],
-                date=date_str
+                quizTitle=quiz["title"], score=result["score"], date=date_str
             ))
     
     all_users = await users_collection.find().sort("totalScore", -1).to_list(10000)
@@ -360,60 +275,14 @@ async def get_user_progress(user_id: str = Depends(get_current_user)):
     average_score = user.get("totalScore", 0) // total_quizzes if total_quizzes > 0 else 0
     
     return UserProgress(
-        totalQuizzes=total_quizzes,
-        totalScore=user.get("totalScore", 0),
-        averageScore=average_score,
-        rank=rank,
-        badges=badges,
-        recentActivity=recent_activity[:3]
+        totalQuizzes=total_quizzes, totalScore=user.get("totalScore", 0),
+        averageScore=average_score, rank=rank, badges=badges, recentActivity=recent_activity[:3]
     )
-
-# ============================================
-# ROOT ENDPOINT
-# ============================================
 
 @api_router.get("/")
 async def root():
     return {"message": "KvizMajstor API - Dobrodošli!"}
 
-            description=quiz["description"],
-            categoryId=quiz["categoryId"],
-            difficulty=quiz["difficulty"],
-            questionCount=quiz["questionCount"],
-            timeLimit=quiz["timeLimit"],
-            plays=quiz.get("plays", 0),
-            rating=quiz.get("rating", 0.0),
-            createdBy=quiz.get("createdBy", "Anonimno")
-        ))
-    
-    return result
-
-@api_router.get("/quizzes/{quiz_id}")
-async def get_quiz(quiz_id: str):
-    quiz = await quizzes_collection.find_one({"id": quiz_id})
-    if not quiz:
-        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
-    
-    return quiz
-
-@api_router.get("/quizzes/{quiz_id}/questions")
-async def get_quiz_questions(quiz_id: str):
-    quiz = await quizzes_collection.find_one({"id": quiz_id})
-    if not quiz:
-        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
-    
-    # Ne šalji tačne odgovore
-    questions = quiz.get("questions", [])
-    safe_questions = []
-    for q in questions:
-        safe_q = q.copy()
-        if "correctAnswer" in safe_q:
-            del safe_q["correctAnswer"]
-        safe_questions.append(safe_q)
-    
-    return safe_questions
-
-# Include the router in the main app
 app.include_router(api_router)
 
 app.add_middleware(
@@ -424,14 +293,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Startup event
 @app.on_event("startup")
 async def startup_event():
     await init_categories()
     logger.info("✅ Backend server started")
 
-# Shutdown event
 @app.on_event("shutdown")
-async def shutdown_db_client():
+async def shutdown_event():
     await close_db_connection()
     logger.info("🛑 Backend server stopped")
