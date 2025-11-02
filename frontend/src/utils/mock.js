@@ -1,69 +1,69 @@
-// Mock data for quiz application
+// Mock data za kviz aplikaciju
 
 export const mockCategories = [
-  { id: '1', name: 'Mathematics', icon: '🔢', color: '#FF6B6B', quizCount: 12 },
-  { id: '2', name: 'Science', icon: '🔬', color: '#4ECDC4', quizCount: 15 },
-  { id: '3', name: 'History', icon: '📜', color: '#FFE66D', quizCount: 10 },
-  { id: '4', name: 'Geography', icon: '🌍', color: '#95E1D3', quizCount: 8 },
-  { id: '5', name: 'Literature', icon: '📚', color: '#C7CEEA', quizCount: 11 },
-  { id: '6', name: 'Programming', icon: '💻', color: '#FFDAB9', quizCount: 20 }
+  { id: '1', name: 'Matematika', icon: '🔢', color: '#FF6B6B', quizCount: 12 },
+  { id: '2', name: 'Nauka', icon: '🔬', color: '#4ECDC4', quizCount: 15 },
+  { id: '3', name: 'Istorija', icon: '📜', color: '#FFE66D', quizCount: 10 },
+  { id: '4', name: 'Geografija', icon: '🌍', color: '#95E1D3', quizCount: 8 },
+  { id: '5', name: 'Književnost', icon: '📚', color: '#C7CEEA', quizCount: 11 },
+  { id: '6', name: 'Programiranje', icon: '💻', color: '#FFDAB9', quizCount: 20 }
 ];
 
 export const mockQuizzes = [
   {
     id: '1',
-    title: 'Basic Algebra Challenge',
-    description: 'Test your algebra skills with fundamental equations',
+    title: 'Osnove Algebre',
+    description: 'Testirajte svoje veštine algebre sa osnovnim jednačinama',
     categoryId: '1',
-    difficulty: 'Easy',
+    difficulty: 'Lako',
     questionCount: 10,
     timeLimit: 15,
     plays: 1250,
     rating: 4.5,
-    createdBy: 'Prof. Smith'
+    createdBy: 'Prof. Marković'
   },
   {
     id: '2',
-    title: 'Chemistry Fundamentals',
-    description: 'Explore the periodic table and chemical reactions',
+    title: 'Osnove Hemije',
+    description: 'Istražite periodnu tabelu i hemijske reakcije',
     categoryId: '2',
-    difficulty: 'Medium',
+    difficulty: 'Srednje',
     questionCount: 15,
     timeLimit: 20,
     plays: 890,
     rating: 4.7,
-    createdBy: 'Dr. Johnson'
+    createdBy: 'Dr. Jovanović'
   },
   {
     id: '3',
-    title: 'World War II Quiz',
-    description: 'Test your knowledge of WWII events and figures',
+    title: 'Kviz o Drugom Svetskom Ratu',
+    description: 'Testirajte svoje znanje o događajima i ličnostima iz Drugog svetskog rata',
     categoryId: '3',
-    difficulty: 'Hard',
+    difficulty: 'Teško',
     questionCount: 20,
     timeLimit: 25,
     plays: 650,
     rating: 4.8,
-    createdBy: 'Prof. Williams'
+    createdBy: 'Prof. Petrović'
   },
   {
     id: '4',
-    title: 'Capital Cities Master',
-    description: 'How well do you know world capitals?',
+    title: 'Glavni Gradovi Sveta',
+    description: 'Koliko dobro poznajete glavne gradove?',
     categoryId: '4',
-    difficulty: 'Medium',
+    difficulty: 'Srednje',
     questionCount: 12,
     timeLimit: 18,
     plays: 2100,
     rating: 4.6,
-    createdBy: 'Teacher Lee'
+    createdBy: 'Nastavnik Nikolić'
   },
   {
     id: '5',
-    title: 'Python Basics',
-    description: 'Start your programming journey with Python',
+    title: 'Python Osnove',
+    description: 'Započnite svoje programersko putovanje sa Python-om',
     categoryId: '6',
-    difficulty: 'Easy',
+    difficulty: 'Lako',
     questionCount: 10,
     timeLimit: 15,
     plays: 3200,
@@ -77,20 +77,20 @@ export const mockQuestions = {
     {
       id: 'q1',
       type: 'multiple',
-      question: 'What is the value of x in the equation 2x + 5 = 15?',
+      question: 'Kolika je vrednost x u jednačini 2x + 5 = 15?',
       options: ['3', '5', '7', '10'],
       correctAnswer: 1
     },
     {
       id: 'q2',
       type: 'true-false',
-      question: 'The square root of 144 is 12.',
+      question: 'Kvadratni koren iz 144 je 12.',
       correctAnswer: true
     },
     {
       id: 'q3',
       type: 'multiple',
-      question: 'Which of the following is a prime number?',
+      question: 'Koji od sledećih brojeva je prost broj?',
       options: ['12', '15', '17', '21'],
       correctAnswer: 2
     }
@@ -99,30 +99,30 @@ export const mockQuestions = {
     {
       id: 'q1',
       type: 'multiple',
-      question: 'What keyword is used to define a function in Python?',
+      question: 'Koja ključna reč se koristi za definisanje funkcije u Python-u?',
       options: ['func', 'def', 'function', 'define'],
       correctAnswer: 1
     },
     {
       id: 'q2',
       type: 'true-false',
-      question: 'Python is a compiled language.',
+      question: 'Python je kompajlirani jezik.',
       correctAnswer: false
     }
   ]
 };
 
 export const mockLeaderboard = [
-  { id: '1', username: 'QuizMaster3000', score: 9850, quizzesCompleted: 45, avatar: '🏆' },
-  { id: '2', username: 'BrainiacBob', score: 8920, quizzesCompleted: 41, avatar: '🧠' },
-  { id: '3', username: 'SmartySara', score: 8450, quizzesCompleted: 38, avatar: '⭐' },
+  { id: '1', username: 'KvizMajstor3000', score: 9850, quizzesCompleted: 45, avatar: '🏆' },
+  { id: '2', username: 'PametniBob', score: 8920, quizzesCompleted: 41, avatar: '🧠' },
+  { id: '3', username: 'PametnaSara', score: 8450, quizzesCompleted: 38, avatar: '⭐' },
   { id: '4', username: 'EinsteinJr', score: 7890, quizzesCompleted: 35, avatar: '🎓' },
-  { id: '5', username: 'KnowledgeKing', score: 7320, quizzesCompleted: 32, avatar: '👑' },
-  { id: '6', username: 'StudyBuddy', score: 6850, quizzesCompleted: 30, avatar: '📖' },
-  { id: '7', username: 'QuizWhiz', score: 6420, quizzesCompleted: 28, avatar: '⚡' },
-  { id: '8', username: 'TestTaker', score: 5990, quizzesCompleted: 26, avatar: '✨' },
-  { id: '9', username: 'LearnerPro', score: 5560, quizzesCompleted: 24, avatar: '🎯' },
-  { id: '10', username: 'FactFinder', score: 5120, quizzesCompleted: 22, avatar: '🔍' }
+  { id: '5', username: 'KraljZnanja', score: 7320, quizzesCompleted: 32, avatar: '👑' },
+  { id: '6', username: 'DrugZaUčenje', score: 6850, quizzesCompleted: 30, avatar: '📖' },
+  { id: '7', username: 'KvizČarobnjak', score: 6420, quizzesCompleted: 28, avatar: '⚡' },
+  { id: '8', username: 'TestMajstor', score: 5990, quizzesCompleted: 26, avatar: '✨' },
+  { id: '9', username: 'ProUčenik', score: 5560, quizzesCompleted: 24, avatar: '🎯' },
+  { id: '10', username: 'TragačČinjenica', score: 5120, quizzesCompleted: 22, avatar: '🔍' }
 ];
 
 export const mockUserProgress = {
@@ -131,20 +131,20 @@ export const mockUserProgress = {
   averageScore: 85,
   rank: 156,
   badges: [
-    { id: '1', name: 'First Quiz', icon: '🎯', earned: true },
-    { id: '2', name: 'Perfect Score', icon: '💯', earned: true },
-    { id: '3', name: '10 Quizzes', icon: '🔟', earned: true },
-    { id: '4', name: 'Speed Demon', icon: '⚡', earned: false },
-    { id: '5', name: 'Category Master', icon: '👑', earned: false }
+    { id: '1', name: 'Prvi Kviz', icon: '🎯', earned: true },
+    { id: '2', name: 'Savršen Rezultat', icon: '💯', earned: true },
+    { id: '3', name: '10 Kvizova', icon: '🔟', earned: true },
+    { id: '4', name: 'Brzinski Demon', icon: '⚡', earned: false },
+    { id: '5', name: 'Majstor Kategorije', icon: '👑', earned: false }
   ],
   recentActivity: [
-    { quizTitle: 'Python Basics', score: 90, date: '2 hours ago' },
-    { quizTitle: 'Basic Algebra', score: 85, date: '1 day ago' },
-    { quizTitle: 'Capital Cities', score: 95, date: '2 days ago' }
+    { quizTitle: 'Python Osnove', score: 90, date: 'pre 2 sata' },
+    { quizTitle: 'Osnove Algebre', score: 85, date: 'pre 1 dan' },
+    { quizTitle: 'Glavni Gradovi', score: 95, date: 'pre 2 dana' }
   ]
 };
 
-// Mock user for authentication
+// Mock korisnik za autentifikaciju
 export let mockCurrentUser = null;
 
 export const mockLogin = (email, password) => {
@@ -153,7 +153,7 @@ export const mockLogin = (email, password) => {
       mockCurrentUser = {
         id: 'user1',
         email: email,
-        username: 'DemoUser',
+        username: 'DemoKorisnik',
         avatar: '👤',
         isAdmin: email === 'admin@quiz.com'
       };
@@ -216,7 +216,7 @@ export const mockCreateQuiz = (quizData) => {
         ...quizData,
         plays: 0,
         rating: 0,
-        createdBy: mockCurrentUser?.username || 'Anonymous'
+        createdBy: mockCurrentUser?.username || 'Anonimno'
       };
       resolve(newQuiz);
     }, 500);
