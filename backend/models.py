@@ -58,6 +58,8 @@ class QuizQuestion(BaseModel):
     question: str
     options: Optional[List[str]] = None
     correctAnswer: Any
+    youtubeUrl: Optional[str] = None  # YouTube link za dodatnu lekciju
+    explanation: Optional[str] = None  # Objašnjenje odgovora
 
 class QuizCreate(BaseModel):
     title: str
