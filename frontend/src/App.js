@@ -27,6 +27,7 @@ function App() {
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/create-quiz" element={<CreateQuizPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/admin" element={<AdminPanelPage />} />
           </Routes>
           <Toaster />
         </div>
