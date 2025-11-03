@@ -54,6 +54,7 @@ async def signup(user_data: UserCreate):
             username=user.username,
             avatar=user.avatar,
             isAdmin=user.isAdmin,
+            isCreator=user.isCreator,
             totalScore=user.totalScore,
             quizzesCompleted=user.quizzesCompleted
         ),
