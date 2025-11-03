@@ -49,14 +49,14 @@ const CreateQuizPage = () => {
 
   const addQuestion = () => {
     if (!currentQuestion.question.trim()) {
-      toast({ title: 'Please enter a question!', variant: 'destructive' });
+      toast({ title: 'Molimo unesite pitanje!', variant: 'destructive' });
       return;
     }
 
     if (currentQuestion.type === 'multiple') {
       const validOptions = currentQuestion.options.filter(opt => opt.trim());
       if (validOptions.length < 2) {
-        toast({ title: 'Please add at least 2 options!', variant: 'destructive' });
+        toast({ title: 'Molimo dodajte najmanje 2 opcije!', variant: 'destructive' });
         return;
       }
     }
@@ -73,7 +73,7 @@ const CreateQuizPage = () => {
       correctAnswer: 0
     });
 
-    toast({ title: 'Question added successfully! ✨' });
+    toast({ title: 'Pitanje uspešno dodato! ✨' });
   };
 
   const removeQuestion = (idx) => {
