@@ -176,9 +176,9 @@ const CreateQuizPage = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Easy" className="text-lg">Easy</SelectItem>
-                    <SelectItem value="Medium" className="text-lg">Medium</SelectItem>
-                    <SelectItem value="Hard" className="text-lg">Hard</SelectItem>
+                    <SelectItem value="Lako" className="text-lg">Lako</SelectItem>
+                    <SelectItem value="Srednje" className="text-lg">Srednje</SelectItem>
+                    <SelectItem value="Teško" className="text-lg">Teško</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
