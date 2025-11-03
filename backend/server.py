@@ -283,6 +283,45 @@ async def get_user_progress(user_id: str = Depends(get_current_user)):
         averageScore=average_score, rank=rank, badges=badges, recentActivity=recent_activity[:3]
     )
 
+# ============================================
+# ADMIN ENDPOINTS - UPRAVLJANJE KREATORIMA
+# ============================================
+
+@api_router.get("/admin/users")
+async def get_all_users(user_id: str = Depends(get_current_user)):
+    # Proveri da li je korisnik admin
+    admin = await users_collection.find_one({"id": user_id})
+    if not admin or not admin.get("isAdmin", False):
+        raise HTTPException(status_code=403, detail="Samo admin može pristupiti ovoj funkciji")
+    
+    users = await users_collection.find().to_list(1000)
+    return [UserResponse(
+        id=u["id"], email=u["email"], username=u["username"],
+        avatar=u.get("avatar", "👤"), isAdmin=u.get("isAdmin", False),
+        isCreator=u.get("isCreator", False),
+        totalScore=u.get("totalScore", 0), quizzesCompleted=u.get("quizzesCompleted", 0)
+    ) for u in users]
+
+@api_router.put("/admin/users/{target_user_id}/creator")
+async def toggle_creator_status(target_user_id: str, user_id: str = Depends(get_current_user)):
+    # Proveri da li je korisnik admin
+    admin = await users_collection.find_one({"id": user_id})
+    if not admin or not admin.get("isAdmin", False):
+        raise HTTPException(status_code=403, detail="Samo admin može dodavati kreatore")
+    
+    target_user = await users_collection.find_one({"id": target_user_id})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
+    
+    # Toggle creator status
+    new_status = not target_user.get("isCreator", False)
+    await users_collection.update_one(
+        {"id": target_user_id},
+        {"$set": {"isCreator": new_status}}
+    )
+    
+    return {"message": f"Kreator status {'aktiviran' if new_status else 'deaktiviran'}", "isCreator": new_status}
+
 @api_router.get("/")
 async def root():
     return {"message": "KvizMajstor API - Dobrodošli!"}
