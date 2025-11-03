@@ -30,7 +30,9 @@ const CreateQuizPage = () => {
     type: 'multiple',
     question: '',
     options: ['', '', '', ''],
-    correctAnswer: 0
+    correctAnswer: 0,
+    youtubeUrl: '',
+    explanation: ''
   });
 
   useEffect(() => {
