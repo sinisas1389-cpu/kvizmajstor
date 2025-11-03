@@ -129,23 +129,65 @@ const QuizResultPage = () => {
           <Card className="border-4 border-yellow-300 bg-gradient-to-r from-yellow-50 to-orange-50">
             <CardContent className="p-8">
               <Share2 className="w-12 h-12 mx-auto mb-4 text-orange-600" />
-              <h3 className="text-2xl font-black text-gray-800 mb-2">Share Your Score!</h3>
+              <h3 className="text-2xl font-black text-gray-800 mb-2">Podeli Svoj Rezultat!</h3>
               <p className="text-gray-600 font-medium mb-4">
-                Challenge your friends to beat your score!
+                Izazovi prijatelje da pobede tvoj rezultat!
               </p>
               <Button
                 onClick={() => {
-                  const text = `I scored ${result.score}% on "${quiz.title}" quiz! Can you beat my score? 🏆`;
+                  const text = `Osvojio sam ${result.score}% na kvizu "${quiz.title}"! Možeš li ti bolje? 🏆`;
                   navigator.clipboard.writeText(text);
-                  alert('Score copied to clipboard!');
+                  alert('Rezultat kopiran!');
                 }}
                 className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold px-6 py-3 rounded-xl"
               >
-                Copy Score 📋
+                Kopiraj Rezultat 📋
               </Button>
             </CardContent>
           </Card>
         </div>
+
+        {/* Video Lekcije za Poboljšanje */}
+        {wrongAnswersWithVideos.length > 0 && (
+          <div className="mt-12">
+            <Card className="border-4 border-blue-400 shadow-xl">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <BookOpen className="w-10 h-10 text-blue-600" />
+                  <div>
+                    <h3 className="text-3xl font-black text-gray-800">
+                      Nauči Više! 📚
+                    </h3>
+                    <p className="text-gray-600 font-medium">
+                      Pogledaj ove video lekcije da poboljšaš svoje znanje
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  {wrongAnswersWithVideos.map((item, idx) => (
+                    <div key={idx}>
+                      <h4 className="text-lg font-black text-gray-800 mb-3">
+                        ❓ {item.question}
+                      </h4>
+                      {item.explanation && (
+                        <div className="mb-4 p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+                          <p className="text-sm font-medium text-gray-700">
+                            💡 <strong>Objašnjenje:</strong> {item.explanation}
+                          </p>
+                        </div>
+                      )}
+                      <YouTubePlayer 
+                        url={item.youtubeUrl} 
+                        title={`Video Lekcija ${idx + 1}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
