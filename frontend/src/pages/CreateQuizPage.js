@@ -157,7 +157,7 @@ const CreateQuizPage = () => {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {mockCategories.map(cat => (
+                    {categories.map(cat => (
                       <SelectItem key={cat.id} value={cat.id} className="text-lg">
                         {cat.icon} {cat.name}
                       </SelectItem>
