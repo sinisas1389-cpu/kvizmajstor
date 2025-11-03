@@ -11,6 +11,7 @@ import QuizResultPage from "./pages/QuizResultPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import CreateQuizPage from "./pages/CreateQuizPage";
 import ProfilePage from "./pages/ProfilePage";
+import AdminPanelPage from "./pages/AdminPanelPage";
 
 function App() {
   return (
