@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, User, LogOut, Trophy, BookOpen, Plus } from 'lucide-react';
+import { Menu, X, User, LogOut, Trophy, BookOpen, Plus, Shield } from 'lucide-react';
 import AuthModal from './AuthModal';
 
 const Navbar = () => {
