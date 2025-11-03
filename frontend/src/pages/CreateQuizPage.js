@@ -40,6 +40,8 @@ const CreateQuizPage = () => {
         setCategories(data);
       } catch (error) {
         console.error('Greška pri učitavanju kategorija:', error);
+        // Fallback to mock data if API fails
+        setCategories(mockCategories);
       }
     };
     fetchCategories();
