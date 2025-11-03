@@ -141,6 +141,44 @@ const HomePage = () => {
           </Button>
         </div>
       </section>
+
+      {/* YouTube Channel Banner */}
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <Card className="border-4 border-red-500 shadow-2xl overflow-hidden">
+            <CardContent className="p-0">
+              <div className="bg-gradient-to-r from-red-600 to-red-500 p-12 text-center">
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <svg className="w-16 h-16 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  <h2 className="text-5xl font-black text-white">
+                    Pratite nas na YouTube! 📺
+                  </h2>
+                </div>
+                <p className="text-2xl text-white/95 mb-8 font-bold">
+                  Video lekcije, objašnjenja i još mnogo toga!
+                </p>
+                <Button
+                  onClick={() => {
+                    // Ovde će biti tvoj YouTube kanal URL kada ga napraviš
+                    window.open('https://youtube.com/@tvojkanal', '_blank');
+                  }}
+                  className="bg-white text-red-600 hover:bg-gray-100 px-12 py-6 text-2xl font-black rounded-2xl shadow-2xl transform hover:scale-105 transition-all"
+                >
+                  <svg className="inline-block w-8 h-8 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 9.333L15.333 12 10 14.667v-5.334z"/>
+                  </svg>
+                  Pretplati Se Besplatno!
+                </Button>
+                <p className="mt-6 text-white/90 text-lg font-medium">
+                  🔔 Budi obavešten o novim video lekcijama
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
     </div>
   );
 };
