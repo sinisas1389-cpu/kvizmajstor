@@ -2,7 +2,8 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Trophy, Target, Clock, Share2 } from 'lucide-react';
+import { Trophy, Target, Clock, Share2, BookOpen } from 'lucide-react';
+import YouTubePlayer from '../components/YouTubePlayer';
 
 const QuizResultPage = () => {
   const location = useLocation();
