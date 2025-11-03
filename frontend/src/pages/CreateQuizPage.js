@@ -140,9 +140,9 @@ const CreateQuizPage = () => {
           </CardHeader>
           <CardContent className="p-8 space-y-6">
             <div>
-              <Label className="text-lg font-bold mb-2 block">Quiz Title *</Label>
+              <Label className="text-lg font-bold mb-2 block">Naslov Kviza *</Label>
               <Input
-                placeholder="e.g., Advanced JavaScript Challenge"
+                placeholder="npr., Napredni JavaScript Izazov"
                 value={quizData.title}
                 onChange={(e) => setQuizData(prev => ({ ...prev, title: e.target.value }))}
                 className="text-lg p-6 border-2 rounded-xl"
@@ -150,9 +150,9 @@ const CreateQuizPage = () => {
             </div>
 
             <div>
-              <Label className="text-lg font-bold mb-2 block">Description *</Label>
+              <Label className="text-lg font-bold mb-2 block">Opis *</Label>
               <Textarea
-                placeholder="Describe what this quiz is about..."
+                placeholder="Opišite o čemu je ovaj kviz..."
                 value={quizData.description}
                 onChange={(e) => setQuizData(prev => ({ ...prev, description: e.target.value }))}
                 className="text-lg p-6 border-2 rounded-xl min-h-24"
@@ -161,13 +161,13 @@ const CreateQuizPage = () => {
 
             <div className="grid md:grid-cols-3 gap-6">
               <div>
-                <Label className="text-lg font-bold mb-2 block">Category *</Label>
+                <Label className="text-lg font-bold mb-2 block">Kategorija *</Label>
                 <Select
                   value={quizData.categoryId}
                   onValueChange={(value) => setQuizData(prev => ({ ...prev, categoryId: value }))}
                 >
                   <SelectTrigger className="text-lg p-6 border-2 rounded-xl">
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue placeholder="Izaberite kategoriju" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map(cat => (
