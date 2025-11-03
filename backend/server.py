@@ -95,6 +95,7 @@ async def get_me(user_id: str = Depends(get_current_user)):
         username=user["username"],
         avatar=user.get("avatar", "👤"),
         isAdmin=user.get("isAdmin", False),
+        isCreator=user.get("isCreator", False),
         totalScore=user.get("totalScore", 0),
         quizzesCompleted=user.get("quizzesCompleted", 0)
     )
