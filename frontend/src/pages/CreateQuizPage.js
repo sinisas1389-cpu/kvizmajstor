@@ -15,11 +15,13 @@ import { mockCategories, mockCreateQuiz } from '../utils/mock';
 const CreateQuizPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [quizData, setQuizData] = useState({
     title: '',
     description: '',
     categoryId: '',
-    difficulty: 'Easy',
+    difficulty: 'Lako',
     timeLimit: 15,
     questions: []
   });
@@ -30,6 +32,18 @@ const CreateQuizPage = () => {
     options: ['', '', '', ''],
     correctAnswer: 0
   });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await categoriesAPI.getAll();
+        setCategories(data);
+      } catch (error) {
+        console.error('Greška pri učitavanju kategorija:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const addQuestion = () => {
     if (!currentQuestion.question.trim()) {
