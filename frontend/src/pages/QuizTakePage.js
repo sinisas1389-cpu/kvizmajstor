@@ -53,7 +53,21 @@ const QuizTakePage = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     const result = await mockSubmitQuiz(id, Object.values(answers));
-    navigate(`/quiz/${id}/result`, { state: { result, quiz } });
+    
+    // Kreiraj userAnswers objekat sa mapiranjem odgovora
+    const userAnswers = questions.map((q, idx) => ({
+      questionId: q.id,
+      answer: answers[idx]
+    }));
+    
+    navigate(`/quiz/${id}/result`, { 
+      state: { 
+        result, 
+        quiz, 
+        userAnswers, 
+        questions 
+      } 
+    });
   };
 
   if (!quiz || questions.length === 0) {
