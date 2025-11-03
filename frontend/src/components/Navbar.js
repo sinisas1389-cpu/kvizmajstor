@@ -64,13 +64,22 @@ const Navbar = () => {
                 </svg>
                 YouTube
               </a>
-              {isAuthenticated && (
+              {(isAuthenticated && (user?.isAdmin || user?.isCreator)) && (
                 <Link
                   to="/create-quiz"
                   className="flex items-center gap-2 font-bold text-gray-700 hover:text-purple-600 transition-colors"
                 >
                   <Plus className="w-5 h-5" />
                   Napravi
+                </Link>
+              )}
+              {(isAuthenticated && user?.isAdmin) && (
+                <Link
+                  to="/admin"
+                  className="flex items-center gap-2 font-bold text-purple-600 hover:text-purple-700 transition-colors"
+                >
+                  <Shield className="w-5 h-5" />
+                  Admin
                 </Link>
               )}
             </div>
