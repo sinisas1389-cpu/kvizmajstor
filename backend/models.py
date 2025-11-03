@@ -41,6 +41,7 @@ class UserResponse(BaseModel):
     username: str
     avatar: str
     isAdmin: bool
+    isCreator: bool
     totalScore: int
     quizzesCompleted: int
 
