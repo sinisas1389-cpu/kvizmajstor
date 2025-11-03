@@ -8,16 +8,15 @@ import YouTubePlayer from '../components/YouTubePlayer';
 const QuizResultPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { result, quiz } = location.state || {};
+  const { result, quiz, userAnswers, questions } = location.state || {};
 
   if (!result || !quiz) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
-        <Card className="border-4 border-red-300">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">\n        <Card className="border-4 border-red-300">
           <CardContent className="p-12 text-center">
-            <p className="text-3xl font-black text-gray-800 mb-4">Result not found! 😢</p>
+            <p className="text-3xl font-black text-gray-800 mb-4">Rezultat nije pronađen! 😢</p>
             <Button onClick={() => navigate('/quizzes')} className="font-bold">
-              Back to Quizzes
+              Nazad na Kvizove
             </Button>
           </CardContent>
         </Card>
@@ -26,6 +25,21 @@ const QuizResultPage = () => {
   }
 
   const isPassed = result.score >= 70;
+  
+  // Pronađi pitanja sa YouTube linkovima na koja je korisnik pogrešno odgovorio
+  const wrongAnswersWithVideos = [];
+  if (userAnswers && questions) {
+    userAnswers.forEach((answer, idx) => {
+      const question = questions[idx];
+      if (question && answer.answer !== question.correctAnswer && question.youtubeUrl) {
+        wrongAnswersWithVideos.push({
+          question: question.question,
+          youtubeUrl: question.youtubeUrl,
+          explanation: question.explanation
+        });
+      }
+    });
+  }
 
   return (
     <div className={`min-h-screen py-12 px-6 ${isPassed ? 'bg-gradient-to-br from-green-50 via-blue-50 to-purple-50' : 'bg-gradient-to-br from-orange-50 via-red-50 to-pink-50'}`}>
