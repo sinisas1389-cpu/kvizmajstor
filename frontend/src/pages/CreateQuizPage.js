@@ -276,7 +276,7 @@ const CreateQuizPage = () => {
               </div>
             ) : (
               <div>
-                <Label className="text-lg font-bold mb-2 block">Correct Answer</Label>
+                <Label className="text-lg font-bold mb-2 block">Tačan Odgovor</Label>
                 <Select
                   value={currentQuestion.correctAnswer.toString()}
                   onValueChange={(value) => setCurrentQuestion(prev => ({ ...prev, correctAnswer: value === 'true' }))}
@@ -285,12 +285,42 @@ const CreateQuizPage = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="true" className="text-lg">True</SelectItem>
-                    <SelectItem value="false" className="text-lg">False</SelectItem>
+                    <SelectItem value="true" className="text-lg">Tačno</SelectItem>
+                    <SelectItem value="false" className="text-lg">Netačno</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             )}
+
+            {/* YouTube URL i Objašnjenje */}
+            <div className="border-t-2 border-purple-200 pt-6">
+              <h4 className="text-lg font-black text-purple-600 mb-4">📚 Dodatni Materijali (Opciono)</h4>
+              
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-lg font-bold mb-2 block">YouTube Video Link</Label>
+                  <Input
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    value={currentQuestion.youtubeUrl}
+                    onChange={(e) => setCurrentQuestion(prev => ({ ...prev, youtubeUrl: e.target.value }))}
+                    className="text-lg p-4 border-2 rounded-xl"
+                  />
+                  <p className="text-sm text-gray-500 mt-1 font-medium">
+                    Dodaj link ka YouTube videu koji objašnjava ovu lekciju
+                  </p>
+                </div>
+
+                <div>
+                  <Label className="text-lg font-bold mb-2 block">Objašnjenje Odgovora</Label>
+                  <Textarea
+                    placeholder="Kratko objašnjenje zašto je ovo tačan odgovor..."
+                    value={currentQuestion.explanation}
+                    onChange={(e) => setCurrentQuestion(prev => ({ ...prev, explanation: e.target.value }))}
+                    className="text-lg p-4 border-2 rounded-xl min-h-20"
+                  />
+                </div>
+              </div>
+            </div>
 
             <Button
               onClick={addQuestion}
