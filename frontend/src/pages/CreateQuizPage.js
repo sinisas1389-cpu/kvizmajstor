@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 import { Plus, Trash2, Sparkles } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import { categoriesAPI, quizzesAPI } from '../utils/api';
-import { useEffect, useState as useGlobalState } from 'react';
+import { mockCategories, mockCreateQuiz } from '../utils/mock';
 
 const CreateQuizPage = () => {
   const navigate = useNavigate();
