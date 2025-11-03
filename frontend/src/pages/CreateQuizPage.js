@@ -6,10 +6,11 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { mockCategories, mockCreateQuiz } from '../utils/mock';
 import { useAuth } from '../context/AuthContext';
 import { Plus, Trash2, Sparkles } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
+import { categoriesAPI, quizzesAPI } from '../utils/api';
+import { useEffect, useState as useGlobalState } from 'react';
 
 const CreateQuizPage = () => {
   const navigate = useNavigate();
