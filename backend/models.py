@@ -20,6 +20,7 @@ class User(BaseModel):
     password: str
     avatar: str = "👤"
     isAdmin: bool = False
+    isCreator: bool = False  # Nova privilegija za kreiranje kvizova
     totalScore: int = 0
     quizzesCompleted: int = 0
     badges: List[str] = []
