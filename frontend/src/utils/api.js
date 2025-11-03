@@ -100,4 +100,17 @@ export const userAPI = {
   },
 };
 
+// Admin API
+export const adminAPI = {
+  getAllUsers: async () => {
+    const response = await api.get('/admin/users');
+    return response.data;
+  },
+  
+  toggleCreatorStatus: async (userId) => {
+    const response = await api.put(`/admin/users/${userId}/creator`);
+    return response.data;
+  },
+};
+
 export default api;
