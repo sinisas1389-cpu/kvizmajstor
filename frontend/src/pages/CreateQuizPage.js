@@ -85,28 +85,39 @@ const CreateQuizPage = () => {
 
   const handleSubmit = async () => {
     if (!isAuthenticated) {
-      toast({ title: 'Please login to create a quiz!', variant: 'destructive' });
-      navigate('/login');
+      toast({ title: 'Molimo prijavite se da biste kreirali kviz!', variant: 'destructive' });
       return;
     }
 
     if (!quizData.title || !quizData.description || !quizData.categoryId) {
-      toast({ title: 'Please fill all required fields!', variant: 'destructive' });
+      toast({ title: 'Molimo popunite sva obavezna polja!', variant: 'destructive' });
       return;
     }
 
     if (quizData.questions.length < 3) {
-      toast({ title: 'Please add at least 3 questions!', variant: 'destructive' });
+      toast({ title: 'Molimo dodajte najmanje 3 pitanja!', variant: 'destructive' });
       return;
     }
 
-    const newQuiz = await mockCreateQuiz({
-      ...quizData,
-      questionCount: quizData.questions.length
-    });
+    setLoading(true);
+    try {
+      const newQuiz = await quizzesAPI.create({
+        ...quizData,
+        questionCount: quizData.questions.length
+      });
 
-    toast({ title: 'Quiz created successfully! 🎉' });
-    navigate('/quizzes');
+      toast({ title: 'Kviz uspešno kreiran! 🎉' });
+      navigate('/quizzes');
+    } catch (error) {
+      console.error('Greška pri kreiranju kviza:', error);
+      toast({ 
+        title: 'Greška', 
+        description: error.response?.data?.detail || 'Došlo je do greške pri kreiranju kviza',
+        variant: 'destructive' 
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
