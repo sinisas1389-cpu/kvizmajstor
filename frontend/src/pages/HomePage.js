@@ -113,8 +113,16 @@ const HomePage = () => {
       </section>
 
       {/* Leaderboard Sekcija */}
-      <section className="py-20 px-6 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-20 px-6 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 relative overflow-hidden">
+        {/* Pozadinski naučni elementi */}
+        <div className="absolute top-16 left-16 text-6xl animate-bounce opacity-30">📚</div>
+        <div className="absolute top-32 right-24 text-5xl animate-pulse opacity-35" style={{ animationDelay: '0.4s' }}>🧪</div>
+        <div className="absolute bottom-24 left-24 text-6xl animate-pulse opacity-30" style={{ animationDelay: '0.7s' }}>🔭</div>
+        <div className="absolute bottom-16 right-16 text-5xl animate-bounce opacity-35" style={{ animationDelay: '0.2s' }}>🎓</div>
+        <div className="absolute top-1/2 left-32 text-5xl animate-pulse opacity-25" style={{ animationDelay: '0.5s' }}>✏️</div>
+        <div className="absolute top-1/2 right-32 text-6xl animate-bounce opacity-30" style={{ animationDelay: '0.8s' }}>📐</div>
+        
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-5xl font-black mb-4">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
