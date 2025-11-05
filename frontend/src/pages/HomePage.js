@@ -65,8 +65,14 @@ const HomePage = () => {
       </section>
 
       {/* Sekcija Karakteristika */}
-      <section className="py-20 px-6 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-6 bg-white/50 backdrop-blur-sm relative overflow-hidden">
+        {/* Pozadinski naučni elementi */}
+        <div className="absolute top-10 left-10 text-5xl animate-pulse opacity-30">🧬</div>
+        <div className="absolute top-20 right-20 text-6xl animate-bounce opacity-25" style={{ animationDelay: '0.3s' }}>⚛️</div>
+        <div className="absolute bottom-10 left-20 text-5xl animate-pulse opacity-30" style={{ animationDelay: '0.6s' }}>🔬</div>
+        <div className="absolute bottom-20 right-10 text-6xl animate-bounce opacity-25" style={{ animationDelay: '0.9s' }}>💻</div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <h2 className="text-5xl font-black text-center mb-16">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
               Zašto KvizMajstor? 🎯
