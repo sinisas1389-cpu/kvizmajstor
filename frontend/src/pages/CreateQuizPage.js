@@ -308,8 +308,51 @@ const CreateQuizPage = () => {
         <Card className="border-4 border-green-300 shadow-xl mb-8">
           <CardHeader className="bg-gradient-to-r from-green-100 to-blue-100">
             <CardTitle className="text-3xl font-black flex items-center justify-between">
-              <span>Add Questions</span>
+              <span>Dodaj Pitanja</span>
               <div className="flex gap-3">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    // Kreiranje primer Excel template-a
+                    const template = [
+                      {
+                        'Tip': 'multiple',
+                        'Pitanje': 'Koliko je 2+2?',
+                        'Opcija1': '3',
+                        'Opcija2': '4',
+                        'Opcija3': '5',
+                        'Opcija4': '6',
+                        'TačanOdgovor': '2',
+                        'YouTubeURL': '',
+                        'Objašnjenje': 'Osnovna matematika: 2+2=4'
+                      },
+                      {
+                        'Tip': 'true-false',
+                        'Pitanje': 'Zemlja je okrugla.',
+                        'Opcija1': '',
+                        'Opcija2': '',
+                        'Opcija3': '',
+                        'Opcija4': '',
+                        'TačanOdgovor': 'true',
+                        'YouTubeURL': '',
+                        'Objašnjenje': 'Zemlja je sferni oblik'
+                      }
+                    ];
+                    
+                    const ws = XLSX.utils.json_to_sheet(template);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, 'Pitanja');
+                    XLSX.writeFile(wb, 'kviz_template.xlsx');
+                    
+                    toast({ title: 'Template preuzet! 📥', description: 'Otvorite fajl i dodajte svoja pitanja' });
+                  }}
+                  variant="outline"
+                  className="border-2 border-green-500 text-green-600 hover:bg-green-50 font-bold"
+                >
+                  <Upload className="mr-2" />
+                  Preuzmi Template
+                </Button>
+                
                 <input
                   type="file"
                   accept=".xlsx,.xls"
