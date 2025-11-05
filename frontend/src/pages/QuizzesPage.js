@@ -95,10 +95,7 @@ const QuizzesPage = () => {
                   className="pb-4"
                   style={{ backgroundColor: category?.color + '30' }}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <Badge className={`${getDifficultyColor(quiz.difficulty)} text-white font-bold px-3 py-1`}>
-                      {quiz.difficulty}
-                    </Badge>
+                  <div className="flex justify-end items-start mb-2">
                     <span className="text-3xl">{category?.icon}</span>
                   </div>
                   <CardTitle className="text-2xl font-black text-gray-800">
