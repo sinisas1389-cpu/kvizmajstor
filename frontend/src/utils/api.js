@@ -111,6 +111,16 @@ export const adminAPI = {
     const response = await api.put(`/admin/users/${userId}/creator`);
     return response.data;
   },
+  
+  createCategory: async (categoryData) => {
+    const response = await api.post('/admin/categories', categoryData);
+    return response.data;
+  },
+  
+  deleteCategory: async (categoryId) => {
+    const response = await api.delete(`/admin/categories/${categoryId}`);
+    return response.data;
+  },
 };
 
 export default api;
