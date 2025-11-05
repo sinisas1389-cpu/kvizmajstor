@@ -22,8 +22,8 @@ const CreateQuizPage = () => {
     title: '',
     description: '',
     categoryId: '',
-    difficulty: 'Lako',
-    timeLimit: 15,
+    timeLimit: 0,  // 0 = bez limita
+    timeLimitPerQuestion: 0,  // 0 = bez limita po pitanju
     questions: []
   });
 
