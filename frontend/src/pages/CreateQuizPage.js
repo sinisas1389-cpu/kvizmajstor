@@ -458,6 +458,36 @@ const CreateQuizPage = () => {
               
               <div className="space-y-4">
                 <div>
+                  <Label className="text-lg font-bold mb-2 block">URL Slike 🖼️</Label>
+                  <Input
+                    placeholder="https://example.com/slika.jpg"
+                    value={currentQuestion.imageUrl}
+                    onChange={(e) => setCurrentQuestion(prev => ({ ...prev, imageUrl: e.target.value }))}
+                    className="text-lg p-4 border-2 rounded-xl"
+                  />
+                  <p className="text-sm text-gray-500 mt-1 font-medium">
+                    Dodaj link ka slici koja ilustruje pitanje
+                  </p>
+                  {currentQuestion.imageUrl && (
+                    <div className="mt-3 p-4 bg-gray-50 rounded-xl border-2 border-gray-200">
+                      <p className="text-sm font-bold text-gray-700 mb-2">Pregled slike:</p>
+                      <img 
+                        src={currentQuestion.imageUrl} 
+                        alt="Preview" 
+                        className="max-w-full h-auto rounded-lg max-h-64 object-contain"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'block';
+                        }}
+                      />
+                      <p className="text-sm text-red-500 font-medium hidden">
+                        ❌ Slika nije mogla biti učitana. Proverite URL.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div>
                   <Label className="text-lg font-bold mb-2 block">YouTube Video Link</Label>
                   <Input
                     placeholder="https://www.youtube.com/watch?v=..."
