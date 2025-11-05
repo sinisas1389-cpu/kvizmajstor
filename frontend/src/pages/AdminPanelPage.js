@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
 import { useAuth } from '../context/AuthContext';
-import { adminAPI } from '../utils/api';
-import { Shield, Star, Users, Crown } from 'lucide-react';
+import { adminAPI, categoriesAPI } from '../utils/api';
+import { Shield, Star, Users, Crown, FolderPlus, Trash2, Grid3x3 } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 
 const AdminPanelPage = () => {
