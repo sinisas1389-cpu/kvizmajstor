@@ -78,7 +78,7 @@ const QuizzesPage = () => {
               >
                 Sve
               </Badge>
-              {mockCategories.map(cat => (
+              {categories.map(cat => (
                 <Badge
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
