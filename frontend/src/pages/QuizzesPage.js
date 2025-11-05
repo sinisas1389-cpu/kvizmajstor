@@ -20,15 +20,6 @@ const QuizzesPage = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const getDifficultyColor = (difficulty) => {
-    switch(difficulty) {
-      case 'Lako': return 'bg-green-500';
-      case 'Srednje': return 'bg-yellow-500';
-      case 'Teško': return 'bg-red-500';
-      default: return 'bg-gray-500';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-6">
       <div className="max-w-7xl mx-auto">
