@@ -97,6 +97,123 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Leaderboard Sekcija */}
+      <section className="py-20 px-6 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-5xl font-black mb-4">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+                Leaderboard 🏆
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 font-medium">Top Quiz Masters of the Week!</p>
+          </div>
+
+          {/* Top 3 Podijum */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {/* 2. Mesto */}
+            <div className="md:order-1 order-2">
+              <Card className="border-4 border-gray-300 shadow-xl transform hover:scale-105 transition-all bg-gradient-to-br from-gray-50 to-gray-100">
+                <CardContent className="p-6 text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-20 h-20 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center shadow-lg">
+                      <Medal className="w-10 h-10 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-5xl mb-4">{mockLeaderboard[1].avatar}</div>
+                  <h3 className="text-2xl font-black text-gray-800 mb-2">{mockLeaderboard[1].username}</h3>
+                  <p className="text-4xl font-black text-gray-700 mb-2">{mockLeaderboard[1].score}</p>
+                  <p className="text-sm text-gray-600 font-bold">points</p>
+                  <div className="mt-4 pt-4 border-t-2 border-gray-300">
+                    <p className="text-sm text-gray-600 font-bold">{mockLeaderboard[1].quizzesCompleted} quizzes completed</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* 1. Mesto - Centralno i Najveće */}
+            <div className="md:order-2 order-1">
+              <Card className="border-4 border-yellow-400 shadow-2xl transform hover:scale-105 transition-all bg-gradient-to-br from-yellow-100 to-orange-100 md:-mt-8">
+                <CardContent className="p-8 text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-xl animate-pulse">
+                      <Trophy className="w-12 h-12 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-6xl mb-4">{mockLeaderboard[0].avatar}</div>
+                  <h3 className="text-3xl font-black text-gray-800 mb-3">{mockLeaderboard[0].username}</h3>
+                  <p className="text-5xl font-black text-orange-600 mb-2">{mockLeaderboard[0].score}</p>
+                  <p className="text-lg text-gray-700 font-bold">points</p>
+                  <div className="mt-6 pt-4 border-t-2 border-yellow-400">
+                    <p className="text-base text-gray-700 font-bold">{mockLeaderboard[0].quizzesCompleted} quizzes completed</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* 3. Mesto */}
+            <div className="md:order-3 order-3">
+              <Card className="border-4 border-orange-300 shadow-xl transform hover:scale-105 transition-all bg-gradient-to-br from-orange-50 to-orange-100">
+                <CardContent className="p-6 text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                      <Award className="w-10 h-10 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-5xl mb-4">{mockLeaderboard[2].avatar}</div>
+                  <h3 className="text-2xl font-black text-gray-800 mb-2">{mockLeaderboard[2].username}</h3>
+                  <p className="text-4xl font-black text-orange-600 mb-2">{mockLeaderboard[2].score}</p>
+                  <p className="text-sm text-gray-600 font-bold">points</p>
+                  <div className="mt-4 pt-4 border-t-2 border-orange-300">
+                    <p className="text-sm text-gray-600 font-bold">{mockLeaderboard[2].quizzesCompleted} quizzes completed</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Ostali 4-10 */}
+          <Card className="border-4 border-purple-200 shadow-xl">
+            <CardContent className="p-6">
+              <div className="space-y-3">
+                {mockLeaderboard.slice(3, 10).map((user, idx) => (
+                  <div
+                    key={user.id}
+                    className="flex items-center justify-between p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-purple-300 hover:shadow-lg transition-all"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center font-black text-white text-xl">
+                        {idx + 4}
+                      </div>
+                      <div className="text-3xl">{user.avatar}</div>
+                      <div>
+                        <h4 className="font-black text-gray-800 text-lg">{user.username}</h4>
+                        <p className="text-sm text-gray-600 font-medium">{user.quizzesCompleted} kvizova završeno</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-black text-purple-600">{user.score}</p>
+                      <p className="text-xs text-gray-600 font-bold">poena</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Dugme za punu rang listu */}
+          <div className="text-center mt-8">
+            <Button
+              onClick={() => navigate('/leaderboard')}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 text-lg font-bold rounded-xl shadow-xl"
+            >
+              <Trophy className="mr-2" />
+              Pogledaj Punu Rang Listu
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Pregled Kategorija */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
