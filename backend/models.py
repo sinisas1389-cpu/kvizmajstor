@@ -60,6 +60,7 @@ class QuizQuestion(BaseModel):
     question: str
     options: Optional[List[str]] = None
     correctAnswer: Any
+    imageUrl: Optional[str] = None  # URL slike za pitanje
     youtubeUrl: Optional[str] = None  # YouTube link za dodatnu lekciju
     explanation: Optional[str] = None  # Objašnjenje odgovora
 
