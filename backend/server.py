@@ -321,6 +321,48 @@ async def toggle_creator_status(target_user_id: str, user_id: str = Depends(get_
     
     return {"message": f"Kreator status {'aktiviran' if new_status else 'deaktiviran'}", "isCreator": new_status}
 
+@api_router.post("/admin/categories", response_model=Category)
+async def create_category(category_data: dict, user_id: str = Depends(get_current_user)):
+    # Proveri da li je korisnik admin
+    admin = await users_collection.find_one({"id": user_id})
+    if not admin or not admin.get("isAdmin", False):
+        raise HTTPException(status_code=403, detail="Samo admin može dodavati kategorije")
+    
+    # Proveri da li kategorija već postoji
+    existing = await categories_collection.find_one({"name": category_data["name"]})
+    if existing:
+        raise HTTPException(status_code=400, detail="Kategorija sa ovim imenom već postoji")
+    
+    import uuid
+    new_category = {
+        "id": str(uuid.uuid4()),
+        "name": category_data["name"],
+        "icon": category_data["icon"],
+        "color": category_data["color"],
+        "quizCount": 0
+    }
+    
+    await categories_collection.insert_one(new_category)
+    return Category(**new_category)
+
+@api_router.delete("/admin/categories/{category_id}")
+async def delete_category(category_id: str, user_id: str = Depends(get_current_user)):
+    # Proveri da li je korisnik admin
+    admin = await users_collection.find_one({"id": user_id})
+    if not admin or not admin.get("isAdmin", False):
+        raise HTTPException(status_code=403, detail="Samo admin može brisati kategorije")
+    
+    # Proveri da li postoje kvizovi u ovoj kategoriji
+    quiz_count = await quizzes_collection.count_documents({"categoryId": category_id})
+    if quiz_count > 0:
+        raise HTTPException(status_code=400, detail=f"Ne možete obrisati kategoriju koja ima {quiz_count} kvizova")
+    
+    result = await categories_collection.delete_one({"id": category_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Kategorija nije pronađena")
+    
+    return {"message": "Kategorija uspešno obrisana"}
+
 @api_router.get("/")
 async def root():
     return {"message": "KvizMajstor API - Dobrodošli!"}
