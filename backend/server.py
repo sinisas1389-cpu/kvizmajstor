@@ -108,16 +108,12 @@ async def get_categories():
 @api_router.get("/quizzes", response_model=List[QuizResponse])
 async def get_quizzes(
     categoryId: Optional[str] = None,
-    difficulty: Optional[str] = None,
     search: Optional[str] = None
 ):
     query = {}
     
     if categoryId and categoryId != "all":
         query["categoryId"] = categoryId
-    
-    if difficulty and difficulty != "all":
-        query["difficulty"] = difficulty
     
     if search:
         query["$or"] = [
@@ -134,9 +130,9 @@ async def get_quizzes(
             title=quiz["title"],
             description=quiz["description"],
             categoryId=quiz["categoryId"],
-            difficulty=quiz["difficulty"],
             questionCount=quiz["questionCount"],
             timeLimit=quiz["timeLimit"],
+            timeLimitPerQuestion=quiz.get("timeLimitPerQuestion"),
             plays=quiz.get("plays", 0),
             rating=quiz.get("rating", 0.0),
             createdBy=quiz.get("createdBy", "Anonimno")
