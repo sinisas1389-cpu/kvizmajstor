@@ -273,8 +273,14 @@ const HomePage = () => {
       </section>
 
       {/* CTA Sekcija */}
-      <section className="py-20 px-6 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-20 px-6 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 relative overflow-hidden">
+        {/* Pozadinski naučni elementi - bele boje za kontrast */}
+        <div className="absolute top-10 left-10 text-6xl animate-bounce opacity-20 filter brightness-200">🎓</div>
+        <div className="absolute top-16 right-16 text-5xl animate-pulse opacity-25 filter brightness-200" style={{ animationDelay: '0.3s' }}>📚</div>
+        <div className="absolute bottom-10 left-16 text-6xl animate-pulse opacity-20 filter brightness-200" style={{ animationDelay: '0.6s' }}>✏️</div>
+        <div className="absolute bottom-16 right-10 text-5xl animate-bounce opacity-25 filter brightness-200" style={{ animationDelay: '0.9s' }}>🔭</div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-5xl font-black text-white mb-6">
             Spreman da Postaneš Kviz Legenda? 🌟
           </h2>
@@ -291,7 +297,13 @@ const HomePage = () => {
       </section>
 
       {/* YouTube Channel Banner */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-20 px-6 bg-white relative overflow-hidden">
+        {/* Pozadinski naučni elementi */}
+        <div className="absolute top-12 left-20 text-5xl animate-pulse opacity-20">🧪</div>
+        <div className="absolute top-20 right-24 text-6xl animate-bounce opacity-25" style={{ animationDelay: '0.4s' }}>🔬</div>
+        <div className="absolute bottom-20 left-16 text-5xl animate-pulse opacity-20" style={{ animationDelay: '0.7s' }}>💻</div>
+        <div className="absolute bottom-12 right-20 text-6xl animate-bounce opacity-25" style={{ animationDelay: '0.3s' }}>🧬</div>
+        
         <div className="max-w-5xl mx-auto">
           <Card className="border-4 border-red-500 shadow-2xl overflow-hidden">
             <CardContent className="p-0">
