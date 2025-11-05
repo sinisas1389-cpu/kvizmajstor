@@ -153,10 +153,10 @@ const Navbar = () => {
                   <Button
                     onClick={() => navigate('/profile')}
                     variant="outline"
-                    className="font-bold border-2 border-purple-500 text-purple-600 hover:bg-purple-50"
+                    className="font-bold border-2 border-purple-500 text-purple-600 hover:bg-purple-50 max-w-[200px]"
                   >
-                    <User className="mr-2 w-4 h-4" />
-                    {user.username}
+                    <User className="mr-2 w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{getDisplayName(user.username)}</span>
                   </Button>
                   <Button
                     onClick={handleLogout}
