@@ -165,6 +165,15 @@ const Navbar = () => {
                   >
                     👤 Profil
                   </Link>
+                  {user?.isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="block py-3 px-4 rounded-lg font-bold text-purple-600 hover:bg-purple-50"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      👑 Admin Panel
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       handleLogout();
