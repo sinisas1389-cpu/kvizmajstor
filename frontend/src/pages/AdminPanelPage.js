@@ -73,6 +73,53 @@ const AdminPanelPage = () => {
     }
   };
 
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    
+    if (!newCategory.name || !newCategory.icon || !newCategory.color) {
+      toast({ 
+        title: 'Greška', 
+        description: 'Popunite sva polja',
+        variant: 'destructive' 
+      });
+      return;
+    }
+
+    try {
+      await adminAPI.createCategory(newCategory);
+      toast({ title: 'Kategorija uspešno dodata! 🎉' });
+      setNewCategory({ name: '', icon: '', color: '#FFE66D' });
+      setShowAddCategory(false);
+      fetchCategories();
+    } catch (error) {
+      console.error('Greška:', error);
+      toast({ 
+        title: 'Greška', 
+        description: error.response?.data?.detail || 'Nije moguće dodati kategoriju',
+        variant: 'destructive' 
+      });
+    }
+  };
+
+  const handleDeleteCategory = async (categoryId, categoryName) => {
+    if (!window.confirm(`Da li ste sigurni da želite da obrišete kategoriju "${categoryName}"?`)) {
+      return;
+    }
+
+    try {
+      await adminAPI.deleteCategory(categoryId);
+      toast({ title: 'Kategorija uspešno obrisana!' });
+      fetchCategories();
+    } catch (error) {
+      console.error('Greška:', error);
+      toast({ 
+        title: 'Greška', 
+        description: error.response?.data?.detail || 'Nije moguće obrisati kategoriju',
+        variant: 'destructive' 
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
