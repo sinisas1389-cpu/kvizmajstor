@@ -47,12 +47,14 @@ const QuizzesPage = () => {
                 className="pl-12 py-6 text-lg border-2 border-gray-300 rounded-xl"
               />
             </div>
-            <Button
-              onClick={() => navigate('/create-quiz')}
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-6 text-lg font-bold rounded-xl"
-            >
-              Napravi Kviz ✨
-            </Button>
+            {(isAuthenticated && (user?.isAdmin || user?.isCreator)) && (
+              <Button
+                onClick={() => navigate('/create-quiz')}
+                className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-6 text-lg font-bold rounded-xl"
+              >
+                Napravi Kviz ✨
+              </Button>
+            )}
           </div>
 
           {/* Filter Kategorija */}
