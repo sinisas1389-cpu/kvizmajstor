@@ -307,7 +307,28 @@ const CreateQuizPage = () => {
         {/* Add Question */}
         <Card className="border-4 border-green-300 shadow-xl mb-8">
           <CardHeader className="bg-gradient-to-r from-green-100 to-blue-100">
-            <CardTitle className="text-3xl font-black">Add Questions</CardTitle>
+            <CardTitle className="text-3xl font-black flex items-center justify-between">
+              <span>Add Questions</span>
+              <div className="flex gap-3">
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  onChange={handleExcelUpload}
+                  style={{ display: 'none' }}
+                  id="excel-upload"
+                />
+                <label htmlFor="excel-upload">
+                  <Button
+                    type="button"
+                    onClick={() => document.getElementById('excel-upload').click()}
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold"
+                  >
+                    <FileSpreadsheet className="mr-2" />
+                    Učitaj Excel
+                  </Button>
+                </label>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent className="p-8 space-y-6">
             <div>
