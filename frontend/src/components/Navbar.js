@@ -32,21 +32,96 @@ const Navbar = () => {
   // Konfeti animacija kada se korisnik prijavi
   useEffect(() => {
     if (isAuthenticated && !previousAuthState) {
-      // Korisnik se upravo prijavio
-      fireConfetti();
+      // Korisnik se upravo prijavio - pali veliki vatromet!
+      fireSpectacularFireworks();
     }
     setPreviousAuthState(isAuthenticated);
   }, [isAuthenticated]);
 
-  const fireConfetti = () => {
+  // Automatski vatromet svakih 5 sekundi kada je korisnik prijavljen
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const fireworksInterval = setInterval(() => {
+      fireSpectacularFireworks();
+    }, 5000); // Svakih 5 sekundi
+
+    return () => clearInterval(fireworksInterval);
+  }, [isAuthenticated]);
+
+  const fireSpectacularFireworks = () => {
     const duration = 3000;
     const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
     function randomInRange(min, max) {
       return Math.random() * (max - min) + min;
     }
 
+    // Raketa efekat - leti odozdo prema gore
+    function fireRocket(x) {
+      confetti({
+        particleCount: 100,
+        startVelocity: 70,
+        spread: 70,
+        angle: 90,
+        origin: { x, y: 1 },
+        colors: ['#FFD700', '#FFA500', '#FF6347', '#FF1493', '#00CED1', '#FF69B4'],
+        ticks: 200,
+        gravity: 1,
+        drift: 0,
+        zIndex: 9999
+      });
+    }
+
+    // Prskalica efekat - eksplozija u jednoj tački
+    function fireBurst(x, y) {
+      confetti({
+        particleCount: 150,
+        startVelocity: 45,
+        spread: 360,
+        angle: randomInRange(55, 125),
+        origin: { x, y },
+        colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32', '#FFA500'],
+        ticks: 150,
+        gravity: 1.2,
+        zIndex: 9999,
+        shapes: ['circle', 'square']
+      });
+    }
+
+    // Kišanje zvezda - pada odozgo
+    function fireStarRain(x) {
+      confetti({
+        particleCount: 80,
+        startVelocity: 10,
+        spread: 50,
+        angle: 270,
+        origin: { x, y: 0 },
+        colors: ['#FFD700', '#FFA500', '#FFFF00', '#FFE4B5'],
+        ticks: 300,
+        gravity: 0.5,
+        zIndex: 9999,
+        shapes: ['star']
+      });
+    }
+
+    // Spiralni efekat
+    function fireSpiral() {
+      const colors = ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32'];
+      confetti({
+        particleCount: 100,
+        startVelocity: 30,
+        spread: 360,
+        origin: { x: 0.5, y: 0.5 },
+        colors: colors,
+        ticks: 200,
+        gravity: 0.8,
+        drift: randomInRange(-2, 2),
+        zIndex: 9999
+      });
+    }
+
+    // Glavni interval - pali različite efekte
     const interval = setInterval(function() {
       const timeLeft = animationEnd - Date.now();
 
@@ -54,24 +129,39 @@ const Navbar = () => {
         return clearInterval(interval);
       }
 
-      const particleCount = 50 * (timeLeft / duration);
-      
-      // Konfeti sa leve strane
+      const timeRatio = timeLeft / duration;
+
+      // Rakete sa različitih pozicija
+      if (Math.random() < 0.4) {
+        fireRocket(randomInRange(0.1, 0.9));
+      }
+
+      // Prskalice na random pozicijama
+      if (Math.random() < 0.5) {
+        fireBurst(randomInRange(0.2, 0.8), randomInRange(0.2, 0.6));
+      }
+
+      // Kišanje zvezda
+      if (Math.random() < 0.3) {
+        fireStarRain(randomInRange(0.3, 0.7));
+      }
+
+      // Spiralni efekat
+      if (Math.random() < 0.2) {
+        fireSpiral();
+      }
+
+      // Dodatni scatter konfeti
       confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32']
+        particleCount: 30 * timeRatio,
+        startVelocity: 30,
+        spread: 360,
+        origin: { x: randomInRange(0.1, 0.9), y: randomInRange(0, 0.5) },
+        colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32', '#FFA500'],
+        ticks: 100,
+        zIndex: 9999
       });
-      
-      // Konfeti sa desne strane
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32']
-      });
-    }, 250);
+    }, 150); // Češće aktiviranje za bogatiji efekat
   };
 
   const handleAuthClick = (mode) => {
