@@ -37,8 +37,8 @@ const QuizzesPage = () => {
 
         {/* Pretraga i Filteri */}
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-12 border-4 border-purple-200">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1 relative">
+          <div className="mb-6">
+            <div className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <Input
                 placeholder="Pretraži kvizove..."
@@ -47,14 +47,6 @@ const QuizzesPage = () => {
                 className="pl-12 py-6 text-lg border-2 border-gray-300 rounded-xl"
               />
             </div>
-            {(isAuthenticated && (user?.isAdmin || user?.isCreator)) && (
-              <Button
-                onClick={() => navigate('/create-quiz')}
-                className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-6 text-lg font-bold rounded-xl"
-              >
-                Napravi Kviz ✨
-              </Button>
-            )}
           </div>
 
           {/* Filter Kategorija */}
