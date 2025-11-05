@@ -9,11 +9,18 @@ import { Clock, CheckCircle, XCircle } from 'lucide-react';
 const QuizTakePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [quiz] = useState(mockQuizzes.find(q => q.id === id));
   const [questions] = useState(mockQuestions[id] || []);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(quiz?.timeLimit * 60 || 900);
+  
+  // Koristi vreme iz location state ili default iz kviza
+  const timeLimit = location.state?.timeLimit ?? quiz?.timeLimit ?? 0;
+  const timeLimitPerQuestion = location.state?.timeLimitPerQuestion ?? quiz?.timeLimitPerQuestion ?? 0;
+  
+  const [timeLeft, setTimeLeft] = useState(timeLimit > 0 ? timeLimit * 60 : 0);
+  const [questionTimeLeft, setQuestionTimeLeft] = useState(timeLimitPerQuestion);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
