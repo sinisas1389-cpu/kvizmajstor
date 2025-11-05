@@ -11,6 +11,7 @@ import { Plus, Trash2, Sparkles, Upload, FileSpreadsheet } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import { categoriesAPI, quizzesAPI } from '../utils/api';
 import { mockCategories, mockCreateQuiz } from '../utils/mock';
+import * as XLSX from 'xlsx';
 
 const CreateQuizPage = () => {
   const navigate = useNavigate();
