@@ -30,6 +30,7 @@ const AdminPanelPage = () => {
     }
 
     fetchUsers();
+    fetchCategories();
   }, [isAuthenticated, user, navigate]);
 
   const fetchUsers = async () => {
@@ -45,6 +46,15 @@ const AdminPanelPage = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const data = await categoriesAPI.getAll();
+      setCategories(data);
+    } catch (error) {
+      console.error('Greška pri učitavanju kategorija:', error);
     }
   };
 
