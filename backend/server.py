@@ -169,9 +169,7 @@ async def create_quiz(quiz_data: QuizCreate, user_id: str = Depends(get_current_
     if not user:
         raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
     
-    # Proveri da li korisnik ima privilegije za kreiranje kvizova
-    if not user.get("isAdmin", False) and not user.get("isCreator", False):
-        raise HTTPException(status_code=403, detail="Nemate dozvolu za kreiranje kvizova")
+    # Svi prijavljeni korisnici mogu kreirati kvizove
     
     quiz = Quiz(
         title=quiz_data.title,
