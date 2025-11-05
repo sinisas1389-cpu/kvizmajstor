@@ -1,0 +1,117 @@
+<analysis>
+The AI engineer successfully built a quiz-based education platform iteratively. Initial work focused on a mock-data frontend, including key pages and UI components, followed by styling adjustments. A significant phase involved extensive Serbian localization across the entire frontend. Backend development then commenced, establishing a FastAPI/MongoDB architecture with authentication and core CRUD operations.
+
+User feedback consistently drove feature additions: dynamic quiz categories, YouTube video integration for lessons, a hybrid Google OAuth and email/password authentication, Excel import for quiz questions, and image support within questions. A challenge arose when the AI engineer misinterpreted the user's request regarding quiz creation privileges, initially allowing all registered users, then corrected to Admin + Selected Creators. The final major feature added was an optional, user-selectable time limit for quizzes, with a proposed speed-based scoring system. The AI demonstrated strong adaptability in implementing complex features and correcting misunderstandings.
+</analysis>
+
+<product_requirements>
+The product is a quiz-based educational website, KvizMajstor, supporting both guest and authenticated users.
+**Core Features:**
+*   **Quiz Functionality:** Create, take, manage categories, view leaderboard, track progress.
+*   **Question Types:** Multiple Choice and True/False.
+*   **User Management:** Registration and Login using email/password, with future Google OAuth integration.
+*   **Localization:** Full Serbian language support for all UI elements and content.
+*   **Dynamic Categories:** User-defined (or admin-managed) quiz categories (e.g., Istorija, Srpski Jezik, Matematika) with associated quizzes.
+*   **Content Enrichment:**
+    *   **YouTube Integration:** Ability for quiz creators to add YouTube lesson links to questions, displayed to users (especially for incorrect answers).
+    *   **Image Support:** Include images within quiz questions via URL input.
+*   **Quiz Creation & Management:**
+    *   **Excel Import:** Upload quiz questions from an Excel file (.xlsx, .xls) with defined columns for question type, text, options, correct answer, YouTube URL, and explanation.
+    *   **Privilege System:** Only Admin and selected Creator users can create quizzes; regular users cannot. An Admin panel is required to manage creators.
+*   **Quiz Taking Experience:**
+    *   **Optional Time Limit:** Users can set a custom time limit (in minutes) for a quiz before starting it, or choose predefined or no time limits.
+    *   **Scoring System:** Speed-based scoring for quizzes with time limits (1000 base points + up to 500 bonus points based on remaining time).
+</product_requirements>
+
+<key_technical_concepts>
+-   **Full-stack Architecture:** React.js (Frontend), FastAPI (Backend), MongoDB (Database).
+-   **Frontend State Management:** React Context API for authentication ().
+-   **UI Framework:** Shadcn UI components for modern, accessible design.
+-   **Routing:** React Router DOM for navigation.
+-   **API Communication:** Axios for HTTP requests.
+-   **Authentication:** JWT-based token authentication (backend), Email/Password, planned Google OAuth (frontend button implemented).
+-   **Database ORM/ODM:**  for asynchronous MongoDB operations.
+-   **Data Validation:** Pydantic models for backend data validation.
+-   **Excel Parsing:**  library (frontend) for importing quiz data.
+</key_technical_concepts>
+
+<code_architecture>
+The application follows a standard full-stack architecture with a React frontend and a FastAPI backend, interacting with a MongoDB database.
+
+**Directory Structure:**
+
+
+**Key Files and Changes:**
+
+-   ****:
+    -   **Importance**: Main React application entry point, defines all client-side routes and wraps the app with  and .
+    -   **Changes**: Updated to include routes for , , , , , , , , and . Integrated  for global authentication state.
+-   ****:
+    -   **Importance**: FastAPI backend application, defines API endpoints, middleware, and database interactions.
+    -   **Changes**: Initially contained basic  and  endpoints. Extensively rewritten to include authentication (, , ), quiz categories (), quiz management (, , ), and user management (including  checks). Middleware for CORS and event handlers for database shutdown were added. It was rewritten from scratch at one point due to indentation and syntax errors.
+-   ****:
+    -   **Importance**: Defines Pydantic models for data validation and MongoDB document structure.
+    -   **Changes**: Expanded to include , , , , , ,  models.  model now includes  and  fields.  model includes , , and  fields.  model had  removed and  added.
+-   ****:
+    -   **Importance**: Handles JWT token generation, verification, and user authentication logic.
+    -   **Changes**: Implemented , , ,  functions. Modified to handle  and  fields in user data and tokens.
+-   ****:
+    -   **Importance**: Manages MongoDB connection and initial data population (e.g., categories).
+    -   **Changes**: Modified to ensure  is called correctly before accessing . Includes  for initial category population.
+-   ****:
+    -   **Importance**: Frontend page for creating new quizzes.
+    -   **Changes**: Integrated with backend API for categories. Added form fields for , ,  for questions. Implemented Excel upload functionality using  to parse quiz data. Removed  selection and added  input.
+-   ****:
+    -   **Importance**: Page where users take quizzes.
+    -   **Changes**: Updated to display  for questions. Modified to receive and utilize a  prop (via ) from  for the countdown.
+-   ****:
+    -   **Importance**: Displays quiz results and explanations.
+    -   **Changes**: Updated to show YouTube video lessons for incorrectly answered questions using the  component.
+-   ****:
+    -   **Importance**: New page for users to select quiz time limits.
+    -   **Changes**: Created to provide options for Standard Time, Custom Time, or No Time Limit before starting a quiz. Passes selected time to .
+-   ****:
+    -   **Importance**: Navigation bar of the application.
+    -   **Changes**: Translated to Serbian. Updated to conditionally display Create Quiz button and Admin Panel link based on user's / status. Added a YouTube channel link.
+-   ****:
+    -   **Importance**: Stores mock data for frontend development before backend integration.
+    -   **Changes**: Translated all content to Serbian. Updated categories to specific Serbian subjects (Istorija, Srpski Jezik, etc.).  field removed,  added to mock quiz objects.
+-   ****:
+    -   **Importance**: Centralized utility for making API calls to the backend.
+    -   **Changes**: Created to abstract backend API calls (authentication, categories, quiz creation, user management).
+-   ****:
+    -   **Importance**: Handles user login and registration forms.
+    -   **Changes**: Translated to Serbian. Added a Prijavi se sa Google (Sign in with Google) button.
+-   ****:
+    -   **Importance**: Documentation for users on how to use image functionality in quizzes.
+    -   **Changes**: Created.
+-   ****:
+    -   **Importance**: Documentation for the new scoring system.
+    -   **Changes**: Created.
+</code_architecture>
+
+<pending_tasks>
+-   **Full Backend Integration**: Integrate , , and  to fetch and display actual data from the backend instead of mock data.
+-   **Google OAuth Backend**: Implement the actual backend flow for Google OAuth authentication.
+-   **Scoring Logic**: Implement the speed-based scoring system in the  and potentially refine the score submission to the backend.
+-   **Image Upload (Direct)**: The user requested both URL and direct image upload; only URL is implemented. Direct file upload and storage for images is pending.
+-   **Admin Panel Functionality**: While the page exists and  endpoint is there, a user-friendly UI for admin to manage creators is pending.
+</pending_tasks>
+
+<current_work>
+Immediately before this summary request, the AI engineer was working on re-implementing the Admin + Selected Creators privilege system for quiz creation, and simultaneously implementing an optional, user-selectable time limit for quizzes.
+
+The privilege system was previously rolled back due to a misunderstanding, but the user explicitly reiterated the requirement. The AI engineer reverted changes to the  model, backend quiz creation logic, and  to ensure only Admins and Creators can create quizzes.
+
+The time limit feature involves:
+1.  **Removing Quiz Difficulty**: The  field was removed from backend models (, ) and frontend UI (, , ).
+2.  **Adding Time Limit Options**:  now includes fields to set an optional  for a quiz.
+3.  **Quiz Setup Page**: A new page, , was created. This page now appears *before* a user starts a quiz, offering three options: Standardno Vreme (Standard Time), Prilagođeno Vreme (Custom Time) with input fields, or Bez Vremenskog Ograničenja (No Time Limit).
+4.  **Integrating Time with Quiz**:  was updated to receive the user-selected  from  via React Router's  hook, to be used for the in-quiz countdown.
+
+The backend was restarted successfully after these changes, and a screenshot confirmed the  correctly displays the time selection options.
+</current_work>
+
+<optional_next_step>
+Implement the detailed speed-based scoring logic in  and ensure quiz submissions accurately reflect this new scoring.
+</optional_next_step>
