@@ -150,7 +150,7 @@ const AdminPanelPage = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-4 gap-6 mb-12">
           <Card className="border-4 border-purple-300 shadow-xl">
             <CardContent className="p-6 text-center">
               <Users className="w-12 h-12 mx-auto mb-4 text-purple-600" />
@@ -174,7 +174,122 @@ const AdminPanelPage = () => {
               <p className="text-sm font-bold text-gray-600">Obični Korisnici</p>
             </CardContent>
           </Card>
+
+          <Card className="border-4 border-green-300 shadow-xl">
+            <CardContent className="p-6 text-center">
+              <Grid3x3 className="w-12 h-12 mx-auto mb-4 text-green-600" />
+              <p className="text-4xl font-black text-green-600 mb-2">{categories.length}</p>
+              <p className="text-sm font-bold text-gray-600">Kategorije</p>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Kategorije */}
+        <Card className="border-4 border-green-400 shadow-xl mb-8">
+          <CardHeader className="bg-gradient-to-r from-green-100 to-teal-100">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-3xl font-black flex items-center gap-2">
+                <Grid3x3 className="w-8 h-8 text-green-600" />
+                Kategorije ({categories.length})
+              </CardTitle>
+              <Button
+                onClick={() => setShowAddCategory(!showAddCategory)}
+                className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold"
+              >
+                <FolderPlus className="mr-2 w-4 h-4" />
+                {showAddCategory ? 'Otkaži' : 'Dodaj Kategoriju'}
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            {/* Forma za dodavanje kategorije */}
+            {showAddCategory && (
+              <Card className="border-2 border-green-300 mb-6 bg-green-50">
+                <CardContent className="p-6">
+                  <form onSubmit={handleAddCategory} className="space-y-4">
+                    <div>
+                      <Label className="font-bold mb-2 block">Ime Kategorije</Label>
+                      <Input
+                        type="text"
+                        placeholder="npr. Geografija"
+                        value={newCategory.name}
+                        onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
+                        className="border-2 border-green-300"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label className="font-bold mb-2 block">Ikona (Emoji)</Label>
+                      <Input
+                        type="text"
+                        placeholder="npr. 🌍"
+                        value={newCategory.icon}
+                        onChange={(e) => setNewCategory({...newCategory, icon: e.target.value})}
+                        className="border-2 border-green-300 text-3xl"
+                        maxLength={2}
+                        required
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Kopirajte emoji sa: <a href="https://emojipedia.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">emojipedia.org</a></p>
+                    </div>
+                    <div>
+                      <Label className="font-bold mb-2 block">Boja (Hex)</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={newCategory.color}
+                          onChange={(e) => setNewCategory({...newCategory, color: e.target.value})}
+                          className="w-20 h-12 border-2 border-green-300"
+                        />
+                        <Input
+                          type="text"
+                          value={newCategory.color}
+                          onChange={(e) => setNewCategory({...newCategory, color: e.target.value})}
+                          className="flex-1 border-2 border-green-300"
+                          placeholder="#FFE66D"
+                        />
+                      </div>
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-4"
+                    >
+                      <FolderPlus className="mr-2 w-5 h-5" />
+                      Kreiraj Kategoriju
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Lista kategorija */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {categories.map(cat => (
+                <Card
+                  key={cat.id}
+                  className="border-4 shadow-lg hover:shadow-xl transition-all"
+                  style={{ borderColor: cat.color }}
+                >
+                  <CardContent className="p-6" style={{ backgroundColor: cat.color + '20' }}>
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="text-5xl">{cat.icon}</div>
+                      <Button
+                        onClick={() => handleDeleteCategory(cat.id, cat.name)}
+                        variant="destructive"
+                        size="sm"
+                        className="font-bold"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <h3 className="font-black text-xl text-gray-800 mb-1">{cat.name}</h3>
+                    <p className="text-sm text-gray-600 font-bold">{cat.quizCount} kvizova</p>
+                    <p className="text-xs text-gray-500 font-medium mt-2">Boja: {cat.color}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Kreatori */}
         <Card className="border-4 border-yellow-400 shadow-xl mb-8">
