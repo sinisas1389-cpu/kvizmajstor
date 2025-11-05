@@ -79,24 +79,6 @@ const QuizzesPage = () => {
             </div>
           </div>
 
-          {/* Filter Težine */}
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Filter className="w-5 h-5 text-purple-600" />
-              <span className="font-bold text-gray-700">Težina:</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {['all', 'Lako', 'Srednje', 'Teško'].map(diff => (
-                <Badge
-                  key={diff}
-                  onClick={() => setSelectedDifficulty(diff)}
-                  className={`cursor-pointer px-4 py-2 text-sm font-bold ${selectedDifficulty === diff ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-                >
-                  {diff === 'all' ? 'Svi Nivoi' : diff}
-                </Badge>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Mreža Kvizova */}
