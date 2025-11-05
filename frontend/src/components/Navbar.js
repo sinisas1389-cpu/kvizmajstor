@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import { useAuth } from '../context/AuthContext';
 import { Menu, X, User, LogOut, Trophy, BookOpen, Plus, Shield } from 'lucide-react';
 import AuthModal from './AuthModal';
-import confetti from 'canvas-confetti';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -12,7 +11,6 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
-  const [previousAuthState, setPreviousAuthState] = useState(false);
 
   // Funkcija za skraćivanje korisničkog imena
   const getDisplayName = (username) => {
