@@ -151,13 +151,15 @@ const Navbar = () => {
               </Link>
               {isAuthenticated && (
                 <>
-                  <Link
-                    to="/create-quiz"
-                    className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    ✨ Napravi Kviz
-                  </Link>
+                  {(user?.isAdmin || user?.isCreator) && (
+                    <Link
+                      to="/create-quiz"
+                      className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      ✨ Napravi Kviz
+                    </Link>
+                  )}
                   <Link
                     to="/profile"
                     className="block py-3 px-4 rounded-lg font-bold text-gray-700 hover:bg-purple-50"
