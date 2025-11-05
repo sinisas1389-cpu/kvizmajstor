@@ -14,7 +14,14 @@ const AdminPanelPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const [users, setUsers] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCategory, setNewCategory] = useState({
+    name: '',
+    icon: '',
+    color: '#FFE66D'
+  });
 
   useEffect(() => {
     if (!isAuthenticated || !user?.isAdmin) {
