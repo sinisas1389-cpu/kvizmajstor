@@ -64,7 +64,7 @@ const Navbar = () => {
                 </svg>
                 YouTube
               </a>
-              {isAuthenticated && (
+              {(isAuthenticated && (user?.isAdmin || user?.isCreator)) && (
                 <Link
                   to="/create-quiz"
                   className="flex items-center gap-2 font-bold text-gray-700 hover:text-purple-600 transition-colors"
