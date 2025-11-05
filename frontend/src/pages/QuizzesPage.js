@@ -12,14 +12,12 @@ const QuizzesPage = () => {
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(location.state?.categoryId || 'all');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('all');
 
   const filteredQuizzes = mockQuizzes.filter(quiz => {
     const matchesSearch = quiz.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          quiz.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || quiz.categoryId === selectedCategory;
-    const matchesDifficulty = selectedDifficulty === 'all' || quiz.difficulty === selectedDifficulty;
-    return matchesSearch && matchesCategory && matchesDifficulty;
+    return matchesSearch && matchesCategory;
   });
 
   const getDifficultyColor = (difficulty) => {
