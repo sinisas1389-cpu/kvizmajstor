@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { mockCategories, mockQuizzes } from '../utils/mock';
-import { Sparkles, Trophy, Users, Zap } from 'lucide-react';
+import { mockCategories, mockQuizzes, mockLeaderboard } from '../utils/mock';
+import { Sparkles, Trophy, Users, Zap, Award, Medal } from 'lucide-react';
 
 const HomePage = () => {
   const navigate = useNavigate();
