@@ -32,6 +32,7 @@ const CreateQuizPage = () => {
     question: '',
     options: ['', '', '', ''],
     correctAnswer: 0,
+    imageUrl: '',
     youtubeUrl: '',
     explanation: ''
   });
