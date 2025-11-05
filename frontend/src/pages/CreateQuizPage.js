@@ -327,6 +327,7 @@ const CreateQuizPage = () => {
                         'Opcija3': '5',
                         'Opcija4': '6',
                         'TačanOdgovor': '2',
+                        'SlikaURL': 'https://example.com/slika.jpg',
                         'YouTubeURL': '',
                         'Objašnjenje': 'Osnovna matematika: 2+2=4'
                       },
@@ -338,6 +339,7 @@ const CreateQuizPage = () => {
                         'Opcija3': '',
                         'Opcija4': '',
                         'TačanOdgovor': 'true',
+                        'SlikaURL': '',
                         'YouTubeURL': '',
                         'Objašnjenje': 'Zemlja je sferni oblik'
                       }
