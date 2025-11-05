@@ -27,11 +27,6 @@ const Navbar = () => {
     return username.length > 15 ? username.substring(0, 15) + '...' : username;
   };
 
-  // Praćenje stanja autentifikacije
-  useEffect(() => {
-    setPreviousAuthState(isAuthenticated);
-  }, [isAuthenticated]);
-
   const handleAuthClick = (mode) => {
     setAuthMode(mode);
     setShowAuthModal(true);
