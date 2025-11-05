@@ -177,9 +177,9 @@ async def create_quiz(quiz_data: QuizCreate, user_id: str = Depends(get_current_
         title=quiz_data.title,
         description=quiz_data.description,
         categoryId=quiz_data.categoryId,
-        difficulty=quiz_data.difficulty,
         questionCount=len(quiz_data.questions),
         timeLimit=quiz_data.timeLimit,
+        timeLimitPerQuestion=quiz_data.timeLimitPerQuestion,
         createdBy=user["username"],
         questions=[q.dict() for q in quiz_data.questions]
     )
@@ -189,8 +189,8 @@ async def create_quiz(quiz_data: QuizCreate, user_id: str = Depends(get_current_
     
     return QuizResponse(
         id=quiz.id, title=quiz.title, description=quiz.description,
-        categoryId=quiz.categoryId, difficulty=quiz.difficulty,
-        questionCount=quiz.questionCount, timeLimit=quiz.timeLimit,
+        categoryId=quiz.categoryId, questionCount=quiz.questionCount, 
+        timeLimit=quiz.timeLimit, timeLimitPerQuestion=quiz.timeLimitPerQuestion,
         plays=quiz.plays, rating=quiz.rating, createdBy=quiz.createdBy
     )
 
