@@ -6,10 +6,12 @@ import { Input } from '../components/ui/input';
 import { Badge } from '../components/ui/badge';
 import { mockQuizzes, mockCategories } from '../utils/mock';
 import { Search, Clock, Star, Play, Filter } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const QuizzesPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(location.state?.categoryId || 'all');
 
