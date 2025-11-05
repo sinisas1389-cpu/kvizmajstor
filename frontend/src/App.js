@@ -6,6 +6,7 @@ import { Toaster } from "./components/ui/sonner";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import QuizzesPage from "./pages/QuizzesPage";
+import QuizSetupPage from "./pages/QuizSetupPage";
 import QuizTakePage from "./pages/QuizTakePage";
 import QuizResultPage from "./pages/QuizResultPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
