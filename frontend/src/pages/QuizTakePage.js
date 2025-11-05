@@ -116,6 +116,20 @@ const QuizTakePage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8">
+            {/* Slika ako postoji */}
+            {currentQ.imageUrl && (
+              <div className="mb-6 rounded-xl overflow-hidden border-4 border-purple-200">
+                <img 
+                  src={currentQ.imageUrl} 
+                  alt="Pitanje slika"
+                  className="w-full max-h-96 object-contain bg-gray-50"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+
             {currentQ.type === 'multiple' ? (
               <div className="space-y-4">
                 {currentQ.options.map((option, idx) => (
