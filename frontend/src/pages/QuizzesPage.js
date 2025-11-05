@@ -96,7 +96,7 @@ const QuizzesPage = () => {
         {/* Mreža Kvizova */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredQuizzes.map(quiz => {
-            const category = mockCategories.find(c => c.id === quiz.categoryId);
+            const category = categories.find(c => c.id === quiz.categoryId);
             return (
               <Card
                 key={quiz.id}
