@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useAuth } from '../context/AuthContext';
 import { Menu, X, User, LogOut, Trophy, BookOpen, Plus, Shield } from 'lucide-react';
 import AuthModal from './AuthModal';
+import confetti from 'canvas-confetti';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,6 +12,67 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
+  const [previousAuthState, setPreviousAuthState] = useState(false);
+
+  // Funkcija za skraćivanje korisničkog imena
+  const getDisplayName = (username) => {
+    if (!username) return '';
+    
+    // Ako je email, uzmi deo pre @
+    if (username.includes('@')) {
+      const emailPart = username.split('@')[0];
+      // Ako je još uvek predugačko, skrati na 12 karaktera
+      return emailPart.length > 12 ? emailPart.substring(0, 12) + '...' : emailPart;
+    }
+    
+    // Ako je obično username, skrati na 15 karaktera
+    return username.length > 15 ? username.substring(0, 15) + '...' : username;
+  };
+
+  // Konfeti animacija kada se korisnik prijavi
+  useEffect(() => {
+    if (isAuthenticated && !previousAuthState) {
+      // Korisnik se upravo prijavio
+      fireConfetti();
+    }
+    setPreviousAuthState(isAuthenticated);
+  }, [isAuthenticated]);
+
+  const fireConfetti = () => {
+    const duration = 3000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      
+      // Konfeti sa leve strane
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32']
+      });
+      
+      // Konfeti sa desne strane
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32']
+      });
+    }, 250);
+  };
 
   const handleAuthClick = (mode) => {
     setAuthMode(mode);
