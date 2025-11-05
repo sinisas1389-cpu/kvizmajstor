@@ -165,6 +165,7 @@ const CreateQuizPage = () => {
               question: question,
               options: options,
               correctAnswer: Math.max(0, Math.min(correctAnswer, options.length - 1)),
+              imageUrl: row['SlikaURL'] || row['ImageURL'] || '',
               youtubeUrl: row['YouTubeURL'] || row['YouTube'] || '',
               explanation: row['Objašnjenje'] || row['Explanation'] || ''
             });
