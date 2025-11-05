@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Badge } from '../components/ui/badge';
-import { mockQuizzes, mockCategories } from '../utils/mock';
+import { mockQuizzes } from '../utils/mock';
+import { categoriesAPI } from '../utils/api';
 import { Search, Clock, Star, Play, Filter } from 'lucide-react';
 
 const QuizzesPage = () => {
@@ -12,6 +13,23 @@ const QuizzesPage = () => {
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(location.state?.categoryId || 'all');
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const data = await categoriesAPI.getAll();
+      setCategories(data);
+    } catch (error) {
+      console.error('Greška pri učitavanju kategorija:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredQuizzes = mockQuizzes.filter(quiz => {
     const matchesSearch = quiz.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
