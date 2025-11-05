@@ -77,9 +77,9 @@ class Quiz(BaseModel):
     title: str
     description: str
     categoryId: str
-    difficulty: str
     questionCount: int
-    timeLimit: int
+    timeLimit: int  # Ukupno vreme u minutama (0 = bez limita)
+    timeLimitPerQuestion: Optional[int] = None  # Vreme po pitanju u sekundama
     plays: int = 0
     rating: float = 0.0
     createdBy: str
