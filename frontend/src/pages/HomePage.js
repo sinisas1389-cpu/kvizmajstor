@@ -48,10 +48,19 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Lebdeći comic elementi */}
-          <div className="absolute top-10 left-10 w-24 h-24 bg-yellow-400 rounded-full animate-bounce opacity-20"></div>
-          <div className="absolute bottom-20 right-20 w-32 h-32 bg-pink-400 rounded-full animate-pulse opacity-20"></div>
-          <div className="absolute top-1/2 right-10 w-20 h-20 bg-blue-400 rounded-full animate-bounce opacity-20" style={{ animationDelay: '0.5s' }}></div>
+          {/* Lebdeći naučni elementi */}
+          <div className="absolute top-10 left-10 text-6xl animate-bounce opacity-70">🔬</div>
+          <div className="absolute top-20 right-32 text-5xl animate-pulse opacity-60" style={{ animationDelay: '0.3s' }}>💻</div>
+          <div className="absolute bottom-32 left-20 text-7xl animate-bounce opacity-50" style={{ animationDelay: '0.7s' }}>🧪</div>
+          <div className="absolute top-1/3 right-20 text-6xl animate-pulse opacity-60">📚</div>
+          <div className="absolute bottom-20 right-1/4 text-5xl animate-bounce opacity-70" style={{ animationDelay: '0.5s' }}>🧬</div>
+          <div className="absolute top-40 left-1/4 text-6xl animate-pulse opacity-50" style={{ animationDelay: '1s' }}>⚛️</div>
+          <div className="absolute bottom-40 left-1/3 text-5xl animate-bounce opacity-60" style={{ animationDelay: '0.2s' }}>🔭</div>
+          <div className="absolute top-1/2 left-16 text-7xl animate-pulse opacity-40" style={{ animationDelay: '0.8s' }}>🧮</div>
+          <div className="absolute top-24 right-1/3 text-5xl animate-bounce opacity-70">✏️</div>
+          <div className="absolute bottom-24 right-16 text-6xl animate-pulse opacity-50" style={{ animationDelay: '0.6s' }}>🎓</div>
+          <div className="absolute top-60 left-1/2 text-5xl animate-bounce opacity-60" style={{ animationDelay: '0.4s' }}>📐</div>
+          <div className="absolute bottom-60 right-1/2 text-6xl animate-pulse opacity-50" style={{ animationDelay: '0.9s' }}>🔍</div>
         </div>
       </section>
 
