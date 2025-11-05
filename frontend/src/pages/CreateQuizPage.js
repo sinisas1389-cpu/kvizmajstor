@@ -125,6 +125,95 @@ const CreateQuizPage = () => {
     }
   };
 
+  const handleExcelUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = evt.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+        const questions = [];
+        
+        jsonData.forEach((row, idx) => {
+          // Format očekujemo: Tip | Pitanje | Opcija1 | Opcija2 | Opcija3 | Opcija4 | TačanOdgovor | YouTubeURL | Objašnjenje
+          const type = (row['Tip'] || row['Type'] || '').toLowerCase();
+          const question = row['Pitanje'] || row['Question'] || '';
+          
+          if (!question.trim()) return;
+
+          if (type === 'multiple' || type === 'višestruki') {
+            const options = [
+              row['Opcija1'] || row['Option1'] || '',
+              row['Opcija2'] || row['Option2'] || '',
+              row['Opcija3'] || row['Option3'] || '',
+              row['Opcija4'] || row['Option4'] || ''
+            ].filter(opt => opt.trim());
+
+            const correctAnswer = parseInt(row['TačanOdgovor'] || row['CorrectAnswer'] || '1') - 1;
+
+            questions.push({
+              id: 'q' + Date.now() + idx,
+              type: 'multiple',
+              question: question,
+              options: options,
+              correctAnswer: Math.max(0, Math.min(correctAnswer, options.length - 1)),
+              youtubeUrl: row['YouTubeURL'] || row['YouTube'] || '',
+              explanation: row['Objašnjenje'] || row['Explanation'] || ''
+            });
+          } else if (type === 'true-false' || type === 'tačno-netačno') {
+            const correctAnswer = (row['TačanOdgovor'] || row['CorrectAnswer'] || 'true').toString().toLowerCase();
+            
+            questions.push({
+              id: 'q' + Date.now() + idx,
+              type: 'true-false',
+              question: question,
+              options: [],
+              correctAnswer: correctAnswer === 'true' || correctAnswer === 'tačno' || correctAnswer === '1',
+              youtubeUrl: row['YouTubeURL'] || row['YouTube'] || '',
+              explanation: row['Objašnjenje'] || row['Explanation'] || ''
+            });
+          }
+        });
+
+        if (questions.length === 0) {
+          toast({ 
+            title: 'Greška', 
+            description: 'Nisu pronađena validna pitanja u Excel fajlu',
+            variant: 'destructive'
+          });
+          return;
+        }
+
+        setQuizData(prev => ({
+          ...prev,
+          questions: [...prev.questions, ...questions]
+        }));
+
+        toast({ 
+          title: `Uspešno učitano ${questions.length} pitanja! 📊`,
+          description: 'Možete ih pregledati i izmeniti pre kreiranja kviza'
+        });
+
+      } catch (error) {
+        console.error('Greška pri parsiranju Excel fajla:', error);
+        toast({ 
+          title: 'Greška', 
+          description: 'Nije moguće učitati Excel fajl. Proverite format.',
+          variant: 'destructive' 
+        });
+      }
+    };
+
+    reader.readAsBinaryString(file);
+    e.target.value = ''; // Reset input
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 py-12 px-6">
       <div className="max-w-5xl mx-auto">
