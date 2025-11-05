@@ -17,9 +17,9 @@ export const mockQuizzes = [
     title: 'Osnove Algebre',
     description: 'Testirajte svoje veštine algebre sa osnovnim jednačinama',
     categoryId: '4',
-    difficulty: 'Lako',
     questionCount: 10,
     timeLimit: 15,
+    timeLimitPerQuestion: 30,
     plays: 1250,
     rating: 4.5,
     createdBy: 'Prof. Marković'
@@ -29,9 +29,9 @@ export const mockQuizzes = [
     title: 'Osnove Hemije',
     description: 'Istražite periodnu tabelu i hemijske reakcije',
     categoryId: '8',
-    difficulty: 'Srednje',
     questionCount: 15,
     timeLimit: 20,
+    timeLimitPerQuestion: 45,
     plays: 890,
     rating: 4.7,
     createdBy: 'Dr. Jovanović'
@@ -41,9 +41,9 @@ export const mockQuizzes = [
     title: 'Istorija Srbije',
     description: 'Testirajte svoje znanje o istoriji Srbije',
     categoryId: '1',
-    difficulty: 'Teško',
     questionCount: 20,
-    timeLimit: 25,
+    timeLimit: 0,  // Bez limita
+    timeLimitPerQuestion: 0,
     plays: 650,
     rating: 4.8,
     createdBy: 'Prof. Petrović'
@@ -53,9 +53,9 @@ export const mockQuizzes = [
     title: 'Glavni Gradovi Sveta',
     description: 'Koliko dobro poznajete glavne gradove?',
     categoryId: '3',
-    difficulty: 'Srednje',
     questionCount: 12,
     timeLimit: 18,
+    timeLimitPerQuestion: 60,
     plays: 2100,
     rating: 4.6,
     createdBy: 'Nastavnik Nikolić'
@@ -65,9 +65,9 @@ export const mockQuizzes = [
     title: 'Python Osnove',
     description: 'Započnite svoje programersko putovanje sa Python-om',
     categoryId: '6',
-    difficulty: 'Lako',
     questionCount: 10,
     timeLimit: 15,
+    timeLimitPerQuestion: 90,
     plays: 3200,
     rating: 4.9,
     createdBy: 'CodeMaster'
@@ -77,21 +77,21 @@ export const mockQuizzes = [
     title: 'Srpska Književnost',
     description: 'Koliko poznajete klasike srpske književnosti?',
     categoryId: '2',
-    difficulty: 'Srednje',
     questionCount: 15,
     timeLimit: 20,
+    timeLimitPerQuestion: 0,  // Bez limita
     plays: 1450,
     rating: 4.6,
     createdBy: 'Prof. Stanković'
   },
   {
     id: '7',
-    title: 'Životinji Svet',
+    title: 'Životinjski Svet',
     description: 'Testirajte svoje znanje o životinjama i ekosistemima',
     categoryId: '5',
-    difficulty: 'Lako',
     questionCount: 12,
-    timeLimit: 15,
+    timeLimit: 0,  // Bez limita
+    timeLimitPerQuestion: 0,
     plays: 1820,
     rating: 4.7,
     createdBy: 'Dr. Simić'
@@ -101,9 +101,9 @@ export const mockQuizzes = [
     title: 'Njutnovi Zakoni',
     description: 'Razumite osnovne principe fizike',
     categoryId: '7',
-    difficulty: 'Teško',
     questionCount: 18,
     timeLimit: 25,
+    timeLimitPerQuestion: 60,
     plays: 980,
     rating: 4.8,
     createdBy: 'Prof. Nikolić'
