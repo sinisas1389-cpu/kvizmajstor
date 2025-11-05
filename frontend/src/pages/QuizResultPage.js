@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Trophy, Target, Clock, Share2, BookOpen } from 'lucide-react';
 import YouTubePlayer from '../components/YouTubePlayer';
+import confetti from 'canvas-confetti';
 
 const QuizResultPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { result, quiz, userAnswers, questions } = location.state || {};
+  const fireworksFiredRef = useRef(false);
 
   if (!result || !quiz) {
     return (
@@ -25,6 +27,163 @@ const QuizResultPage = () => {
   }
 
   const isPassed = result.score >= 70;
+  const isPerfectScore = result.score === 100;
+  
+  // Vatromet za savršen rezultat - samo jednom!
+  useEffect(() => {
+    if (isPerfectScore && !fireworksFiredRef.current) {
+      fireworksFiredRef.current = true;
+      setTimeout(() => {
+        firePerfectScoreFireworks();
+      }, 500);
+    }
+  }, [isPerfectScore]);
+
+  const firePerfectScoreFireworks = () => {
+    const duration = 5000; // Traje 5 sekundi
+    const animationEnd = Date.now() + duration;
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    // Poboljšani efekat rakete - bolja raspodela
+    function fireRocket(x, delay = 0) {
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          startVelocity: 60,
+          spread: 50,
+          angle: 90,
+          origin: { x, y: 1 },
+          colors: ['#FFD700', '#FFA500', '#FF6347'],
+          ticks: 200,
+          gravity: 1,
+          scalar: 1.2,
+          zIndex: 9999
+        });
+      }, delay);
+    }
+
+    // Poboljšani burst - više raspršen
+    function fireBurst(x, y) {
+      const burstCount = 3;
+      for (let i = 0; i < burstCount; i++) {
+        setTimeout(() => {
+          confetti({
+            particleCount: 40,
+            startVelocity: 40,
+            spread: 360,
+            angle: randomInRange(0, 360),
+            origin: { x: x + randomInRange(-0.1, 0.1), y: y + randomInRange(-0.05, 0.05) },
+            colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32'],
+            ticks: 120,
+            gravity: 1,
+            scalar: 1.5,
+            zIndex: 9999
+          });
+        }, i * 100);
+      }
+    }
+
+    // Poboljšano kišanje zvezda - više raspršeno
+    function fireStarRain() {
+      const positions = [0.2, 0.35, 0.5, 0.65, 0.8];
+      positions.forEach((x, i) => {
+        setTimeout(() => {
+          confetti({
+            particleCount: 30,
+            startVelocity: 20,
+            spread: 40,
+            angle: 270,
+            origin: { x, y: 0 },
+            colors: ['#FFD700', '#FFA500', '#FFFF00'],
+            ticks: 200,
+            gravity: 0.6,
+            scalar: 1.3,
+            shapes: ['star', 'circle'],
+            zIndex: 9999
+          });
+        }, i * 150);
+      });
+    }
+
+    // Spirala sa boljom distribucijom
+    function fireSpiral() {
+      const spiralCount = 8;
+      for (let i = 0; i < spiralCount; i++) {
+        setTimeout(() => {
+          const angle = (i / spiralCount) * 360;
+          confetti({
+            particleCount: 20,
+            startVelocity: 35,
+            spread: 60,
+            angle: angle,
+            origin: { x: 0.5, y: 0.5 },
+            colors: ['#FFD700', '#FF69B4', '#00CED1', '#9370DB'],
+            ticks: 150,
+            gravity: 0.8,
+            drift: randomInRange(-1, 1),
+            scalar: 1.2,
+            zIndex: 9999
+          });
+        }, i * 80);
+      }
+    }
+
+    // Glavni interval sa boljom sekvencom
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      // Rakete sa više pozicija (manje grupisano)
+      if (Math.random() < 0.3) {
+        const positions = [0.15, 0.35, 0.5, 0.65, 0.85];
+        const randomPos = positions[Math.floor(Math.random() * positions.length)];
+        fireRocket(randomPos);
+      }
+
+      // Burst sa različitim pozicijama (manje grupisano)
+      if (Math.random() < 0.25) {
+        fireBurst(randomInRange(0.2, 0.8), randomInRange(0.2, 0.5));
+      }
+
+      // Kišanje zvezda sa više lokacija
+      if (Math.random() < 0.2) {
+        fireStarRain();
+      }
+
+      // Spirala
+      if (Math.random() < 0.15) {
+        fireSpiral();
+      }
+
+      // Random scatter sa manjim grupama
+      if (Math.random() < 0.4) {
+        const scatterPositions = [
+          { x: 0.2, y: 0.3 },
+          { x: 0.5, y: 0.4 },
+          { x: 0.8, y: 0.3 },
+          { x: 0.35, y: 0.6 },
+          { x: 0.65, y: 0.6 }
+        ];
+        const pos = scatterPositions[Math.floor(Math.random() * scatterPositions.length)];
+        confetti({
+          particleCount: 15,
+          startVelocity: 25,
+          spread: 100,
+          origin: pos,
+          colors: ['#FFD700', '#FF69B4', '#00CED1', '#FF6347', '#9370DB', '#32CD32'],
+          ticks: 100,
+          scalar: 1.2,
+          zIndex: 9999
+        });
+      }
+    }, 200);
+  };
   
   // Pronađi pitanja sa YouTube linkovima na koja je korisnik pogrešno odgovorio
   const wrongAnswersWithVideos = [];
