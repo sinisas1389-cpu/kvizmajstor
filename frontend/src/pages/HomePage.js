@@ -238,8 +238,16 @@ const HomePage = () => {
       </section>
 
       {/* Pregled Kategorija */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-6 relative overflow-hidden">
+        {/* Pozadinski naučni elementi */}
+        <div className="absolute top-12 left-12 text-6xl animate-bounce opacity-30">🧮</div>
+        <div className="absolute top-20 right-20 text-5xl animate-pulse opacity-35" style={{ animationDelay: '0.3s' }}>🔍</div>
+        <div className="absolute bottom-20 left-16 text-6xl animate-pulse opacity-30" style={{ animationDelay: '0.6s' }}>💻</div>
+        <div className="absolute bottom-12 right-12 text-5xl animate-bounce opacity-35" style={{ animationDelay: '0.9s' }}>🧬</div>
+        <div className="absolute top-1/3 left-1/4 text-5xl animate-pulse opacity-25" style={{ animationDelay: '0.4s' }}>⚛️</div>
+        <div className="absolute top-2/3 right-1/4 text-6xl animate-bounce opacity-30" style={{ animationDelay: '0.7s' }}>🔬</div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <h2 className="text-5xl font-black text-center mb-16">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600">
               Istraži Kategorije 🎨
