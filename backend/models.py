@@ -91,9 +91,9 @@ class QuizResponse(BaseModel):
     title: str
     description: str
     categoryId: str
-    difficulty: str
     questionCount: int
     timeLimit: int
+    timeLimitPerQuestion: Optional[int] = None
     plays: int
     rating: float
     createdBy: str
