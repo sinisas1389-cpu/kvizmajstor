@@ -178,6 +178,7 @@ const CreateQuizPage = () => {
               question: question,
               options: [],
               correctAnswer: correctAnswer === 'true' || correctAnswer === 'tačno' || correctAnswer === '1',
+              imageUrl: row['SlikaURL'] || row['ImageURL'] || '',
               youtubeUrl: row['YouTubeURL'] || row['YouTube'] || '',
               explanation: row['Objašnjenje'] || row['Explanation'] || ''
             });
