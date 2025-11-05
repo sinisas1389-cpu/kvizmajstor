@@ -157,15 +157,15 @@ const HomePage = () => {
                 <CardContent className="p-6 text-center">
                   <div className="flex justify-center mb-4">
                     <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-                      <Award className="w-10 h-10 text-white" />
+                      <span className="text-4xl">🥉</span>
                     </div>
                   </div>
                   <div className="text-5xl mb-4">{mockLeaderboard[2].avatar}</div>
                   <h3 className="text-2xl font-black text-gray-800 mb-2">{mockLeaderboard[2].username}</h3>
                   <p className="text-4xl font-black text-orange-600 mb-2">{mockLeaderboard[2].score}</p>
-                  <p className="text-sm text-gray-600 font-bold">points</p>
+                  <p className="text-sm text-gray-600 font-bold">poena</p>
                   <div className="mt-4 pt-4 border-t-2 border-orange-300">
-                    <p className="text-sm text-gray-600 font-bold">{mockLeaderboard[2].quizzesCompleted} quizzes completed</p>
+                    <p className="text-sm text-gray-600 font-bold">{mockLeaderboard[2].quizzesCompleted} kvizova završeno</p>
                   </div>
                 </CardContent>
               </Card>
