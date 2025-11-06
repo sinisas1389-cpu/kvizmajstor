@@ -142,6 +142,18 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ Default timeLimit behavior working correctly. Quiz list shows timeLimit: 0 for existing quizzes. Quiz creation endpoints properly handle timeLimit defaults."
+  
+  - task: "Answer comparison logic for True/False questions"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ ANSWER NORMALIZATION LOGIC VERIFIED: Tested POST /api/quizzes/{quiz_id}/submit endpoint answer comparison logic. All 32 test scenarios passed including: Boolean true/false answers, String 'true'/'false' answers (any case), Mixed boolean/string comparisons, and proper score calculation. The normalization logic correctly converts all answer types to lowercase strings for comparison, ensuring both boolean and string submissions work correctly."
 
 frontend:
   - task: "CreateQuizPage - Remove manual question adding section"
