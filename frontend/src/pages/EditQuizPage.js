@@ -108,9 +108,15 @@ const EditQuizPage = () => {
       }
     }
 
+    // Generate unique ID for new question
+    const newQuestion = {
+      ...currentQuestion,
+      id: 'q' + Date.now() + Math.random().toString(36).substring(7)
+    };
+    
     setQuizData(prev => ({
       ...prev,
-      questions: [...prev.questions, { ...currentQuestion }]
+      questions: [...prev.questions, newQuestion]
     }));
 
     setCurrentQuestion({
