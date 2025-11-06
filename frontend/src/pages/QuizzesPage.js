@@ -5,12 +5,15 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Badge } from '../components/ui/badge';
 import { mockQuizzes } from '../utils/mock';
-import { categoriesAPI } from '../utils/api';
-import { Search, Clock, Star, Play, Filter } from 'lucide-react';
+import { categoriesAPI, quizzesAPI } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
+import { Search, Clock, Star, Play, Filter, Edit, Trash2 } from 'lucide-react';
+import { toast } from '../hooks/use-toast';
 
 const QuizzesPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(location.state?.categoryId || 'all');
   const [categories, setCategories] = useState([]);
