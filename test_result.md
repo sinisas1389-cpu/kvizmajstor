@@ -112,7 +112,7 @@ user_problem_statement: |
 backend:
   - task: "Remove timeLimitPerQuestion from Quiz model and API"
     implemented: true
-    working: false
+    working: true
     file: "server.py, models.py"
     stuck_count: 1
     priority: "high"
@@ -124,6 +124,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "CRITICAL BUG: GET /quizzes/{quiz_id} endpoint still returns timeLimitPerQuestion field from database. Line 135 in server.py still sets timeLimitPerQuestion=quiz.get('timeLimitPerQuestion') in quiz list endpoint. The get_quiz endpoint returns raw database data without filtering."
+      - working: true
+        agent: "testing"
+        comment: "✅ REGRESSION TEST PASSED: Both GET /api/quizzes and GET /api/quizzes/{quiz_id} endpoints now correctly return timeLimit field (default 0) and NO timeLimitPerQuestion field. The fix has been successfully implemented using QuizResponse model for consistent API contract."
   
   - task: "Set default timeLimit to 0 for quiz creation"
     implemented: true
