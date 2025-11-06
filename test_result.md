@@ -239,3 +239,5 @@ agent_communication:
     message: "🔍 Backend testing completed. CRITICAL BUG FOUND: timeLimitPerQuestion still returned by GET /quizzes/{quiz_id} endpoint. Quiz questions and submission working correctly. Quiz creation tests blocked by permissions (need Admin/Creator user). See detailed findings in backend task status."
   - agent: "testing"
     message: "✅ REGRESSION TEST COMPLETED: timeLimitPerQuestion fix verified successfully! Both GET /api/quizzes and GET /api/quizzes/{quiz_id} endpoints now return timeLimit (default 0) and NO timeLimitPerQuestion field. Backend API is working correctly for the reported bug fix."
+  - agent: "testing"
+    message: "✅ ANSWER COMPARISON TESTING COMPLETED: Verified POST /api/quizzes/{quiz_id}/submit endpoint answer normalization logic. All test scenarios passed: Boolean true/false answers work correctly, String 'true'/'false' answers (any case) work correctly, Mixed answer types are properly normalized. The backend correctly handles both boolean and string submissions for True/False questions."
