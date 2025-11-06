@@ -73,6 +73,11 @@ export const quizzesAPI = {
     return response.data;
   },
   
+  getForEdit: async (id) => {
+    const response = await api.get(`/quizzes/${id}/edit`);
+    return response.data;
+  },
+  
   create: async (quizData) => {
     const response = await api.post('/quizzes', quizData);
     return response.data;
