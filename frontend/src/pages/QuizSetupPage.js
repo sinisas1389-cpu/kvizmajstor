@@ -125,32 +125,6 @@ const QuizSetupPage = () => {
               Izaberi kako želiš da polaže\u0161 ovaj kviz:
             </p>
 
-            {/* Default Time */}
-            <div
-              onClick={() => setTimeMode('default')}
-              className={`p-6 rounded-2xl border-4 mb-4 cursor-pointer transition-all transform hover:scale-102 ${
-                timeMode === 'default'
-                  ? 'bg-gradient-to-r from-blue-100 to-purple-100 border-blue-500 shadow-lg'
-                  : 'bg-white border-gray-300 hover:border-blue-400'
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
-                  <Clock className="w-8 h-8 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-black text-gray-800 mb-1">
-                    Standardno Vreme (Preporučeno)
-                  </h3>
-                  <p className="text-gray-600 font-medium">
-                    {quiz.timeLimit > 0 ? `${quiz.timeLimit} minuta ukupno` : 'Bez ukupnog limita'}
-                    {quiz.timeLimitPerQuestion > 0 && ` • ${quiz.timeLimitPerQuestion} sekundi po pitanju`}
-                    {quiz.timeLimit === 0 && quiz.timeLimitPerQuestion === 0 && ' • Bez vremenskog ograničenja'}
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Custom Time */}
             <div
               onClick={() => setTimeMode('custom')}
