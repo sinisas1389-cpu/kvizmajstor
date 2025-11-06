@@ -145,6 +145,11 @@ async def get_quiz(quiz_id: str):
     quiz = await quizzes_collection.find_one({"id": quiz_id})
     if not quiz:
         raise HTTPException(status_code=404, detail="Kviz nije pronađen")
+    
+    # Remove MongoDB _id field to avoid serialization issues
+    if "_id" in quiz:
+        del quiz["_id"]
+    
     return quiz
 
 @api_router.get("/quizzes/{quiz_id}/questions")
@@ -159,6 +164,9 @@ async def get_quiz_questions(quiz_id: str):
         safe_q = q.copy()
         if "correctAnswer" in safe_q:
             del safe_q["correctAnswer"]
+        # Remove _id if present
+        if "_id" in safe_q:
+            del safe_q["_id"]
         safe_questions.append(safe_q)
     
     return safe_questions
