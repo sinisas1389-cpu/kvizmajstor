@@ -103,60 +103,114 @@
 #====================================================================================================
 
 user_problem_statement: |
-  1. Fix privilege system - "Napravi Kviz" button should only be visible to Admin and Creator users
-  2. Add leaderboard section to homepage showing top 10 users with medals for top 3
+  1. Simplify CreateQuizPage - remove manual question adding, keep only Excel upload
+  2. Remove "Vreme po Pitanju" (time per question) from entire app
+  3. Set default timeLimit to 0 (unlimited) for new quizzes
+  4. Fix True/False display showing "True/False" instead of "Tačno/Netačno" in QuizTakePage
+  5. Fix "Quiz not found!" error - QuizTakePage using mock data instead of backend
 
 backend:
-  - task: "Admin + Creator privilege system for quiz creation"
-    implemented: true
-    working: true
-    file: "server.py, models.py, auth.py"
+  - task: "Remove timeLimitPerQuestion from Quiz model and API"
+    implemented: false
+    working: "NA"
+    file: "server.py, models.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
+      - working: "NA"
         agent: "main"
-        comment: "Fixed QuizzesPage.js to check user privileges before showing 'Napravi Kviz' button. Added useAuth hook and conditional rendering. Tested with regular, creator, and admin users - working correctly."
-
-frontend:
-  - task: "QuizzesPage - Hide 'Napravi Kviz' button from regular users"
-    implemented: true
-    working: true
-    file: "pages/QuizzesPage.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Added privilege check to QuizzesPage - button only visible to Admin/Creator users. Tested successfully."
+        comment: "Need to remove timeLimitPerQuestion field from Quiz models and all endpoints"
   
-  - task: "HomePage - Add leaderboard section with top 10 users"
-    implemented: true
-    working: true
-    file: "pages/HomePage.js"
+  - task: "Set default timeLimit to 0 for quiz creation"
+    implemented: false
+    working: "NA"
+    file: "server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
+      - working: "NA"
         agent: "main"
-        comment: "Added leaderboard section with podium for top 3 (medals: 🥇🥈🥉) and list for places 4-10. Includes button to full leaderboard page."
+        comment: "Default timeLimit should be 0 (unlimited) when creating quizzes"
+
+frontend:
+  - task: "CreateQuizPage - Remove manual question adding section"
+    implemented: false
+    working: "NA"
+    file: "pages/CreateQuizPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported: Excel upload not working, wants only Excel upload for questions, no manual adding"
+  
+  - task: "CreateQuizPage - Remove timeLimitPerQuestion field"
+    implemented: false
+    working: "NA"
+    file: "pages/CreateQuizPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Remove 'Vreme po Pitanju' field from quiz creation form"
+  
+  - task: "QuizTakePage - Fix True/False translation"
+    implemented: false
+    working: false
+    file: "pages/QuizTakePage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported: True/False questions showing 'A, B, C' or 'True/False' instead of 'Tačno/Netačno'"
+  
+  - task: "QuizTakePage - Fetch real quiz data from backend"
+    implemented: false
+    working: false
+    file: "pages/QuizTakePage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported: 'Quiz not found!' error. Currently using mock data instead of backend API"
+  
+  - task: "QuizSetupPage - Remove timeLimitPerQuestion"
+    implemented: false
+    working: "NA"
+    file: "pages/QuizSetupPage.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Remove 'Vreme po Pitanju' option from quiz setup"
 
 metadata:
   created_by: "main_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "2.0"
+  test_sequence: 2
   run_ui: false
 
 test_plan:
   current_focus:
-    - "All tasks completed and tested"
+    - "CreateQuizPage - Remove manual question adding section"
+    - "CreateQuizPage - Remove timeLimitPerQuestion field"
+    - "QuizTakePage - Fix True/False translation"
+    - "QuizTakePage - Fetch real quiz data from backend"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "Fixed privilege system bug on QuizzesPage and added leaderboard section to HomePage. Both features tested and working correctly."
+    message: "Starting implementation: 1) Remove manual question adding from CreateQuizPage 2) Remove timeLimitPerQuestion from entire app 3) Fix True/False display in Serbian 4) Fix QuizTakePage to use real backend data instead of mock"
