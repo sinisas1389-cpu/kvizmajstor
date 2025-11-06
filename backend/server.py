@@ -232,8 +232,7 @@ async def update_quiz(quiz_id: str, quiz_data: QuizCreate, user_id: str = Depend
         "description": quiz_data.description,
         "categoryId": quiz_data.categoryId,
         "questionCount": len(quiz_data.questions),
-        "timeLimit": quiz_data.timeLimit,
-        "timeLimitPerQuestion": quiz_data.timeLimitPerQuestion,
+        "timeLimit": quiz_data.timeLimit if quiz_data.timeLimit else 0,
         "questions": [q.dict() for q in quiz_data.questions]
     }
     
