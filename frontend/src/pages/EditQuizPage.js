@@ -59,11 +59,11 @@ const EditQuizPage = () => {
 
   const fetchQuiz = async () => {
     try {
-      const quiz = await quizzesAPI.getById(quizId);
-      const questions = await quizzesAPI.getQuestions(quizId);
+      // Use the new edit endpoint that includes correct answers
+      const quiz = await quizzesAPI.getForEdit(quizId);
       
       // Ensure all questions have an ID
-      const questionsWithIds = questions.map((q, idx) => ({
+      const questionsWithIds = (quiz.questions || []).map((q, idx) => ({
         ...q,
         id: q.id || 'q' + Date.now() + idx
       }));
