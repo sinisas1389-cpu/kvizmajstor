@@ -34,6 +34,33 @@ const QuizzesPage = () => {
     }
   };
 
+  const handleDeleteQuiz = async (quizId, quizTitle) => {
+    if (!window.confirm(`Da li ste sigurni da želite da obrišete kviz "${quizTitle}"?`)) {
+      return;
+    }
+
+    try {
+      await quizzesAPI.delete(quizId);
+      toast({ title: 'Kviz uspešno obrisan! 🗑️' });
+      // Refresh page to show updated list
+      window.location.reload();
+    } catch (error) {
+      console.error('Greška pri brisanju kviza:', error);
+      toast({ 
+        title: 'Greška', 
+        description: error.response?.data?.detail || 'Nije moguće obrisati kviz',
+        variant: 'destructive' 
+      });
+    }
+  };
+
+  const canEditQuiz = (quiz) => {
+    if (!isAuthenticated) return false;
+    if (user?.isAdmin) return true;
+    if (user?.isCreator && quiz.createdBy === user.username) return true;
+    return false;
+  };
+
   const filteredQuizzes = mockQuizzes.filter(quiz => {
     const matchesSearch = quiz.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          quiz.description.toLowerCase().includes(searchTerm.toLowerCase());
