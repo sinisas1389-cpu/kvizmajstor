@@ -362,16 +362,14 @@ const CreateQuizPage = () => {
                   style={{ display: 'none' }}
                   id="excel-upload"
                 />
-                <label htmlFor="excel-upload">
-                  <Button
-                    type="button"
-                    onClick={() => document.getElementById('excel-upload').click()}
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold px-8 py-6 text-lg"
-                  >
-                    <FileSpreadsheet className="mr-2" />
-                    Učitaj Excel
-                  </Button>
-                </label>
+                <Button
+                  type="button"
+                  onClick={() => document.getElementById('excel-upload').click()}
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold px-8 py-6 text-lg"
+                >
+                  <FileSpreadsheet className="mr-2" />
+                  Učitaj Excel
+                </Button>
               </div>
               
               <div className="mt-8 p-6 bg-blue-50 rounded-xl border-2 border-blue-200">
