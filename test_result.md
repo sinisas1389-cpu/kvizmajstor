@@ -225,3 +225,5 @@ agent_communication:
     message: "✅ Implementation complete! All changes made: 1) CreateQuizPage now only uses Excel upload 2) timeLimitPerQuestion removed from frontend and backend 3) True/False now shows as Tačno/Netačno 4) QuizTakePage fetches real data from backend. Ready for backend testing."
   - agent: "testing"
     message: "🔍 Backend testing completed. CRITICAL BUG FOUND: timeLimitPerQuestion still returned by GET /quizzes/{quiz_id} endpoint. Quiz questions and submission working correctly. Quiz creation tests blocked by permissions (need Admin/Creator user). See detailed findings in backend task status."
+  - agent: "testing"
+    message: "✅ REGRESSION TEST COMPLETED: timeLimitPerQuestion fix verified successfully! Both GET /api/quizzes and GET /api/quizzes/{quiz_id} endpoints now return timeLimit (default 0) and NO timeLimitPerQuestion field. Backend API is working correctly for the reported bug fix."
