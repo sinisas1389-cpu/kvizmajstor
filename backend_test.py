@@ -401,6 +401,49 @@ class KvizMajstorTester:
             self.log(f"❌ API health check failed: {response.status_code}", "ERROR")
             return False
             
+    def get_existing_quiz(self) -> bool:
+        """Get an existing quiz for testing"""
+        self.log("=== Getting existing quiz for testing ===")
+        
+        response = self.make_request("GET", "/quizzes")
+        if response.status_code == 200:
+            quizzes = response.json()
+            if quizzes:
+                self.test_quiz_id = quizzes[0]["id"]
+                self.log(f"✅ Using existing quiz: {quizzes[0]['title']} (ID: {self.test_quiz_id})")
+                return True
+                
+        self.log("❌ No existing quizzes found", "ERROR")
+        return False
+        
+    def test_quiz_list_response_format(self) -> bool:
+        """Test that quiz list doesn't contain timeLimitPerQuestion"""
+        self.log("=== Test: Quiz List Response Format ===")
+        
+        response = self.make_request("GET", "/quizzes")
+        if response.status_code == 200:
+            quizzes = response.json()
+            
+            if not quizzes:
+                self.log("⚠️  No quizzes found to test")
+                return True
+                
+            # Check each quiz in the list
+            for quiz in quizzes:
+                if "timeLimitPerQuestion" in quiz:
+                    self.log(f"❌ timeLimitPerQuestion found in quiz list response: {quiz.get('timeLimitPerQuestion')}", "ERROR")
+                    return False
+                    
+                if "timeLimit" not in quiz:
+                    self.log("❌ timeLimit missing from quiz list response", "ERROR")
+                    return False
+                    
+            self.log("✅ Quiz list response format correct - no timeLimitPerQuestion, timeLimit present")
+            return True
+        else:
+            self.log(f"❌ Failed to get quiz list: {response.status_code} - {response.text}", "ERROR")
+            return False
+
     def run_all_tests(self) -> Dict[str, bool]:
         """Run all tests and return results"""
         self.log("🚀 Starting KvizMajstor Backend Tests")
@@ -414,22 +457,38 @@ class KvizMajstorTester:
             self.log("❌ API not accessible - stopping tests", "ERROR")
             return results
             
-        # Setup test user
-        if not self.setup_test_user():
-            self.log("❌ Failed to setup test user - stopping tests", "ERROR")
-            return results
+        # Test quiz list format (doesn't require auth)
+        results["quiz_list_format"] = self.test_quiz_list_response_format()
+        
+        # Setup test user for authenticated tests
+        auth_setup = self.setup_test_user()
+        
+        # Get existing quiz for testing
+        quiz_available = self.get_existing_quiz()
+        
+        if auth_setup and quiz_available:
+            # Run tests that require authentication and existing quiz
+            results["quiz_retrieval"] = self.test_quiz_retrieval()
+            results["quiz_questions"] = self.test_quiz_questions()
+            results["quiz_submission"] = self.test_quiz_submission()
+        else:
+            self.log("⚠️  Skipping authenticated tests - no auth or no quiz available")
+            results["quiz_retrieval"] = False
+            results["quiz_questions"] = False
+            results["quiz_submission"] = False
             
-        # Get test category
-        if not self.get_test_category():
-            self.log("❌ Failed to get test category - stopping tests", "ERROR")
-            return results
-            
-        # Run quiz tests
-        results["quiz_creation_no_limit"] = self.test_quiz_creation_without_time_limit()
-        results["quiz_creation_with_limit"] = self.test_quiz_creation_with_time_limit()
-        results["quiz_retrieval"] = self.test_quiz_retrieval()
-        results["quiz_questions"] = self.test_quiz_questions()
-        results["quiz_submission"] = self.test_quiz_submission()
+        # Try quiz creation tests if we have auth (even if they fail due to permissions)
+        if auth_setup:
+            # Get test category
+            if self.get_test_category():
+                results["quiz_creation_no_limit"] = self.test_quiz_creation_without_time_limit()
+                results["quiz_creation_with_limit"] = self.test_quiz_creation_with_time_limit()
+            else:
+                results["quiz_creation_no_limit"] = False
+                results["quiz_creation_with_limit"] = False
+        else:
+            results["quiz_creation_no_limit"] = False
+            results["quiz_creation_with_limit"] = False
         
         # Summary
         self.log("=" * 50)
