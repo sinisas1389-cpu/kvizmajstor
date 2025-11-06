@@ -117,9 +117,13 @@ const CreateQuizPage = () => {
   };
 
   const handleExcelUpload = (e) => {
+    console.log('🔥 handleExcelUpload CALLED!', e);
     const file = e.target.files[0];
     console.log('📁 Excel file selected:', file);
-    if (!file) return;
+    if (!file) {
+      console.log('❌ No file selected');
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (evt) => {
