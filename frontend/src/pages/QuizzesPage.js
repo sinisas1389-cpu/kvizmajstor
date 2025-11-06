@@ -86,6 +86,17 @@ const QuizzesPage = () => {
     return matchesSearch && matchesCategory;
   });
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">⏳</div>
+          <p className="text-2xl font-black text-gray-700">Učitavanje kvizova...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-6">
       <div className="max-w-7xl mx-auto">
