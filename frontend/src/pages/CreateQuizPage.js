@@ -169,14 +169,15 @@ const CreateQuizPage = () => {
               explanation: row['Objašnjenje'] || row['Explanation'] || ''
             });
           } else if (type === 'true-false' || type === 'tačno-netačno') {
-            const correctAnswer = (row['TačanOdgovor'] || row['CorrectAnswer'] || 'true').toString().toLowerCase();
+            const correctAnswerRaw = (row['TačanOdgovor'] || row['CorrectAnswer'] || 'true').toString().toLowerCase();
+            const correctAnswer = (correctAnswerRaw === 'true' || correctAnswerRaw === 'tačno' || correctAnswerRaw === '1') ? 'true' : 'false';
             
             questions.push({
               id: 'q' + Date.now() + idx,
               type: 'true-false',
               question: question,
               options: [],
-              correctAnswer: correctAnswer === 'true' || correctAnswer === 'tačno' || correctAnswer === '1',
+              correctAnswer: correctAnswer,
               imageUrl: row['SlikaURL'] || row['ImageURL'] || '',
               youtubeUrl: row['YouTubeURL'] || row['YouTube'] || '',
               explanation: row['Objašnjenje'] || row['Explanation'] || ''
