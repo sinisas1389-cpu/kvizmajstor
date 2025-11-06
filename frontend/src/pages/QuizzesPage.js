@@ -77,7 +77,7 @@ const QuizzesPage = () => {
     return false;
   };
 
-  const filteredQuizzes = mockQuizzes.filter(quiz => {
+  const filteredQuizzes = quizzes.filter(quiz => {
     const matchesSearch = quiz.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          quiz.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || quiz.categoryId === selectedCategory;
