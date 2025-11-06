@@ -4,29 +4,51 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { mockQuizzes, mockCategories } from '../utils/mock';
+import { quizzesAPI, categoriesAPI } from '../utils/api';
 import { Clock, Zap, Infinity, Play } from 'lucide-react';
+import { toast } from '../hooks/use-toast';
 
 const QuizSetupPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [quiz, setQuiz] = useState(null);
   const [category, setCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [timeMode, setTimeMode] = useState('default'); // default, custom, unlimited
   const [customTimeLimit, setCustomTimeLimit] = useState(15);
   const [customTimePerQuestion, setCustomTimePerQuestion] = useState(30);
 
   useEffect(() => {
-    const foundQuiz = mockQuizzes.find(q => q.id === id);
-    if (foundQuiz) {
-      setQuiz(foundQuiz);
-      setCustomTimeLimit(foundQuiz.timeLimit || 15);
-      setCustomTimePerQuestion(foundQuiz.timeLimitPerQuestion || 30);
-      
-      const cat = mockCategories.find(c => c.id === foundQuiz.categoryId);
-      setCategory(cat);
-    }
+    fetchQuizData();
   }, [id]);
+
+  const fetchQuizData = async () => {
+    try {
+      console.log('📥 Fetching quiz:', id);
+      const quizData = await quizzesAPI.getById(id);
+      console.log('✅ Quiz loaded:', quizData);
+      
+      setQuiz(quizData);
+      setCustomTimeLimit(quizData.timeLimit || 15);
+      setCustomTimePerQuestion(quizData.timeLimitPerQuestion || 30);
+      
+      // Fetch category
+      const categories = await categoriesAPI.getAll();
+      const cat = categories.find(c => c.id === quizData.categoryId);
+      setCategory(cat);
+      
+    } catch (error) {
+      console.error('❌ Error fetching quiz:', error);
+      toast({
+        title: 'Greška',
+        description: 'Nije moguće učitati kviz',
+        variant: 'destructive'
+      });
+      navigate('/quizzes');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleStartQuiz = () => {
     let finalTimeLimit = 0;
