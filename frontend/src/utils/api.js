@@ -78,6 +78,16 @@ export const quizzesAPI = {
     return response.data;
   },
   
+  update: async (id, quizData) => {
+    const response = await api.put(`/quizzes/${id}`, quizData);
+    return response.data;
+  },
+  
+  delete: async (id) => {
+    const response = await api.delete(`/quizzes/${id}`);
+    return response.data;
+  },
+  
   submit: async (id, answers) => {
     const response = await api.post(`/quizzes/${id}/submit`, { answers });
     return response.data;
