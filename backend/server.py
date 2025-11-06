@@ -286,7 +286,23 @@ async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = D
     for answer in submission.answers:
         question = next((q for q in questions if q["id"] == answer.questionId), None)
         if question:
-            if answer.answer == question["correctAnswer"]:
+            # Normalize answer comparison for True/False questions
+            user_answer = answer.answer
+            correct_answer = question["correctAnswer"]
+            
+            # Convert both to string for comparison to handle boolean/string mismatch
+            if isinstance(user_answer, bool):
+                user_answer = str(user_answer).lower()
+            if isinstance(correct_answer, bool):
+                correct_answer = str(correct_answer).lower()
+                
+            # Also normalize string answers
+            if isinstance(user_answer, str):
+                user_answer = user_answer.lower()
+            if isinstance(correct_answer, str):
+                correct_answer = str(correct_answer).lower()
+            
+            if user_answer == correct_answer:
                 correct_count += 1
     
     score = int((correct_count / total_questions) * 100) if total_questions > 0 else 0
