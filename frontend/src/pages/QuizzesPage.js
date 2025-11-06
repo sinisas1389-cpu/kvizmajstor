@@ -162,14 +162,36 @@ const QuizzesPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-gray-500">od {quiz.createdBy}</span>
-                    <Button
-                      onClick={() => navigate(`/quiz/${quiz.id}`)}
-                      className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold rounded-xl px-6"
-                    >
-                      Počni Kviz! 🚀
-                    </Button>
+                  <div className="space-y-3">
+                    {canEditQuiz(quiz) && (
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => navigate(`/edit-quiz/${quiz.id}`)}
+                          variant="outline"
+                          className="flex-1 border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-bold"
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          Uredi
+                        </Button>
+                        <Button
+                          onClick={() => handleDeleteQuiz(quiz.id, quiz.title)}
+                          variant="destructive"
+                          className="flex-1 font-bold"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Obriši
+                        </Button>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-gray-500">od {quiz.createdBy}</span>
+                      <Button
+                        onClick={() => navigate(`/quiz/${quiz.id}`)}
+                        className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold rounded-xl px-6"
+                      >
+                        Počni Kviz! 🚀
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
