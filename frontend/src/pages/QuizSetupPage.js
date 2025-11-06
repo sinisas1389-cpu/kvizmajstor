@@ -29,7 +29,6 @@ const QuizSetupPage = () => {
       
       setQuiz(quizData);
       setCustomTimeLimit(quizData.timeLimit || 15);
-      setCustomTimePerQuestion(quizData.timeLimitPerQuestion || 30);
       
       // Fetch category
       const categories = await categoriesAPI.getAll();
