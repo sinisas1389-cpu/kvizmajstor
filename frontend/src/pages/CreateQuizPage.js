@@ -23,18 +23,7 @@ const CreateQuizPage = () => {
     description: '',
     categoryId: '',
     timeLimit: 0,  // 0 = bez limita
-    timeLimitPerQuestion: 0,  // 0 = bez limita po pitanju
     questions: []
-  });
-
-  const [currentQuestion, setCurrentQuestion] = useState({
-    type: 'multiple',
-    question: '',
-    options: ['', '', '', ''],
-    correctAnswer: 0,
-    imageUrl: '',
-    youtubeUrl: '',
-    explanation: ''
   });
 
   useEffect(() => {
