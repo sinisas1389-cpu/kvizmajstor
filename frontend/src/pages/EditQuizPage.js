@@ -315,28 +315,16 @@ const EditQuizPage = () => {
               </Select>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <Label className="font-bold mb-2 block">Ukupno Vreme (minuti)</Label>
-                <Input
-                  type="number"
-                  value={quizData.timeLimit}
-                  onChange={(e) => setQuizData({...quizData, timeLimit: parseInt(e.target.value) || 0})}
-                  className="border-2 border-purple-300"
-                  min={0}
-                />
-              </div>
-
-              <div>
-                <Label className="font-bold mb-2 block">Vreme po Pitanju (sekundi)</Label>
-                <Input
-                  type="number"
-                  value={quizData.timeLimitPerQuestion}
-                  onChange={(e) => setQuizData({...quizData, timeLimitPerQuestion: parseInt(e.target.value) || 0})}
-                  className="border-2 border-purple-300"
-                  min={0}
-                />
-              </div>
+            <div>
+              <Label className="font-bold mb-2 block">Ukupno Vreme (minuti)</Label>
+              <Input
+                type="number"
+                value={quizData.timeLimit}
+                onChange={(e) => setQuizData({...quizData, timeLimit: parseInt(e.target.value) || 0})}
+                className="border-2 border-purple-300"
+                min={0}
+              />
+              <p className="text-sm text-gray-500 mt-1">0 = Bez vremenskog ograničenja</p>
             </div>
           </CardContent>
         </Card>
