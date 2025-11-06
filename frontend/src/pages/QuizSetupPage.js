@@ -54,13 +54,11 @@ const QuizSetupPage = () => {
     let finalTimeLimit = 0;
     let finalTimePerQuestion = 0;
 
-    if (timeMode === 'default') {
-      finalTimeLimit = quiz.timeLimit;
-      finalTimePerQuestion = quiz.timeLimitPerQuestion;
-    } else if (timeMode === 'custom') {
+    if (timeMode === 'custom') {
       finalTimeLimit = customTimeLimit;
       finalTimePerQuestion = customTimePerQuestion;
-    } else if (timeMode === 'unlimited') {
+    } else {
+      // unlimited mode - bez vremenskog ograničenja
       finalTimeLimit = 0;
       finalTimePerQuestion = 0;
     }
