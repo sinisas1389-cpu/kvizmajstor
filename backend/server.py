@@ -177,6 +177,37 @@ async def get_quiz_questions(quiz_id: str):
     
     return safe_questions
 
+@api_router.get("/quizzes/{quiz_id}/edit")
+async def get_quiz_for_edit(quiz_id: str, user_id: str = Depends(get_current_user)):
+    """Get full quiz with questions including correct answers for editing"""
+    user = await users_collection.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
+    
+    quiz = await quizzes_collection.find_one({"id": quiz_id})
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
+    
+    # Check if user has permission to edit
+    if not user.get("isAdmin", False) and quiz.get("createdBy") != user["username"]:
+        raise HTTPException(status_code=403, detail="Nemate dozvolu za uređivanje ovog kviza")
+    
+    # Remove MongoDB _id from quiz and questions
+    if "_id" in quiz:
+        del quiz["_id"]
+    
+    questions = quiz.get("questions", [])
+    clean_questions = []
+    for q in questions:
+        clean_q = q.copy()
+        if "_id" in clean_q:
+            del clean_q["_id"]
+        clean_questions.append(clean_q)
+    
+    quiz["questions"] = clean_questions
+    
+    return quiz
+
 @api_router.post("/quizzes")
 async def create_quiz(quiz_data: QuizCreate, user_id: str = Depends(get_current_user)):
     user = await users_collection.find_one({"id": user_id})
