@@ -141,29 +141,16 @@ const QuizSetupPage = () => {
               </div>
               
               {timeMode === 'custom' && (
-                <div className="grid md:grid-cols-2 gap-4 mt-4 pl-20">
-                  <div>
-                    <Label className="font-bold mb-2 block">Ukupno Vreme (minute)</Label>
-                    <Input
-                      type="number"
-                      value={customTimeLimit}
-                      onChange={(e) => setCustomTimeLimit(parseInt(e.target.value) || 0)}
-                      className="border-2 border-orange-300"
-                      min="0"
-                      placeholder="0 = bez limita"
-                    />
-                  </div>
-                  <div>
-                    <Label className="font-bold mb-2 block">Vreme po Pitanju (sekunde)</Label>
-                    <Input
-                      type="number"
-                      value={customTimePerQuestion}
-                      onChange={(e) => setCustomTimePerQuestion(parseInt(e.target.value) || 0)}
-                      className="border-2 border-orange-300"
-                      min="0"
-                      placeholder="0 = bez limita"
-                    />
-                  </div>
+                <div className="mt-4 pl-20">
+                  <Label className="font-bold mb-2 block">Ukupno Vreme (minute)</Label>
+                  <Input
+                    type="number"
+                    value={customTimeLimit}
+                    onChange={(e) => setCustomTimeLimit(parseInt(e.target.value) || 0)}
+                    className="border-2 border-orange-300"
+                    min="0"
+                    placeholder="0 = bez limita"
+                  />
                 </div>
               )}
             </div>
