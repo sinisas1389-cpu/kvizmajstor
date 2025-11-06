@@ -267,6 +267,7 @@ const EditQuizPage = () => {
     };
     reader.readAsBinaryString(file);
   };
+  */
 
   if (loading) {
     return (
