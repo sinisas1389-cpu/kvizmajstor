@@ -3,24 +3,24 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Progress } from '../components/ui/progress';
-import { mockQuizzes, mockQuestions, mockSubmitQuiz } from '../utils/mock';
+import { quizzesAPI } from '../utils/api';
 import { Clock, CheckCircle, XCircle } from 'lucide-react';
+import { toast } from '../hooks/use-toast';
 
 const QuizTakePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [quiz] = useState(mockQuizzes.find(q => q.id === id));
-  const [questions] = useState(mockQuestions[id] || []);
+  const [quiz, setQuiz] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   
-  // Koristi vreme iz location state ili default iz kviza
-  const timeLimit = location.state?.timeLimit ?? quiz?.timeLimit ?? 0;
-  const timeLimitPerQuestion = location.state?.timeLimitPerQuestion ?? quiz?.timeLimitPerQuestion ?? 0;
+  // Koristi vreme iz location state ili default 0 (neograničeno)
+  const timeLimit = location.state?.timeLimit ?? 0;
   
   const [timeLeft, setTimeLeft] = useState(timeLimit > 0 ? timeLimit * 60 : 0);
-  const [questionTimeLeft, setQuestionTimeLeft] = useState(timeLimitPerQuestion);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
