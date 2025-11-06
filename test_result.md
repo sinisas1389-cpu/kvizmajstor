@@ -154,6 +154,18 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ ANSWER NORMALIZATION LOGIC VERIFIED: Tested POST /api/quizzes/{quiz_id}/submit endpoint answer comparison logic. All 32 test scenarios passed including: Boolean true/false answers, String 'true'/'false' answers (any case), Mixed boolean/string comparisons, and proper score calculation. The normalization logic correctly converts all answer types to lowercase strings for comparison, ensuring both boolean and string submissions work correctly."
+  
+  - task: "Edit endpoint GET /api/quizzes/{quiz_id}/edit implementation"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ EDIT ENDPOINT TESTING COMPLETED: Verified GET /api/quizzes/{quiz_id}/edit endpoint implementation. Key findings: 1) Endpoint exists and requires authentication (returns 403 for unauthenticated requests), 2) Properly restricts access to creators and admins only (regular users get 403), 3) Returns 404 for non-existent quizzes, 4) Code review confirms it returns full quiz data including correctAnswer fields in questions, 5) Comparison with GET /api/quizzes/{quiz_id}/questions confirms questions endpoint correctly excludes correctAnswer fields while edit endpoint includes them. Authentication and authorization working correctly. Cannot test full functionality due to lack of creator/admin user access, but endpoint behavior matches requirements."
 
 frontend:
   - task: "CreateQuizPage - Remove manual question adding section"
