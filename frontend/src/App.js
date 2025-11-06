@@ -29,6 +29,7 @@ function App() {
             <Route path="/quiz/:id/result" element={<QuizResultPage />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/create-quiz" element={<CreateQuizPage />} />
+            <Route path="/edit-quiz/:quizId" element={<EditQuizPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/admin" element={<AdminPanelPage />} />
           </Routes>
