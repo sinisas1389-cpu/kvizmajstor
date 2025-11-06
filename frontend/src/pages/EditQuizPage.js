@@ -429,6 +429,46 @@ const EditQuizPage = () => {
               )}
             </div>
 
+            {/* Opciona Polja */}
+            <div className="border-t-2 border-purple-200 pt-4 mt-4">
+              <h4 className="text-lg font-black text-purple-600 mb-4">📚 Dodatni Materijali (Opciono)</h4>
+              
+              <div className="space-y-4">
+                <div>
+                  <Label className="font-bold mb-2 block">URL Slike 🖼️</Label>
+                  <Input
+                    placeholder="https://example.com/slika.jpg"
+                    value={currentQuestion.imageUrl}
+                    onChange={(e) => setCurrentQuestion({...currentQuestion, imageUrl: e.target.value})}
+                    className="border-2 border-green-300"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">Dodaj link ka slici koja ilustruje pitanje</p>
+                </div>
+
+                <div>
+                  <Label className="font-bold mb-2 block">YouTube Video Link 🎥</Label>
+                  <Input
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    value={currentQuestion.youtubeUrl}
+                    onChange={(e) => setCurrentQuestion({...currentQuestion, youtubeUrl: e.target.value})}
+                    className="border-2 border-green-300"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">Dodaj link ka YouTube videu koji objašnjava ovu lekciju</p>
+                </div>
+
+                <div>
+                  <Label className="font-bold mb-2 block">Objašnjenje Odgovora 📝</Label>
+                  <Textarea
+                    placeholder="Kratko objašnjenje zašto je ovo tačan odgovor..."
+                    value={currentQuestion.explanation}
+                    onChange={(e) => setCurrentQuestion({...currentQuestion, explanation: e.target.value})}
+                    className="border-2 border-green-300"
+                    rows={3}
+                  />
+                </div>
+              </div>
+            </div>
+
             <Button
               onClick={addQuestion}
               className="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-4 text-lg"
