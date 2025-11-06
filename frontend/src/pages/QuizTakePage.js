@@ -89,22 +89,34 @@ const QuizTakePage = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    const result = await mockSubmitQuiz(id, Object.values(answers));
     
-    // Kreiraj userAnswers objekat sa mapiranjem odgovora
-    const userAnswers = questions.map((q, idx) => ({
-      questionId: q.id,
-      answer: answers[idx]
-    }));
-    
-    navigate(`/quiz/${id}/result`, { 
-      state: { 
-        result, 
-        quiz, 
-        userAnswers, 
-        questions 
-      } 
-    });
+    try {
+      // Kreiraj userAnswers objekat sa mapiranjem odgovora
+      const userAnswers = questions.map((q, idx) => ({
+        questionId: q.id,
+        answer: answers[idx]
+      }));
+      
+      // Submit quiz to backend
+      const result = await quizzesAPI.submit(id, { answers: userAnswers });
+      
+      navigate(`/quiz/${id}/result`, { 
+        state: { 
+          result, 
+          quiz, 
+          userAnswers, 
+          questions 
+        } 
+      });
+    } catch (error) {
+      console.error('❌ Error submitting quiz:', error);
+      toast({
+        title: 'Greška',
+        description: 'Nije moguće poslati odgovore',
+        variant: 'destructive'
+      });
+      setIsSubmitting(false);
+    }
   };
 
   if (!quiz || questions.length === 0) {
