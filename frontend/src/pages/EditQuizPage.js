@@ -62,12 +62,18 @@ const EditQuizPage = () => {
       const quiz = await quizzesAPI.getById(quizId);
       const questions = await quizzesAPI.getQuestions(quizId);
       
+      // Ensure all questions have an ID
+      const questionsWithIds = questions.map((q, idx) => ({
+        ...q,
+        id: q.id || 'q' + Date.now() + idx
+      }));
+      
       setQuizData({
         title: quiz.title,
         description: quiz.description,
         categoryId: quiz.categoryId,
         timeLimit: quiz.timeLimit || 0,
-        questions: questions
+        questions: questionsWithIds
       });
       
     } catch (error) {
