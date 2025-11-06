@@ -24,19 +24,49 @@ const QuizTakePage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          handleSubmit();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    fetchQuizData();
+  }, [id]);
 
-    return () => clearInterval(timer);
-  }, []);
+  const fetchQuizData = async () => {
+    try {
+      console.log('📥 Fetching quiz for taking:', id);
+      const quizData = await quizzesAPI.getById(id);
+      console.log('✅ Quiz loaded:', quizData);
+      
+      // Fetch questions (without correct answers)
+      const questionsData = await quizzesAPI.getQuestions(id);
+      console.log('✅ Questions loaded:', questionsData);
+      
+      setQuiz(quizData);
+      setQuestions(questionsData);
+    } catch (error) {
+      console.error('❌ Error fetching quiz:', error);
+      toast({
+        title: 'Greška',
+        description: 'Nije moguće učitati kviz',
+        variant: 'destructive'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (timeLimit > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            handleSubmit();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timeLimit]);
 
   const handleAnswer = (answer) => {
     setAnswers(prev => ({
