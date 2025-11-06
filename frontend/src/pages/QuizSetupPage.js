@@ -16,7 +16,6 @@ const QuizSetupPage = () => {
   const [loading, setLoading] = useState(true);
   const [timeMode, setTimeMode] = useState('unlimited'); // custom, unlimited
   const [customTimeLimit, setCustomTimeLimit] = useState(15);
-  const [customTimePerQuestion, setCustomTimePerQuestion] = useState(30);
 
   useEffect(() => {
     fetchQuizData();
