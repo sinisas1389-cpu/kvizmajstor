@@ -64,15 +64,16 @@ class EditEndpointTester:
         self.log("=== Setting up admin user ===")
         
         admin_data = {
-            "email": "admin@kvizmajstor.com",
-            "password": "password"
+            "email": "admin@test.com",
+            "password": "admin123"
         }
         
         response = self.make_request("POST", "/auth/login", admin_data)
         if response.status_code == 200:
             data = response.json()
             self.admin_token = data.get("token")
-            self.log("✅ Logged in as admin user")
+            user = data.get("user", {})
+            self.log(f"✅ Logged in as: {user.get('username')} (Admin: {user.get('isAdmin')}, Creator: {user.get('isCreator')})")
             return True
         else:
             self.log(f"❌ Admin login failed: {response.status_code} - {response.text}", "ERROR")
