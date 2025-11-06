@@ -97,8 +97,8 @@ const QuizTakePage = () => {
         answer: answers[idx]
       }));
       
-      // Submit quiz to backend
-      const result = await quizzesAPI.submit(id, { answers: userAnswers });
+      // Submit quiz to backend - API expects { answers: [...] } format
+      const result = await quizzesAPI.submit(id, userAnswers);
       
       navigate(`/quiz/${id}/result`, { 
         state: { 
