@@ -136,19 +136,7 @@ backend:
 
 frontend:
   - task: "CreateQuizPage - Remove manual question adding section"
-    implemented: false
-    working: "NA"
-    file: "pages/CreateQuizPage.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: true
-    status_history:
-      - working: false
-        agent: "user"
-        comment: "User reported: Excel upload not working, wants only Excel upload for questions, no manual adding"
-  
-  - task: "CreateQuizPage - Remove timeLimitPerQuestion field"
-    implemented: false
+    implemented: true
     working: "NA"
     file: "pages/CreateQuizPage.js"
     stuck_count: 0
@@ -157,34 +145,46 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Remove 'Vreme po Pitanju' field from quiz creation form"
+        comment: "Removed entire manual question adding UI. Now only shows Excel upload section with template download and file upload buttons. Added instructions for Excel format."
+  
+  - task: "CreateQuizPage - Remove timeLimitPerQuestion field"
+    implemented: true
+    working: "NA"
+    file: "pages/CreateQuizPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Removed 'Vreme po Pitanju' field from quiz creation form. Changed layout from 3-column to 2-column grid."
   
   - task: "QuizTakePage - Fix True/False translation"
-    implemented: false
-    working: false
+    implemented: true
+    working: "NA"
     file: "pages/QuizTakePage.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: true
     status_history:
-      - working: false
-        agent: "user"
-        comment: "User reported: True/False questions showing 'A, B, C' or 'True/False' instead of 'Tačno/Netačno'"
+      - working: "NA"
+        agent: "main"
+        comment: "Changed True/False button text to 'Tačno' and 'Netačno' in Serbian"
   
   - task: "QuizTakePage - Fetch real quiz data from backend"
-    implemented: false
-    working: false
+    implemented: true
+    working: "NA"
     file: "pages/QuizTakePage.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: true
     status_history:
-      - working: false
-        agent: "user"
-        comment: "User reported: 'Quiz not found!' error. Currently using mock data instead of backend API"
+      - working: "NA"
+        agent: "main"
+        comment: "Replaced mock data with real backend API calls. Added fetchQuizData() using quizzesAPI.getById() and quizzesAPI.getQuestions(). Added loading state. Updated submit to use backend API."
   
   - task: "QuizSetupPage - Remove timeLimitPerQuestion"
-    implemented: false
+    implemented: true
     working: "NA"
     file: "pages/QuizSetupPage.js"
     stuck_count: 0
@@ -193,7 +193,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Remove 'Vreme po Pitanju' option from quiz setup"
+        comment: "Removed 'Vreme po Pitanju' input field and related state. Only shows total time limit input in custom mode."
 
 metadata:
   created_by: "main_agent"
