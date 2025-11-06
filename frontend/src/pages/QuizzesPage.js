@@ -50,7 +50,9 @@ const QuizzesPage = () => {
     }
   };
 
-  const handleDeleteQuiz = async (quizId, quizTitle) => {
+  const handleDeleteQuiz = async (quizId, quizTitle, event) => {
+    event.stopPropagation(); // Prevent card click
+    
     if (!window.confirm(`Da li ste sigurni da želite da obrišete kviz "${quizTitle}"?`)) {
       return;
     }
@@ -58,8 +60,8 @@ const QuizzesPage = () => {
     try {
       await quizzesAPI.delete(quizId);
       toast({ title: 'Kviz uspešno obrisan! 🗑️' });
-      // Refresh page to show updated list
-      window.location.reload();
+      // Reload quizzes
+      fetchQuizzes();
     } catch (error) {
       console.error('Greška pri brisanju kviza:', error);
       toast({ 
