@@ -427,18 +427,30 @@ const EditQuizPage = () => {
 
             <div>
               <Label className="font-bold mb-2 block">Tačan Odgovor (*)</Label>
-              <Select value={currentQuestion.correctAnswer} onValueChange={(value) => setCurrentQuestion({...currentQuestion, correctAnswer: value})}>
-                <SelectTrigger className="border-2 border-green-300">
-                  <SelectValue placeholder="Izaberite tačan odgovor" />
-                </SelectTrigger>
-                <SelectContent>
-                  {currentQuestion.options.map((opt, idx) => (
-                    <SelectItem key={idx} value={idx.toString()}>
-                      Opcija {idx + 1}: {opt || '(prazno)'}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              {currentQuestion.type === 'multiple' ? (
+                <Select value={currentQuestion.correctAnswer} onValueChange={(value) => setCurrentQuestion({...currentQuestion, correctAnswer: value})}>
+                  <SelectTrigger className="border-2 border-green-300">
+                    <SelectValue placeholder="Izaberite tačan odgovor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {currentQuestion.options.map((opt, idx) => (
+                      <SelectItem key={idx} value={idx.toString()}>
+                        Opcija {idx + 1}: {opt || '(prazno)'}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Select value={currentQuestion.correctAnswer.toString()} onValueChange={(value) => setCurrentQuestion({...currentQuestion, correctAnswer: value === 'true'})}>
+                  <SelectTrigger className="border-2 border-green-300">
+                    <SelectValue placeholder="Izaberite tačan odgovor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">Tačno (True) ✓</SelectItem>
+                    <SelectItem value="false">Netačno (False) ✗</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
             </div>
 
             <Button
