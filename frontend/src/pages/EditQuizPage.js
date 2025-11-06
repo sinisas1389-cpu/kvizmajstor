@@ -165,6 +165,8 @@ const EditQuizPage = () => {
     }
   };
 
+  // handleExcelUpload function removed - no longer needed
+  /*
   const handleExcelUpload = (e) => {
     const file = e.target.files[0];
     console.log('📁 Excel file selected:', file);
