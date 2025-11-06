@@ -14,7 +14,7 @@ const QuizSetupPage = () => {
   const [quiz, setQuiz] = useState(null);
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [timeMode, setTimeMode] = useState('default'); // default, custom, unlimited
+  const [timeMode, setTimeMode] = useState('unlimited'); // custom, unlimited
   const [customTimeLimit, setCustomTimeLimit] = useState(15);
   const [customTimePerQuestion, setCustomTimePerQuestion] = useState(30);
 
