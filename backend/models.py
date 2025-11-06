@@ -68,8 +68,7 @@ class QuizCreate(BaseModel):
     title: str
     description: str
     categoryId: str
-    timeLimit: int  # Vreme u minutama (0 = bez limita)
-    timeLimitPerQuestion: Optional[int] = None  # Vreme po pitanju u sekundama (opciono)
+    timeLimit: int = 0  # Vreme u minutama (0 = bez limita, default neograničeno)
     questions: List[QuizQuestion]
 
 class Quiz(BaseModel):
