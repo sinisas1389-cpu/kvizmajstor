@@ -67,7 +67,6 @@ const EditQuizPage = () => {
         description: quiz.description,
         categoryId: quiz.categoryId,
         timeLimit: quiz.timeLimit || 0,
-        timeLimitPerQuestion: quiz.timeLimitPerQuestion || 0,
         questions: questions
       });
       
