@@ -21,6 +21,7 @@ const QuizzesPage = () => {
 
   useEffect(() => {
     fetchCategories();
+    fetchQuizzes();
   }, []);
 
   const fetchCategories = async () => {
@@ -29,6 +30,21 @@ const QuizzesPage = () => {
       setCategories(data);
     } catch (error) {
       console.error('Greška pri učitavanju kategorija:', error);
+    }
+  };
+
+  const fetchQuizzes = async () => {
+    try {
+      const data = await quizzesAPI.getAll();
+      setQuizzes(data);
+      console.log('✅ Loaded quizzes:', data);
+    } catch (error) {
+      console.error('Greška pri učitavanju kvizova:', error);
+      toast({
+        title: 'Greška',
+        description: 'Nije moguće učitati kvizove',
+        variant: 'destructive'
+      });
     } finally {
       setLoading(false);
     }
