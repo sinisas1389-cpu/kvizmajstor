@@ -131,8 +131,7 @@ async def get_quizzes(
             description=quiz["description"],
             categoryId=quiz["categoryId"],
             questionCount=quiz["questionCount"],
-            timeLimit=quiz["timeLimit"],
-            timeLimitPerQuestion=quiz.get("timeLimitPerQuestion"),
+            timeLimit=quiz.get("timeLimit", 0),
             plays=quiz.get("plays", 0),
             rating=quiz.get("rating", 0.0),
             createdBy=quiz.get("createdBy", "Anonimno")
