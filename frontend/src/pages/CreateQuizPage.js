@@ -145,12 +145,19 @@ const CreateQuizPage = () => {
 
         const questions = [];
         
+        console.log('📊 Total rows in Excel:', jsonData.length);
+        
         jsonData.forEach((row, idx) => {
           // Format očekujemo: Tip | Pitanje | Opcija1 | Opcija2 | Opcija3 | Opcija4 | TačanOdgovor | YouTubeURL | Objašnjenje
           const type = (row['Tip'] || row['Type'] || '').toLowerCase();
           const question = row['Pitanje'] || row['Question'] || '';
           
-          if (!question.trim()) return;
+          console.log(`Row ${idx + 1}:`, { type, question, row });
+          
+          if (!question.trim()) {
+            console.warn(`⚠️ Row ${idx + 1}: Pitanje is empty, skipping`);
+            return;
+          }
 
           if (type === 'multiple' || type === 'višestruki') {
             const options = [
