@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Badge } from '../components/ui/badge';
-import { mockQuizzes } from '../utils/mock';
 import { categoriesAPI, quizzesAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { Search, Clock, Star, Play, Filter, Edit, Trash2 } from 'lucide-react';
@@ -17,6 +16,7 @@ const QuizzesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(location.state?.categoryId || 'all');
   const [categories, setCategories] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
