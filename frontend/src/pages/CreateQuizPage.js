@@ -261,7 +261,7 @@ const CreateQuizPage = () => {
               />
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <Label className="text-lg font-bold mb-2 block">Kategorija *</Label>
                 <Select
@@ -292,19 +292,6 @@ const CreateQuizPage = () => {
                   placeholder="0 = bez limita"
                 />
                 <p className="text-sm text-gray-500 mt-1">0 = Bez vremenskog ograničenja</p>
-              </div>
-
-              <div>
-                <Label className="text-lg font-bold mb-2 block">Vreme po Pitanju (sekunde)</Label>
-                <Input
-                  type="number"
-                  value={quizData.timeLimitPerQuestion}
-                  onChange={(e) => setQuizData(prev => ({ ...prev, timeLimitPerQuestion: parseInt(e.target.value) || 0 }))}
-                  className="text-lg p-6 border-2 rounded-xl"
-                  min="0"
-                  placeholder="0 = bez limita"
-                />
-                <p className="text-sm text-gray-500 mt-1">0 = Bez limita po pitanju</p>
               </div>
             </div>
           </CardContent>
