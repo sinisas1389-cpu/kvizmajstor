@@ -297,12 +297,18 @@ const CreateQuizPage = () => {
           </CardContent>
         </Card>
 
-        {/* Add Question */}
+        {/* Upload Questions from Excel */}
         <Card className="border-4 border-green-300 shadow-xl mb-8">
           <CardHeader className="bg-gradient-to-r from-green-100 to-blue-100">
-            <CardTitle className="text-3xl font-black flex items-center justify-between">
-              <span>Dodaj Pitanja</span>
-              <div className="flex gap-3">
+            <CardTitle className="text-3xl font-black">Dodaj Pitanja preko Excel-a 📊</CardTitle>
+          </CardHeader>
+          <CardContent className="p-8">
+            <div className="text-center py-8">
+              <p className="text-lg text-gray-600 font-medium mb-8">
+                Preuzmite Excel template, popunite pitanja i učitajte nazad!
+              </p>
+              
+              <div className="flex gap-4 justify-center">
                 <Button
                   type="button"
                   onClick={() => {
@@ -342,7 +348,7 @@ const CreateQuizPage = () => {
                     toast({ title: 'Template preuzet! 📥', description: 'Otvorite fajl i dodajte svoja pitanja' });
                   }}
                   variant="outline"
-                  className="border-2 border-green-500 text-green-600 hover:bg-green-50 font-bold"
+                  className="border-2 border-green-500 text-green-600 hover:bg-green-50 font-bold px-8 py-6 text-lg"
                 >
                   <Upload className="mr-2" />
                   Preuzmi Template
@@ -359,155 +365,27 @@ const CreateQuizPage = () => {
                   <Button
                     type="button"
                     onClick={() => document.getElementById('excel-upload').click()}
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold"
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold px-8 py-6 text-lg"
                   >
                     <FileSpreadsheet className="mr-2" />
                     Učitaj Excel
                   </Button>
                 </label>
               </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8 space-y-6">
-            <div>
-              <Label className="text-lg font-bold mb-2 block">Question Type</Label>
-              <Select
-                value={currentQuestion.type}
-                onValueChange={(value) => setCurrentQuestion(prev => ({ ...prev, type: value }))}
-              >
-                <SelectTrigger className="text-lg p-6 border-2 rounded-xl">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="multiple" className="text-lg">Multiple Choice</SelectItem>
-                  <SelectItem value="true-false" className="text-lg">True/False</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label className="text-lg font-bold mb-2 block">Question</Label>
-              <Textarea
-                placeholder="Enter your question here..."
-                value={currentQuestion.question}
-                onChange={(e) => setCurrentQuestion(prev => ({ ...prev, question: e.target.value }))}
-                className="text-lg p-6 border-2 rounded-xl min-h-24"
-              />
-            </div>
-
-            {currentQuestion.type === 'multiple' ? (
-              <div>
-                <Label className="text-lg font-bold mb-2 block">Options</Label>
-                <div className="space-y-3">
-                  {currentQuestion.options.map((option, idx) => (
-                    <div key={idx} className="flex gap-3 items-center">
-                      <input
-                        type="radio"
-                        name="correctAnswer"
-                        checked={currentQuestion.correctAnswer === idx}
-                        onChange={() => setCurrentQuestion(prev => ({ ...prev, correctAnswer: idx }))}
-                        className="w-6 h-6"
-                      />
-                      <Input
-                        placeholder={`Option ${idx + 1}`}
-                        value={option}
-                        onChange={(e) => {
-                          const newOptions = [...currentQuestion.options];
-                          newOptions[idx] = e.target.value;
-                          setCurrentQuestion(prev => ({ ...prev, options: newOptions }));
-                        }}
-                        className="text-lg p-4 border-2 rounded-xl"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <p className="text-sm text-gray-500 mt-2 font-medium">Select the correct answer</p>
-              </div>
-            ) : (
-              <div>
-                <Label className="text-lg font-bold mb-2 block">Tačan Odgovor</Label>
-                <Select
-                  value={currentQuestion.correctAnswer.toString()}
-                  onValueChange={(value) => setCurrentQuestion(prev => ({ ...prev, correctAnswer: value === 'true' }))}
-                >
-                  <SelectTrigger className="text-lg p-6 border-2 rounded-xl">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true" className="text-lg">Tačno</SelectItem>
-                    <SelectItem value="false" className="text-lg">Netačno</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* YouTube URL i Objašnjenje */}
-            <div className="border-t-2 border-purple-200 pt-6">
-              <h4 className="text-lg font-black text-purple-600 mb-4">📚 Dodatni Materijali (Opciono)</h4>
               
-              <div className="space-y-4">
-                <div>
-                  <Label className="text-lg font-bold mb-2 block">URL Slike 🖼️</Label>
-                  <Input
-                    placeholder="https://example.com/slika.jpg"
-                    value={currentQuestion.imageUrl}
-                    onChange={(e) => setCurrentQuestion(prev => ({ ...prev, imageUrl: e.target.value }))}
-                    className="text-lg p-4 border-2 rounded-xl"
-                  />
-                  <p className="text-sm text-gray-500 mt-1 font-medium">
-                    Dodaj link ka slici koja ilustruje pitanje
-                  </p>
-                  {currentQuestion.imageUrl && (
-                    <div className="mt-3 p-4 bg-gray-50 rounded-xl border-2 border-gray-200">
-                      <p className="text-sm font-bold text-gray-700 mb-2">Pregled slike:</p>
-                      <img 
-                        src={currentQuestion.imageUrl} 
-                        alt="Preview" 
-                        className="max-w-full h-auto rounded-lg max-h-64 object-contain"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'block';
-                        }}
-                      />
-                      <p className="text-sm text-red-500 font-medium hidden">
-                        ❌ Slika nije mogla biti učitana. Proverite URL.
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <Label className="text-lg font-bold mb-2 block">YouTube Video Link</Label>
-                  <Input
-                    placeholder="https://www.youtube.com/watch?v=..."
-                    value={currentQuestion.youtubeUrl}
-                    onChange={(e) => setCurrentQuestion(prev => ({ ...prev, youtubeUrl: e.target.value }))}
-                    className="text-lg p-4 border-2 rounded-xl"
-                  />
-                  <p className="text-sm text-gray-500 mt-1 font-medium">
-                    Dodaj link ka YouTube videu koji objašnjava ovu lekciju
-                  </p>
-                </div>
-
-                <div>
-                  <Label className="text-lg font-bold mb-2 block">Objašnjenje Odgovora</Label>
-                  <Textarea
-                    placeholder="Kratko objašnjenje zašto je ovo tačan odgovor..."
-                    value={currentQuestion.explanation}
-                    onChange={(e) => setCurrentQuestion(prev => ({ ...prev, explanation: e.target.value }))}
-                    className="text-lg p-4 border-2 rounded-xl min-h-20"
-                  />
-                </div>
+              <div className="mt-8 p-6 bg-blue-50 rounded-xl border-2 border-blue-200">
+                <h4 className="font-black text-lg mb-3">📝 Format Excel fajla:</h4>
+                <ul className="text-left text-sm space-y-2 max-w-2xl mx-auto">
+                  <li className="font-medium"><strong>Tip:</strong> "multiple" ili "true-false"</li>
+                  <li className="font-medium"><strong>Pitanje:</strong> Tekst pitanja</li>
+                  <li className="font-medium"><strong>Opcija1-4:</strong> Odgovori (samo za multiple choice)</li>
+                  <li className="font-medium"><strong>TačanOdgovor:</strong> Broj (1-4) za multiple, "true"/"false" za true-false</li>
+                  <li className="font-medium"><strong>SlikaURL:</strong> Link ka slici (opciono)</li>
+                  <li className="font-medium"><strong>YouTubeURL:</strong> Link ka YouTube videu (opciono)</li>
+                  <li className="font-medium"><strong>Objašnjenje:</strong> Objašnjenje tačnog odgovora (opciono)</li>
+                </ul>
               </div>
             </div>
-
-            <Button
-              onClick={addQuestion}
-              className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white py-6 text-lg font-bold rounded-xl"
-            >
-              <Plus className="mr-2" />
-              Add Question
-            </Button>
           </CardContent>
         </Card>
 
