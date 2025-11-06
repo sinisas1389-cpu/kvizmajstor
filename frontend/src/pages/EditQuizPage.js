@@ -25,7 +25,6 @@ const EditQuizPage = () => {
     description: '',
     categoryId: '',
     timeLimit: 0,
-    timeLimitPerQuestion: 0,
     questions: []
   });
 
