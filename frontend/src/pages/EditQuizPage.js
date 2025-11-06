@@ -439,13 +439,13 @@ const EditQuizPage = () => {
                   </SelectContent>
                 </Select>
               ) : (
-                <Select value={currentQuestion.correctAnswer.toString()} onValueChange={(value) => setCurrentQuestion({...currentQuestion, correctAnswer: value === 'true'})}>
+                <Select value={currentQuestion.correctAnswer.toString()} onValueChange={(value) => setCurrentQuestion({...currentQuestion, correctAnswer: value})}>
                   <SelectTrigger className="border-2 border-green-300">
                     <SelectValue placeholder="Izaberite tačan odgovor" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="true">Tačno (True) ✓</SelectItem>
-                    <SelectItem value="false">Netačno (False) ✗</SelectItem>
+                    <SelectItem value="true">Tačno ✓</SelectItem>
+                    <SelectItem value="false">Netačno ✗</SelectItem>
                   </SelectContent>
                 </Select>
               )}
