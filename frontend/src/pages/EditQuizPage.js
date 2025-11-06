@@ -185,10 +185,10 @@ const EditQuizPage = () => {
             return;
           }
 
-          if (type === 'multiple' || type === 'multiple-choice') {
+          if (type === 'multiple' || type === 'multiple-choice' || type === 'višestruki') {
             const correctAnswerNum = parseInt(row['TačanOdgovor'] || row['CorrectAnswer'] || '0');
             const correctAnswerIndex = correctAnswerNum - 1;
-            const correctAnswerStr = correctAnswerIndex.toString().toLowerCase();
+            const correctAnswerStr = correctAnswerIndex.toString();
             
             questions.push({
               question: question,
@@ -200,6 +200,18 @@ const EditQuizPage = () => {
                 row['Opcija4'] || row['Option4'] || ''
               ],
               correctAnswer: correctAnswerStr,
+              explanation: row['Objašnjenje'] || row['Explanation'] || '',
+              youtubeUrl: row['YouTubeURL'] || row['YoutubeURL'] || '',
+              imageUrl: row['SlikaURL'] || row['ImageURL'] || ''
+            });
+          } else if (type === 'true-false' || type === 'tačno-netačno') {
+            const correctAnswer = (row['TačanOdgovor'] || row['CorrectAnswer'] || 'true').toString().toLowerCase();
+            
+            questions.push({
+              question: question,
+              type: 'true-false',
+              options: [],
+              correctAnswer: correctAnswer === 'true' || correctAnswer === 'tačno' || correctAnswer === '1' ? 'true' : 'false',
               explanation: row['Objašnjenje'] || row['Explanation'] || '',
               youtubeUrl: row['YouTubeURL'] || row['YoutubeURL'] || '',
               imageUrl: row['SlikaURL'] || row['ImageURL'] || ''
