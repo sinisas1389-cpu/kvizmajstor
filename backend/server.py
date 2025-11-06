@@ -194,6 +194,73 @@ async def create_quiz(quiz_data: QuizCreate, user_id: str = Depends(get_current_
         plays=quiz.plays, rating=quiz.rating, createdBy=quiz.createdBy
     )
 
+@api_router.put("/quizzes/{quiz_id}")
+async def update_quiz(quiz_id: str, quiz_data: QuizCreate, user_id: str = Depends(get_current_user)):
+    user = await users_collection.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
+    
+    # Proveri da li korisnik ima privilegije
+    if not user.get("isAdmin", False) and not user.get("isCreator", False):
+        raise HTTPException(status_code=403, detail="Nemate dozvolu za uređivanje kvizova")
+    
+    # Pronađi postojeći kviz
+    existing_quiz = await quizzes_collection.find_one({"id": quiz_id})
+    if not existing_quiz:
+        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
+    
+    # Proveri da li je korisnik kreator kviza ili admin
+    if not user.get("isAdmin", False) and existing_quiz.get("createdBy") != user["username"]:
+        raise HTTPException(status_code=403, detail="Možete uređivati samo svoje kvizove")
+    
+    # Ažuriraj kategoriju brojač (ako se promenila kategorija)
+    old_category_id = existing_quiz.get("categoryId")
+    if old_category_id != quiz_data.categoryId:
+        await categories_collection.update_one({"id": old_category_id}, {"$inc": {"quizCount": -1}})
+        await categories_collection.update_one({"id": quiz_data.categoryId}, {"$inc": {"quizCount": 1}})
+    
+    # Ažuriraj kviz
+    update_data = {
+        "title": quiz_data.title,
+        "description": quiz_data.description,
+        "categoryId": quiz_data.categoryId,
+        "questionCount": len(quiz_data.questions),
+        "timeLimit": quiz_data.timeLimit,
+        "timeLimitPerQuestion": quiz_data.timeLimitPerQuestion,
+        "questions": [q.dict() for q in quiz_data.questions]
+    }
+    
+    await quizzes_collection.update_one({"id": quiz_id}, {"$set": update_data})
+    
+    return {"message": "Kviz uspešno ažuriran"}
+
+@api_router.delete("/quizzes/{quiz_id}")
+async def delete_quiz(quiz_id: str, user_id: str = Depends(get_current_user)):
+    user = await users_collection.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="Korisnik nije pronađen")
+    
+    # Proveri da li korisnik ima privilegije
+    if not user.get("isAdmin", False) and not user.get("isCreator", False):
+        raise HTTPException(status_code=403, detail="Nemate dozvolu za brisanje kvizova")
+    
+    # Pronađi kviz
+    quiz = await quizzes_collection.find_one({"id": quiz_id})
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Kviz nije pronađen")
+    
+    # Proveri da li je korisnik kreator kviza ili admin
+    if not user.get("isAdmin", False) and quiz.get("createdBy") != user["username"]:
+        raise HTTPException(status_code=403, detail="Možete brisati samo svoje kvizove")
+    
+    # Obriši kviz
+    await quizzes_collection.delete_one({"id": quiz_id})
+    
+    # Ažuriraj brojač kategorije
+    await categories_collection.update_one({"id": quiz.get("categoryId")}, {"$inc": {"quizCount": -1}})
+    
+    return {"message": "Kviz uspešno obrisan"}
+
 @api_router.post("/quizzes/{quiz_id}/submit")
 async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = Depends(get_current_user)):
     quiz = await quizzes_collection.find_one({"id": quiz_id})
