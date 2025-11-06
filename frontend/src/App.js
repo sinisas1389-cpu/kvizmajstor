@@ -11,6 +11,7 @@ import QuizTakePage from "./pages/QuizTakePage";
 import QuizResultPage from "./pages/QuizResultPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import CreateQuizPage from "./pages/CreateQuizPage";
+import EditQuizPage from "./pages/EditQuizPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminPanelPage from "./pages/AdminPanelPage";
 
