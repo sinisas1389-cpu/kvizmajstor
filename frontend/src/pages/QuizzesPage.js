@@ -184,7 +184,11 @@ const QuizzesPage = () => {
                     {canEditQuiz(quiz) && (
                       <div className="flex gap-2">
                         <Button
-                          onClick={() => navigate(`/edit-quiz/${quiz.id}`)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            console.log('🔵 Editing quiz:', quiz.id, quiz.title);
+                            navigate(`/edit-quiz/${quiz.id}`);
+                          }}
                           variant="outline"
                           className="flex-1 border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-bold"
                         >
@@ -192,7 +196,7 @@ const QuizzesPage = () => {
                           Uredi
                         </Button>
                         <Button
-                          onClick={() => handleDeleteQuiz(quiz.id, quiz.title)}
+                          onClick={(e) => handleDeleteQuiz(quiz.id, quiz.title, e)}
                           variant="destructive"
                           className="flex-1 font-bold"
                         >
@@ -204,7 +208,10 @@ const QuizzesPage = () => {
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-gray-500">od {quiz.createdBy}</span>
                       <Button
-                        onClick={() => navigate(`/quiz/${quiz.id}`)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/quiz/${quiz.id}`);
+                        }}
                         className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold rounded-xl px-6"
                       >
                         Počni Kviz! 🚀
