@@ -112,27 +112,33 @@ user_problem_statement: |
 backend:
   - task: "Remove timeLimitPerQuestion from Quiz model and API"
     implemented: true
-    working: "NA"
+    working: false
     file: "server.py, models.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Removed timeLimitPerQuestion from QuizCreate, Quiz, and QuizResponse models. Updated create and update quiz endpoints."
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL BUG: GET /quizzes/{quiz_id} endpoint still returns timeLimitPerQuestion field from database. Line 135 in server.py still sets timeLimitPerQuestion=quiz.get('timeLimitPerQuestion') in quiz list endpoint. The get_quiz endpoint returns raw database data without filtering."
   
   - task: "Set default timeLimit to 0 for quiz creation"
     implemented: true
-    working: "NA"
+    working: true
     file: "server.py, models.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Set default timeLimit = 0 in QuizCreate and Quiz models. Backend will default to unlimited time."
+      - working: true
+        agent: "testing"
+        comment: "✅ Default timeLimit behavior working correctly. Quiz list shows timeLimit: 0 for existing quizzes. Quiz creation endpoints properly handle timeLimit defaults."
 
 frontend:
   - task: "CreateQuizPage - Remove manual question adding section"
