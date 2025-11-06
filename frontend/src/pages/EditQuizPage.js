@@ -341,46 +341,10 @@ const EditQuizPage = () => {
           </CardContent>
         </Card>
 
-        {/* Add Questions - Excel Upload */}
+        {/* Add Questions */}
         <Card className="border-4 border-green-400 shadow-xl mb-8">
-          <CardHeader className="bg-gradient-to-r from-green-100 to-teal-100 flex flex-row items-center justify-between">
+          <CardHeader className="bg-gradient-to-r from-green-100 to-teal-100">
             <CardTitle className="text-3xl font-black">Dodaj Pitanja</CardTitle>
-            <div className="flex gap-2">
-              <Button
-                onClick={() => {
-                  // Download template logic
-                  const template = [
-                    { Tip: 'multiple', Pitanje: 'Koliko je 2+2?', Opcija1: '3', Opcija2: '4', Opcija3: '5', Opcija4: '6', TačanOdgovor: 2, SlikaURL: '', YouTubeURL: '', Objašnjenje: 'Osnovna matematika: 2+2=4' },
-                    { Tip: 'true-false', Pitanje: 'Zemlja je okrugla.', Opcija1: '', Opcija2: '', Opcija3: '', Opcija4: '', TačanOdgovor: 'true', SlikaURL: '', YouTubeURL: '', Objašnjenje: 'Zemlja je sferni oblik' }
-                  ];
-                  const ws = XLSX.utils.json_to_sheet(template);
-                  const wb = XLSX.utils.book_new();
-                  XLSX.utils.book_append_sheet(wb, ws, 'Pitanja');
-                  XLSX.writeFile(wb, 'kviz_template.xlsx');
-                  toast({ title: 'Template preuzet! 📥', description: 'Otvorite fajl i dodajte svoja pitanja' });
-                }}
-                variant="outline"
-                className="bg-green-500 text-white hover:bg-green-600 font-bold border-2 border-green-600"
-              >
-                <Download className="mr-2 w-4 h-4" />
-                Preuzmi Template
-              </Button>
-              <label>
-                <Button
-                  as="span"
-                  className="bg-blue-500 text-white hover:bg-blue-600 font-bold"
-                >
-                  <Upload className="mr-2 w-4 h-4" />
-                  Učitaj Excel
-                </Button>
-                <input
-                  type="file"
-                  accept=".xlsx, .xls"
-                  onChange={handleExcelUpload}
-                  className="hidden"
-                />
-              </label>
-            </div>
           </CardHeader>
           <CardContent className="p-8 space-y-6">
             {/* Manual question input - similar to CreateQuizPage */}
