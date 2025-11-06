@@ -50,21 +50,17 @@ const QuizSetupPage = () => {
 
   const handleStartQuiz = () => {
     let finalTimeLimit = 0;
-    let finalTimePerQuestion = 0;
 
     if (timeMode === 'custom') {
       finalTimeLimit = customTimeLimit;
-      finalTimePerQuestion = customTimePerQuestion;
     } else {
       // unlimited mode - bez vremenskog ograničenja
       finalTimeLimit = 0;
-      finalTimePerQuestion = 0;
     }
 
     navigate(`/quiz/${id}/take`, {
       state: {
-        timeLimit: finalTimeLimit,
-        timeLimitPerQuestion: finalTimePerQuestion
+        timeLimit: finalTimeLimit
       }
     });
   };
