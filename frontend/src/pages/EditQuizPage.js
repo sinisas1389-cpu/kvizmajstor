@@ -9,8 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { categoriesAPI, quizzesAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
-import { Trash2, Plus, Download, Upload } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import { Trash2, Plus } from 'lucide-react';
 
 const EditQuizPage = () => {
   const navigate = useNavigate();
