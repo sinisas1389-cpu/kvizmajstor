@@ -91,7 +91,6 @@ class QuizResponse(BaseModel):
     categoryId: str
     questionCount: int
     timeLimit: int
-    timeLimitPerQuestion: Optional[int] = None
     plays: int
     rating: float
     createdBy: str
