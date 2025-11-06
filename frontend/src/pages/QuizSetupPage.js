@@ -73,10 +73,13 @@ const QuizSetupPage = () => {
     });
   };
 
-  if (!quiz) {
+  if (loading || !quiz) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
-        <p className="text-2xl font-bold">Učitavanje...</p>
+        <div className="text-center">
+          <div className="text-6xl mb-4">⏳</div>
+          <p className="text-2xl font-bold">Učitavanje kviza...</p>
+        </div>
       </div>
     );
   }
