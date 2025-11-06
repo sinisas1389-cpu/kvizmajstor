@@ -220,7 +220,7 @@ const QuizTakePage = () => {
                   }`}
                 >
                   <CheckCircle className="inline-block mr-4 w-8 h-8" />
-                  True
+                  Tačno
                 </button>
                 <button
                   onClick={() => handleAnswer(false)}
@@ -231,7 +231,7 @@ const QuizTakePage = () => {
                   }`}
                 >
                   <XCircle className="inline-block mr-4 w-8 h-8" />
-                  False
+                  Netačno
                 </button>
               </div>
             )}
