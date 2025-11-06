@@ -129,16 +129,19 @@ const CreateQuizPage = () => {
 
   const handleExcelUpload = (e) => {
     const file = e.target.files[0];
+    console.log('📁 Excel file selected:', file);
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (evt) => {
       try {
+        console.log('📖 Reading Excel file...');
         const data = evt.target.result;
         const workbook = XLSX.read(data, { type: 'binary' });
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        console.log('📊 Parsed Excel data:', jsonData);
 
         const questions = [];
         
