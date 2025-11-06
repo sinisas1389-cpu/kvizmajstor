@@ -195,15 +195,20 @@ const CreateQuizPage = () => {
           }
         });
 
+        console.log('✅ Parsed questions:', questions);
+        
         if (questions.length === 0) {
+          console.error('❌ No valid questions found');
           toast({ 
             title: 'Greška', 
-            description: 'Nisu pronađena validna pitanja u Excel fajlu',
+            description: 'Nisu pronađena validna pitanja u Excel fajlu. Proverite format.',
             variant: 'destructive'
           });
           return;
         }
 
+        console.log(`✅ Adding ${questions.length} questions to quiz`);
+        
         setQuizData(prev => ({
           ...prev,
           questions: [...prev.questions, ...questions]
