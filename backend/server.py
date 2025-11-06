@@ -145,11 +145,18 @@ async def get_quiz(quiz_id: str):
     if not quiz:
         raise HTTPException(status_code=404, detail="Kviz nije pronađen")
     
-    # Remove MongoDB _id field to avoid serialization issues
-    if "_id" in quiz:
-        del quiz["_id"]
-    
-    return quiz
+    # Return using QuizResponse model to ensure consistent API contract
+    return QuizResponse(
+        id=quiz["id"],
+        title=quiz["title"],
+        description=quiz["description"],
+        categoryId=quiz["categoryId"],
+        questionCount=quiz["questionCount"],
+        timeLimit=quiz.get("timeLimit", 0),
+        plays=quiz.get("plays", 0),
+        rating=quiz.get("rating", 0.0),
+        createdBy=quiz.get("createdBy", "Anonimno")
+    )
 
 @api_router.get("/quizzes/{quiz_id}/questions")
 async def get_quiz_questions(quiz_id: str):
