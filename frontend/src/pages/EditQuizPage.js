@@ -383,6 +383,28 @@ const EditQuizPage = () => {
               />
             </div>
 
+            <div>
+              <Label className="font-bold mb-2 block">Tip Pitanja (*)</Label>
+              <Select 
+                value={currentQuestion.type} 
+                onValueChange={(value) => {
+                  setCurrentQuestion({
+                    ...currentQuestion, 
+                    type: value,
+                    correctAnswer: value === 'true-false' ? 'true' : ''
+                  });
+                }}
+              >
+                <SelectTrigger className="border-2 border-green-300">
+                  <SelectValue placeholder="Izaberite tip pitanja" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="multiple">Višestruki izbor (Multiple Choice)</SelectItem>
+                  <SelectItem value="true-false">Tačno/Netačno (True/False)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             {currentQuestion.type === 'multiple' && (
               <div className="grid md:grid-cols-2 gap-4">
                 {currentQuestion.options.map((opt, idx) => (
