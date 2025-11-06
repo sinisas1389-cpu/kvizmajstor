@@ -483,7 +483,9 @@ const EditQuizPage = () => {
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
                           <p className="font-bold text-lg mb-2">{idx + 1}. {q.question}</p>
-                          {q.options && (
+                          <p className="text-sm text-gray-600 mb-2">Tip: {q.type === 'multiple' ? 'Višestruki izbor' : 'Tačno/Netačno'}</p>
+                          
+                          {q.type === 'multiple' && q.options && (
                             <ul className="ml-4 text-sm space-y-1">
                               {q.options.map((opt, optIdx) => (
                                 <li key={optIdx} className={optIdx.toString() === q.correctAnswer ? 'text-green-600 font-bold' : ''}>
@@ -492,6 +494,17 @@ const EditQuizPage = () => {
                                 </li>
                               ))}
                             </ul>
+                          )}
+                          
+                          {q.type === 'true-false' && (
+                            <div className="ml-4 text-sm">
+                              <p className={q.correctAnswer === 'true' || q.correctAnswer === true ? 'text-green-600 font-bold' : ''}>
+                                ✓ Tačno {(q.correctAnswer === 'true' || q.correctAnswer === true) && '(tačan odgovor)'}
+                              </p>
+                              <p className={q.correctAnswer === 'false' || q.correctAnswer === false ? 'text-red-600 font-bold' : ''}>
+                                ✗ Netačno {(q.correctAnswer === 'false' || q.correctAnswer === false) && '(tačan odgovor)'}
+                              </p>
+                            </div>
                           )}
                         </div>
                         <Button
