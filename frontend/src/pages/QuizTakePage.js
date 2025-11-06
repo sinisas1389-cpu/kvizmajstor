@@ -119,14 +119,25 @@ const QuizTakePage = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">⏳</div>
+          <p className="text-2xl font-bold">Učitavanje kviza...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!quiz || questions.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
         <Card className="border-4 border-red-300">
           <CardContent className="p-12 text-center">
-            <p className="text-3xl font-black text-gray-800 mb-4">Quiz not found! 😢</p>
+            <p className="text-3xl font-black text-gray-800 mb-4">Kviz nije pronađen! 😢</p>
             <Button onClick={() => navigate('/quizzes')} className="font-bold">
-              Back to Quizzes
+              Nazad na Kvizove
             </Button>
           </CardContent>
         </Card>
