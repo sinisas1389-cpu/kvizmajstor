@@ -12,7 +12,7 @@ from models import (
     QuizResponse, Quiz, QuizSubmission, QuizResultResponse,
     LeaderboardEntry, UserProgress, Badge, RecentActivity
 )
-from auth import hash_password, verify_password, create_access_token, get_current_user, security
+from auth import hash_password, verify_password, create_access_token, get_current_user, get_current_user_optional, security
 from database import (
     db, users_collection, categories_collection, quizzes_collection, 
     results_collection, init_categories, close_db_connection
