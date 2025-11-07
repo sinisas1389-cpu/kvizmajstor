@@ -308,21 +308,8 @@ const QuizResultPage = () => {
                         Pitanje {wrong.questionNumber}: {wrong.question}
                       </h3>
                       
-                      {/* Prikaži tačan odgovor samo ako je korisnik odgovorio (ne prikazuj za neodgovorena) */}
-                      {wrong.userAnswer !== undefined && wrong.userAnswer !== null && (
-                        <div className="mb-3">
-                          <p className="text-green-700 font-bold text-base">
-                            {wrong.type === 'multiple' && wrong.options ? (
-                              wrong.options[parseInt(wrong.correctAnswer)]
-                            ) : (
-                              wrong.correctAnswer === 'true' || wrong.correctAnswer === true ? 'Tačno' : 'Netačno'
-                            )}
-                          </p>
-                        </div>
-                      )}
-                      
                       {wrong.explanation && (
-                        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mt-3">
                           <p className="text-sm font-bold text-blue-800 mb-1">📖 Objašnjenje:</p>
                           <p className="text-sm text-gray-700">{wrong.explanation}</p>
                         </div>
