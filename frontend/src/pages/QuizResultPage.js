@@ -260,6 +260,108 @@ const QuizResultPage = () => {
           </CardContent>
         </Card>
 
+        {/* Pogrešni Odgovori */}
+        {userAnswers && questions && (() => {
+          const wrongAnswers = [];
+          userAnswers.forEach((answer, idx) => {
+            const question = questions[idx];
+            if (question) {
+              // Normalize comparison
+              let userAns = answer.answer;
+              let correctAns = question.correctAnswer;
+              
+              if (typeof userAns === 'boolean') userAns = userAns.toString().toLowerCase();
+              if (typeof correctAns === 'boolean') correctAns = correctAns.toString().toLowerCase();
+              if (typeof userAns === 'string') userAns = userAns.toLowerCase();
+              if (typeof correctAns === 'string') correctAns = correctAns.toLowerCase();
+              
+              if (userAns !== correctAns) {
+                wrongAnswers.push({
+                  questionNumber: idx + 1,
+                  question: question.question,
+                  userAnswer: answer.answer,
+                  correctAnswer: question.correctAnswer,
+                  explanation: question.explanation,
+                  type: question.type,
+                  options: question.options
+                });
+              }
+            }
+          });
+
+          return wrongAnswers.length > 0 ? (
+            <Card className="border-4 border-red-400 shadow-xl mb-8">
+              <CardContent className="p-8">
+                <h2 className="text-3xl font-black text-red-600 mb-6 flex items-center gap-2">
+                  ❌ Pogrešni Odgovori ({wrongAnswers.length})
+                </h2>
+                <div className="space-y-6">
+                  {wrongAnswers.map((wrong, idx) => (
+                    <div key={idx} className="bg-red-50 border-2 border-red-200 rounded-xl p-6">
+                      <h3 className="font-bold text-lg text-gray-800 mb-3">
+                        Pitanje {wrong.questionNumber}: {wrong.question}
+                      </h3>
+                      
+                      {wrong.type === 'multiple' && wrong.options ? (
+                        <div className="mb-4">
+                          <p className="text-sm font-bold text-gray-600 mb-2">Opcije:</p>
+                          <ul className="space-y-2">
+                            {wrong.options.map((opt, optIdx) => {
+                              const isCorrect = optIdx.toString() === wrong.correctAnswer.toString();
+                              const isUserAnswer = optIdx.toString() === wrong.userAnswer.toString();
+                              return (
+                                <li 
+                                  key={optIdx} 
+                                  className={`p-2 rounded ${
+                                    isCorrect ? 'bg-green-100 border-2 border-green-500 font-bold' : 
+                                    isUserAnswer ? 'bg-red-100 border-2 border-red-500' : 
+                                    'bg-white border border-gray-300'
+                                  }`}
+                                >
+                                  {String.fromCharCode(65 + optIdx)}. {opt}
+                                  {isCorrect && ' ✓ (Tačan odgovor)'}
+                                  {isUserAnswer && !isCorrect && ' ✗ (Vaš odgovor)'}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ) : (
+                        <div className="mb-4">
+                          <div className="flex gap-4">
+                            <div className={`flex-1 p-3 rounded border-2 ${
+                              wrong.correctAnswer === 'true' || wrong.correctAnswer === true ? 
+                              'bg-green-100 border-green-500 font-bold' : 'bg-gray-100 border-gray-300'
+                            }`}>
+                              ✓ Tačno {(wrong.correctAnswer === 'true' || wrong.correctAnswer === true) && '(Tačan odgovor)'}
+                            </div>
+                            <div className={`flex-1 p-3 rounded border-2 ${
+                              wrong.correctAnswer === 'false' || wrong.correctAnswer === false ? 
+                              'bg-green-100 border-green-500 font-bold' : 'bg-gray-100 border-gray-300'
+                            }`}>
+                              ✗ Netačno {(wrong.correctAnswer === 'false' || wrong.correctAnswer === false) && '(Tačan odgovor)'}
+                            </div>
+                          </div>
+                          <p className="text-sm text-red-600 font-bold mt-2">
+                            Vaš odgovor: {wrong.userAnswer === true || wrong.userAnswer === 'true' ? 'Tačno' : 'Netačno'}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {wrong.explanation && (
+                        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                          <p className="text-sm font-bold text-blue-800 mb-1">📖 Objašnjenje:</p>
+                          <p className="text-sm text-gray-700">{wrong.explanation}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ) : null;
+        })()}
+
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
