@@ -305,11 +305,7 @@ async def delete_quiz(quiz_id: str, user_id: str = Depends(get_current_user)):
     return {"message": "Kviz uspešno obrisan"}
 
 @api_router.post("/quizzes/{quiz_id}/submit")
-async def submit_quiz(
-    quiz_id: str, 
-    submission: QuizSubmission, 
-    credentials: HTTPAuthorizationCredentials = Depends(security)
-):
+async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = Depends(get_current_user_optional)):
     """
     Submit quiz answers. Works for both guests and authenticated users.
     - Guests: Get score but results are not saved
