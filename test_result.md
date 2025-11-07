@@ -268,6 +268,9 @@ agent_communication:
   - agent: "testing"
     message: "✅ REGRESSION TEST COMPLETED: timeLimitPerQuestion fix verified successfully! Both GET /api/quizzes and GET /api/quizzes/{quiz_id} endpoints now return timeLimit (default 0) and NO timeLimitPerQuestion field. Backend API is working correctly for the reported bug fix."
   - agent: "testing"
+  - agent: "testing"
+    message: "✅ EDIT WORKFLOW COMPLETE: Successfully tested full quiz edit workflow. GET /api/quizzes returned 2 quizzes. GET /api/quizzes/{id}/edit retrieved complete quiz with questions. Updated first question to add imageUrl (https://picsum.photos/800/400). PUT /api/quizzes/{id} successfully saved changes. Verified update persisted. Quiz ID: 2608a247-2a9d-41bb-b23d-03dbef8d9d1a. Both GET edit and PUT update endpoints working perfectly."
+
     message: "✅ ANSWER COMPARISON TESTING COMPLETED: Verified POST /api/quizzes/{quiz_id}/submit endpoint answer normalization logic. All test scenarios passed: Boolean true/false answers work correctly, String 'true'/'false' answers (any case) work correctly, Mixed answer types are properly normalized. The backend correctly handles both boolean and string submissions for True/False questions."
   - agent: "testing"
     message: "✅ EDIT ENDPOINT TESTING COMPLETED: New GET /api/quizzes/{quiz_id}/edit endpoint is working correctly. Endpoint exists, requires authentication, restricts access to creators/admins only, handles errors properly (404 for non-existent quizzes), and based on code review returns quiz data with correctAnswer fields included. Comparison confirmed: questions endpoint excludes correctAnswer, edit endpoint includes them. Authentication and authorization working as expected."
