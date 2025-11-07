@@ -304,11 +304,10 @@ const QuizResultPage = () => {
                       
                       <div className="mb-3">
                         <p className="text-green-700 font-bold text-base">
-                          ✓ Tačan odgovor: {' '}
                           {wrong.type === 'multiple' && wrong.options ? (
-                            wrong.options[parseInt(wrong.correctAnswer)]
+                            <>✓ Tačan odgovor: {wrong.options[parseInt(wrong.correctAnswer)]}</>
                           ) : (
-                            wrong.correctAnswer === 'true' || wrong.correctAnswer === true ? 'Tačno' : 'Netačno'
+                            <>✓ Tačan odgovor: {wrong.correctAnswer === 'true' || wrong.correctAnswer === true ? 'Tačno' : 'Netačno'}</>
                           )}
                         </p>
                       </div>
