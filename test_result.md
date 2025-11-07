@@ -166,6 +166,22 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ EDIT ENDPOINT TESTING COMPLETED: Verified GET /api/quizzes/{quiz_id}/edit endpoint implementation. Key findings: 1) Endpoint exists and requires authentication (returns 403 for unauthenticated requests), 2) Properly restricts access to creators and admins only (regular users get 403), 3) Returns 404 for non-existent quizzes, 4) Code review confirms it returns full quiz data including correctAnswer fields in questions, 5) Comparison with GET /api/quizzes/{quiz_id}/questions confirms questions endpoint correctly excludes correctAnswer fields while edit endpoint includes them. Authentication and authorization working correctly. Cannot test full functionality due to lack of creator/admin user access, but endpoint behavior matches requirements."
+      - working: true
+        agent: "testing"
+        comment: "✅ FULL EDIT WORKFLOW TESTED: Successfully tested complete edit workflow: 1) GET /api/quizzes - retrieved 2 quizzes, 2) GET /api/quizzes/{id}/edit - got complete quiz data with 9 questions, 3) Updated first question to add imageUrl: https://picsum.photos/800/400, 4) PUT /api/quizzes/{id} - successfully saved changes, 5) Verified update persisted correctly. Quiz ID tested: 2608a247-2a9d-41bb-b23d-03dbef8d9d1a. Both GET and PUT endpoints working perfectly together."
+  
+  - task: "Update quiz endpoint PUT /api/quizzes/{quiz_id} implementation"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PUT ENDPOINT TESTED: Successfully tested PUT /api/quizzes/{quiz_id} endpoint. Verified: 1) Requires authentication (admin/creator), 2) Successfully updates quiz data including questions, 3) Properly handles question updates with new fields (imageUrl), 4) Changes persist to database, 5) Returns success message. Tested by updating quiz 2608a247-2a9d-41bb-b23d-03dbef8d9d1a, adding imageUrl to first question. Update verified by re-fetching quiz data."
+
 
 frontend:
   - task: "CreateQuizPage - Remove manual question adding section"
