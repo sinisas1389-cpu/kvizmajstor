@@ -391,13 +391,6 @@ const QuizResultPage = () => {
                       <h4 className="text-lg font-black text-gray-800 mb-3">
                         ❓ {item.question}
                       </h4>
-                      {item.explanation && (
-                        <div className="mb-4 p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
-                          <p className="text-sm font-medium text-gray-700">
-                            💡 <strong>Objašnjenje:</strong> {item.explanation}
-                          </p>
-                        </div>
-                      )}
                       <YouTubePlayer 
                         url={item.youtubeUrl} 
                         title={`Video Lekcija ${idx + 1}`}
