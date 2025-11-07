@@ -41,3 +41,16 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Security(securi
     if user_id is None:
         raise HTTPException(status_code=401, detail="Nevažeći token")
     return user_id
+
+def get_current_user_optional(credentials: HTTPAuthorizationCredentials = Security(HTTPBearer(auto_error=False))):
+    """Get current user if authenticated, otherwise return None (for guest access)"""
+    if credentials is None or credentials.credentials is None:
+        return None
+    
+    try:
+        token = credentials.credentials
+        payload = decode_token(token)
+        user_id = payload.get("user_id")
+        return user_id
+    except:
+        return None
