@@ -92,10 +92,15 @@ const QuizTakePage = () => {
     
     try {
       // Kreiraj userAnswers objekat sa mapiranjem odgovora
-      const userAnswers = questions.map((q, idx) => ({
-        questionId: q.id,
-        answer: answers[idx]
-      }));
+      // Filtriraj samo odgovorena pitanja (ignore undefined answers)
+      const userAnswers = questions
+        .map((q, idx) => ({
+          questionId: q.id,
+          answer: answers[idx]
+        }))
+        .filter(answer => answer.answer !== undefined);
+      
+      console.log('📤 Submitting answers:', userAnswers);
       
       // Submit quiz to backend - API expects { answers: [...] } format
       const result = await quizzesAPI.submit(id, userAnswers);
