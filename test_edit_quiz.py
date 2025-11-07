@@ -41,8 +41,8 @@ def main():
     # Step 2: Login as admin to get auth token
     print("\n[Step 2] Logging in as admin...")
     login_data = {
-        "email": "admin@kvizmajstor.com",
-        "password": "password"
+        "email": "admin@kviz.com",
+        "password": "admin123"
     }
     
     response = requests.post(f"{BASE_URL}/auth/login", json=login_data)
