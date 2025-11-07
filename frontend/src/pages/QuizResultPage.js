@@ -270,9 +270,15 @@ const QuizResultPage = () => {
               let userAns = answer.answer;
               let correctAns = question.correctAnswer;
               
-              if (typeof userAns === 'boolean') userAns = userAns.toString().toLowerCase();
+              // Handle undefined/null answers (unanswered questions)
+              if (userAns === undefined || userAns === null) {
+                userAns = 'unanswered';
+              } else {
+                if (typeof userAns === 'boolean') userAns = userAns.toString().toLowerCase();
+                if (typeof userAns === 'string') userAns = userAns.toLowerCase();
+              }
+              
               if (typeof correctAns === 'boolean') correctAns = correctAns.toString().toLowerCase();
-              if (typeof userAns === 'string') userAns = userAns.toLowerCase();
               if (typeof correctAns === 'string') correctAns = correctAns.toLowerCase();
               
               if (userAns !== correctAns) {
