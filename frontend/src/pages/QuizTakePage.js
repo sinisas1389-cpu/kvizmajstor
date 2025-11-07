@@ -250,10 +250,13 @@ const QuizTakePage = () => {
             )}
 
             {/* Nauči Dugme - YouTube Video Link */}
-            {currentQ.youtubeUrl && (
+            {currentQ.youtubeUrl && currentQ.youtubeUrl.trim() !== '' && (
               <div className="mt-6 text-center">
                 <Button
-                  onClick={() => window.open(currentQ.youtubeUrl, '_blank')}
+                  onClick={() => {
+                    console.log('Opening YouTube URL:', currentQ.youtubeUrl);
+                    window.open(currentQ.youtubeUrl, '_blank');
+                  }}
                   className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 text-lg font-bold rounded-xl"
                   variant="default"
                 >
