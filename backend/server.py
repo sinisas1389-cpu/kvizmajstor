@@ -344,22 +344,8 @@ async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = D
     score = int((correct_count / total_questions) * 100) if total_questions > 0 else 0
     passed = score >= 70
     
-    # Check if user is authenticated (optional)
-    user_id = None
-    is_guest = True
-    
-    if credentials and credentials.credentials:
-        try:
-            from auth import verify_token
-            payload = verify_token(credentials.credentials)
-            user_id = payload.get("user_id")
-            is_guest = False
-        except:
-            # Invalid token, treat as guest
-            is_guest = True
-    
     # Only save results for authenticated users
-    if not is_guest and user_id:
+    if user_id:
         from models import QuizResult
         result = QuizResult(
             userId=user_id, quizId=quiz_id, score=score,
