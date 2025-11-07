@@ -305,7 +305,16 @@ async def delete_quiz(quiz_id: str, user_id: str = Depends(get_current_user)):
     return {"message": "Kviz uspešno obrisan"}
 
 @api_router.post("/quizzes/{quiz_id}/submit")
-async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = Depends(get_current_user)):
+async def submit_quiz(
+    quiz_id: str, 
+    submission: QuizSubmission, 
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    """
+    Submit quiz answers. Works for both guests and authenticated users.
+    - Guests: Get score but results are not saved
+    - Authenticated users: Score is saved to database and leaderboard
+    """
     quiz = await quizzes_collection.find_one({"id": quiz_id})
     if not quiz:
         raise HTTPException(status_code=404, detail="Kviz nije pronađen")
@@ -339,14 +348,32 @@ async def submit_quiz(quiz_id: str, submission: QuizSubmission, user_id: str = D
     score = int((correct_count / total_questions) * 100) if total_questions > 0 else 0
     passed = score >= 70
     
-    from models import QuizResult
-    result = QuizResult(
-        userId=user_id, quizId=quiz_id, score=score,
-        correctCount=correct_count, totalQuestions=total_questions, passed=passed
-    )
+    # Check if user is authenticated (optional)
+    user_id = None
+    is_guest = True
     
-    await results_collection.insert_one(result.dict())
-    await users_collection.update_one({"id": user_id}, {"$inc": {"totalScore": score, "quizzesCompleted": 1}})
+    if credentials and credentials.credentials:
+        try:
+            from auth import verify_token
+            payload = verify_token(credentials.credentials)
+            user_id = payload.get("user_id")
+            is_guest = False
+        except:
+            # Invalid token, treat as guest
+            is_guest = True
+    
+    # Only save results for authenticated users
+    if not is_guest and user_id:
+        from models import QuizResult
+        result = QuizResult(
+            userId=user_id, quizId=quiz_id, score=score,
+            correctCount=correct_count, totalQuestions=total_questions, passed=passed
+        )
+        
+        await results_collection.insert_one(result.dict())
+        await users_collection.update_one({"id": user_id}, {"$inc": {"totalScore": score, "quizzesCompleted": 1}})
+    
+    # Always increment play count
     await quizzes_collection.update_one({"id": quiz_id}, {"$inc": {"plays": 1}})
     
     return QuizResultResponse(score=score, correctCount=correct_count, totalQuestions=total_questions, passed=passed)
