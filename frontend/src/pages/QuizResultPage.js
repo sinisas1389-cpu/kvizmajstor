@@ -295,58 +295,23 @@ const QuizResultPage = () => {
                 <h2 className="text-3xl font-black text-red-600 mb-6 flex items-center gap-2">
                   ❌ Pogrešni Odgovori ({wrongAnswers.length})
                 </h2>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {wrongAnswers.map((wrong, idx) => (
                     <div key={idx} className="bg-red-50 border-2 border-red-200 rounded-xl p-6">
-                      <h3 className="font-bold text-lg text-gray-800 mb-3">
+                      <h3 className="font-bold text-lg text-gray-800 mb-2">
                         Pitanje {wrong.questionNumber}: {wrong.question}
                       </h3>
                       
-                      {wrong.type === 'multiple' && wrong.options ? (
-                        <div className="mb-4">
-                          <p className="text-sm font-bold text-gray-600 mb-2">Opcije:</p>
-                          <ul className="space-y-2">
-                            {wrong.options.map((opt, optIdx) => {
-                              const isCorrect = optIdx.toString() === wrong.correctAnswer.toString();
-                              const isUserAnswer = optIdx.toString() === wrong.userAnswer.toString();
-                              return (
-                                <li 
-                                  key={optIdx} 
-                                  className={`p-2 rounded ${
-                                    isCorrect ? 'bg-green-100 border-2 border-green-500 font-bold' : 
-                                    isUserAnswer ? 'bg-red-100 border-2 border-red-500' : 
-                                    'bg-white border border-gray-300'
-                                  }`}
-                                >
-                                  {String.fromCharCode(65 + optIdx)}. {opt}
-                                  {isCorrect && ' ✓ (Tačan odgovor)'}
-                                  {isUserAnswer && !isCorrect && ' ✗ (Vaš odgovor)'}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      ) : (
-                        <div className="mb-4">
-                          <div className="flex gap-4">
-                            <div className={`flex-1 p-3 rounded border-2 ${
-                              wrong.correctAnswer === 'true' || wrong.correctAnswer === true ? 
-                              'bg-green-100 border-green-500 font-bold' : 'bg-gray-100 border-gray-300'
-                            }`}>
-                              ✓ Tačno {(wrong.correctAnswer === 'true' || wrong.correctAnswer === true) && '(Tačan odgovor)'}
-                            </div>
-                            <div className={`flex-1 p-3 rounded border-2 ${
-                              wrong.correctAnswer === 'false' || wrong.correctAnswer === false ? 
-                              'bg-green-100 border-green-500 font-bold' : 'bg-gray-100 border-gray-300'
-                            }`}>
-                              ✗ Netačno {(wrong.correctAnswer === 'false' || wrong.correctAnswer === false) && '(Tačan odgovor)'}
-                            </div>
-                          </div>
-                          <p className="text-sm text-red-600 font-bold mt-2">
-                            Vaš odgovor: {wrong.userAnswer === true || wrong.userAnswer === 'true' ? 'Tačno' : 'Netačno'}
-                          </p>
-                        </div>
-                      )}
+                      <div className="mb-3">
+                        <p className="text-green-700 font-bold text-base">
+                          ✓ Tačan odgovor: {' '}
+                          {wrong.type === 'multiple' && wrong.options ? (
+                            wrong.options[parseInt(wrong.correctAnswer)]
+                          ) : (
+                            wrong.correctAnswer === 'true' || wrong.correctAnswer === true ? 'Tačno' : 'Netačno'
+                          )}
+                        </p>
+                      </div>
                       
                       {wrong.explanation && (
                         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
