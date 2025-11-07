@@ -254,7 +254,7 @@ const QuizTakePage = () => {
           {currentQuestion === questions.length - 1 ? (
             <Button
               onClick={handleSubmit}
-              disabled={Object.keys(answers).length !== questions.length || isSubmitting}
+              disabled={isSubmitting}
               className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-12 py-6 text-lg font-bold rounded-xl"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Quiz! 🎉'}
