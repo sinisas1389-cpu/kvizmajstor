@@ -105,11 +105,17 @@ const QuizTakePage = () => {
       // Submit quiz to backend - API expects { answers: [...] } format
       const result = await quizzesAPI.submit(id, userAnswers);
       
+      // Create full userAnswers array for result page (includes unanswered)
+      const fullUserAnswers = questions.map((q, idx) => ({
+        questionId: q.id,
+        answer: answers[idx]
+      }));
+      
       navigate(`/quiz/${id}/result`, { 
         state: { 
           result, 
           quiz, 
-          userAnswers, 
+          userAnswers: fullUserAnswers, 
           questions 
         } 
       });
