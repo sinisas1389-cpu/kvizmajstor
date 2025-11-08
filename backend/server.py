@@ -23,7 +23,23 @@ load_dotenv(ROOT_DIR / '.env')
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
+# CORS: dozvoli tačne frontend domene
+ALLOWED_ORIGINS = [
+    "https://kvizmajstor.com",
+    "https://kvizmajstor.vercel.app",
+    "http://localhost:3000",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=False,  # postavi na True samo ako koristiš cookies/sessions
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+@app.get("/health")
+async def health():
+    return JSONResponse(content={"status": "ok"}, media_type="application/json")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -501,15 +517,34 @@ async def delete_category(category_id: str, user_id: str = Depends(get_current_u
 @api_router.get("/")
 async def root():
     return {"message": "KvizMajstor API - Dobrodošli!"}
+@app.get("/sitemap.xml")
+async def sitemap_xml():
+    # Učitaj sve kviz ID-jeve za dinamički sitemap
+    quizzes = await quizzes_collection.find({}, {"id": 1}).to_list(10000)
+    ids = [q["id"] for q in quizzes if "id" in q]
 
+    parts = [
+        "<?xml version='1.0' encoding='UTF-8'?>",
+        "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>",
+        "  <url>",
+        "    <loc>https://kvizmajstor.com/</loc>",
+        "    <changefreq>weekly</changefreq>",
+        "    <priority>1.0</priority>",
+        "  </url>",
+    ]
+    for qid in ids:
+        parts.extend([
+            "  <url>",
+            f"    <loc>https://kvizmajstor.com/quiz/{qid}</loc>",
+            "    <changefreq>weekly</changefreq>",
+            "    <priority>0.7</priority>",
+            "  </url>",
+        ])
+    parts.append("</urlset>")
+    xml_content = "\n".join(parts)
+    return Response(content=xml_content, media_type="application/xml")
 app.include_router(api_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
 )
 
 @app.on_event("startup")
