@@ -1,23 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Početna strana -->
   <url>
     <loc>https://kvizmajstor.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Lista kvizova -->
   <url>
     <loc>https://kvizmajstor.vercel.app/kvizovi</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Leaderboard -->
   <url>
-    <loc>https://kvizmajstor.vercel.app/o-nama</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://kvizmajstor.vercel.app/leaderboard</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
+
+  <!-- Login -->
   <url>
-    <loc>https://kvizmajstor.vercel.app/kontakt</loc>
+    <loc>https://kvizmajstor.vercel.app/login</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.3</priority>
   </url>
+
+  <!-- Registracija -->
+  <url>
+    <loc>https://kvizmajstor.vercel.app/register</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Admin panel -->
+  <url>
+    <loc>https://kvizmajstor.vercel.app/admin</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
 </urlset>
