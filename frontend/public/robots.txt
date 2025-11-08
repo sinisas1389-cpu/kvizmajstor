@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kvizmajstor.vercel.app/sitemap.xml
