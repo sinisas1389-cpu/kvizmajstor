@@ -1,5 +1,5 @@
 # backend/server.py
-from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request
 from fastapi.responses import JSONResponse, Response
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -30,15 +30,17 @@ api_router = APIRouter(prefix="/api")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# ====== CORS (corrected) ======
+# ====== CORS (allow current frontend domains) ======
 ALLOWED_ORIGINS = [
     "https://kvizmajstor.com",
     "https://kvizmajstor.vercel.app",
+    "https://kvizmajstor-oqt5hx13h-sinisa-trbojevics-projects.vercel.app",
+    "https://kvizmajstor.emapp.cloud",
     "http://localhost:3000",
 ]
 
 # If you don't use cookie-based auth in browser, keep allow_credentials=False.
-# If you need cookies, set allow_credentials=True but DO NOT set allow_origins=["*"].
+# If you use cookies, set allow_credentials=True but DO NOT use ["*"] for origins.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
